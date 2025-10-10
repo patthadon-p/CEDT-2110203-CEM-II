@@ -246,7 +246,7 @@ Considering the least common multiple of the two periods:
 \[
 T = \text{lcm}(T_1, T_2) = \text{lcm}(6, \frac{3}{4}) = 6
 \]
-Thus, the signal \( x(t) = \sin \paren{ \frac{\pi}{3}t } + \cos \paren{ \frac{8\pi}{3}t } \) is periodic with a period of \( T = 6 \).
+Thus, the signal \( x(t) = \sin \paren{ \frac{\pi}{3}t } + \cos \paren{ \frac{8\pi}{3}t } \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{T = 6} \).
 
 \vspace{5mm}
 
@@ -297,7 +297,7 @@ Considering the least common multiple of the two periods:
 \[
 T = \text{lcm}(T_1, T_2) = \text{lcm}\paren{\frac{12}{7}, \frac{12}{5}} = \frac{12}{1} = 12
 \]
-Thus, the signal \( x(t) = \exp \paren{ j\frac{7\pi}{6}t } +  \exp \paren{ j\frac{5\pi}{6}t } \) is periodic with a period of \( T = 12 \).
+Thus, the signal \( x(t) = \exp \paren{ j\frac{7\pi}{6}t } +  \exp \paren{ j\frac{5\pi}{6}t } \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{T = 12} \).
 
 \vspace{5mm}
 
@@ -344,7 +344,7 @@ Consider each part of the signal separately:
 \[
 \exp \paren{ \frac{5\pi}{6}t } \text{ has no period since it is not a sinusoidal function. (non-periodic signal) }
 \]
-Thus, the signal \( x(t) = \exp \paren{ j\frac{7\pi}{6}t } +  \exp \paren{ \frac{5\pi}{6}t } \) is non-periodic since one part of the signal is non-periodic.
+Thus, the signal \( x(t) = \exp \paren{ j\frac{7\pi}{6}t } +  \exp \paren{ \frac{5\pi}{6}t } \) \( \boxed{\textbf{is non-periodic}} \) since one part of the signal is non-periodic.
 
 \vspace{5mm}
 
@@ -414,7 +414,7 @@ The integral converges to a finite value, so the power is finite.
 
 \vspace{2mm}
 
-Thus, the signal \( x(t) = A\sin( t ) \) is \textbf{a power signal} with power \( P = \frac{A^2}{2} \).
+Thus, the signal \( x(t) = A\sin( t ) \) is \( \boxed{\textbf{a power signal}} \) with power \( \boxed{P = \frac{A^2}{2}} \).
 
 \vspace{2mm}
 
@@ -476,7 +476,7 @@ The integral converges to 0, so the power is 0.
 
 \vspace{2mm}
 
-Thus, the signal \( x(t) = A(u(t-a) - u(t+a)) \) is \textbf{a energy signal} with energy \( E = 2aA^2 \).
+Thus, the signal \( x(t) = A(u(t-a) - u(t+a)) \) is \( \boxed{\textbf{a energy signal}} \) with energy \( \boxed{E = 2aA^2} \).
 
 \vspace{2mm}
 
@@ -542,7 +542,7 @@ The integral converges to 0, so the power is 0.
 
 \vspace{2mm}
 
-Thus, the signal \( x(t) = \exp(-at)u(t), \,  a > 0 \) is \textbf{a energy signal} with energy \( E = \frac{1}{2a} \).
+Thus, the signal \( x(t) = \exp(-at)u(t), \,  a > 0 \) is \( \boxed{\textbf{a energy signal}} \) with energy \( \boxed{E = \frac{1}{2a}} \).
 
 \vspace{2mm}
 
@@ -609,7 +609,7 @@ The integral diverges, so the power is infinite.
 
 \vspace{2mm}
 
-Thus, the signal \( x(t) = A\exp(bt)u(t), \,  b > 0 \) is \textbf{neither a energy nor a power signal}.
+Thus, the signal \( x(t) = A\exp(bt)u(t), \,  b > 0 \) is \( \boxed{\textbf{neither a energy nor a power signal}} \).
 
 \vspace{2mm}
 
@@ -904,6 +904,544 @@ With the resulting plot shown below:
 \begin{center}
     \includegraphics[width=0.5\textwidth]{images/problem_4_6.png}
 \end{center}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 05                                    %
+% ================================================================================ %
+\begin{problem}
+Determine whether each of following signals is periodic, and if so, find its period.
+\end{problem}
+
+% === Problem 5.1. === %
+\begin{subproblems}
+    \item \( x[n] = \sin \paren{ \frac{\pi n}{4} + \frac{\pi}{8}} \)
+\end{subproblems}
+
+\begin{solution}
+Consider the signal:
+\[
+\sin \paren{ \frac{\pi n}{4} + \frac{\pi}{8}} \text{ has a period of } N = \frac{2\pi}{\frac{\pi}{4}} = 8
+\]
+Thus, the signal \( x[n] = \sin \paren{ \frac{\pi n}{4} + \frac{\pi}{8}} \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{N = 8} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-24, 25, 1)
+x = np.sin(np.pi/4 * t + np.pi/8)
+
+tc = np.arange(-24, 24, 0.01)
+xc = np.sin(np.pi/4 * tc + np.pi/8)
+
+plt.title("Problem 5.1")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 8")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_1.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.2. === %
+\begin{subproblems}[start=2]
+    \item \( x[n] = \sin \paren{ \frac{3\pi n}{4} } + \sin\paren{ \frac{\pi}{3}n } \)
+\end{subproblems}
+
+\begin{solution}
+Consider the signal:
+\[
+    \sin \paren{ \frac{3\pi n}{4} } \text{ has a period of } N_1 = \frac{2\pi}{\frac{3\pi}{4}} = \frac{8}{3}
+\]
+\[
+    \sin \paren{ \frac{\pi n}{3} } \text{ has a period of } N_2 = \frac{2\pi}{\frac{\pi}{3}} = 6
+\]
+
+Considering the least common multiple of the two periods:
+\[
+    N = \text{lcm}(N_1, N_2) = \text{lcm}\paren{\frac{8}{3}, 6} = \text{lcm}\paren{\frac{8}{3}, \frac{18}{3}} = \frac{72}{3} = 24
+\]
+Thus, the signal \( x[n] = \sin \paren{ \frac{3\pi n}{4} } + \sin\paren{ \frac{\pi}{3}n } \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{N = 24} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-72, 73, 1)
+x = np.sin(3 * np.pi/4 * t) + np.sin(np.pi/3 * t)
+
+tc = np.arange(-72, 72, 0.01)
+xc = np.sin(np.pi/12 * tc)
+
+plt.title("Problem 5.2")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 24")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_2.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.3. === %
+\begin{subproblems}[start=3]
+    \item \( x[n] = \sin \paren{ \frac{3\pi n}{4} }\sin\paren{ \frac{\pi}{3}n } \)
+\end{subproblems}
+
+\begin{solution}
+Using the product-to-sum identities, we can rewrite the signal as:
+\[
+    x[n] = \sin \paren{ \frac{3\pi n}{4} }\sin\paren{ \frac{\pi}{3}n } = \frac{1}{2} \sqbracket{ \cos \paren{ \frac{3\pi n}{4} - \frac{\pi n}{3} } - \cos \paren{ \frac{3\pi n}{4} + \frac{\pi n}{3} } }
+\]
+
+Consider the signal:
+\[
+    \cos \paren{ \frac{3\pi n}{4} - \frac{\pi n}{3} } = \cos \paren{ \frac{5\pi n}{12} } \text{ has a period of } N_1 = \frac{2\pi}{\frac{5\pi}{12}} = \frac{24}{5}
+\]
+\[
+    \cos \paren{ \frac{3\pi n}{4} + \frac{\pi n}{3} } = \cos \paren{ \frac{13\pi n}{12} } \text{ has a period of } N_2 = \frac{2\pi}{\frac{13\pi}{12}} = \frac{24}{13}
+\]
+
+Considering the least common multiple of the two periods:
+\[
+    N = \text{lcm}(N_1, N_2) = \text{lcm}\paren{\frac{24}{5}, \frac{24}{13}} = \frac{24}{\text{gcd}(5, 13)} = 24
+\]
+Thus, the signal \( x[n] = \sin \paren{ \frac{3\pi n}{4} }\sin\paren{ \frac{\pi}{3}n } \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{N = 24} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-72, 73, 1)
+x = np.sin(3 * np.pi/4 * t) * np.sin(np.pi/3 * t)
+
+tc = np.arange(-72, 72, 0.01)
+xc = np.sin(np.pi/12 * tc)
+
+plt.title("Problem 5.3")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 24")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_3.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.4. === %
+\begin{subproblems}[start=4]
+    \item \( x[n] = \exp \paren{ \frac{6\pi}{5}n } \)
+\end{subproblems}
+
+\begin{solution}
+
+Consider the signal, this is a exponential signal, which have not imaginary part, thus it \( \boxed{\textbf{is not periodic}} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-2, 3, 1)
+x = np.exp(6 * np.pi/5 * t)
+
+tc = np.arange(-2, 2, 0.01)
+xc = np.exp(6 * np.pi/5 * tc)
+
+plt.title("Problem 5.4")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous exponential signal")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_4.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.5. === %
+\begin{subproblems}[start=5]
+    \item \( x[n] = \exp \paren{ j\frac{5\pi}{6}n } \)
+\end{subproblems}
+
+\begin{solution}
+Consider the signal:
+\[
+\exp \paren{ j\frac{5\pi}{6}n } \text{ has a period of } N = \frac{2\pi}{\frac{5\pi}{6}} = \frac{12}{5}
+\]
+We need to make the period an integer, thus we can multiply the period by 5:
+\[
+    N = 5 \cdot \frac{12}{5} = 12
+\]
+Thus, the signal \( x[n] = \exp \paren{ j\frac{5\pi}{6}n } \) \( \boxed{\textbf{is periodic}} \) with a period of \( \boxed{N = 12} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-36, 37, 1)
+x = np.exp(1j * 5 * np.pi/6 * t)
+
+tc = np.arange(-36, 36, 0.01)
+xc = np.exp(1j * np.pi/6 * tc)
+
+plt.title("Problem 5.5")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 12")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_5.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.6. === %
+\begin{subproblems}[start=6]
+    \item \( x[n] =  \sum_{m=-\infty}^{\infty} \sqbracket{ \delta[n-2m] + 2\delta[n-3m] } \)
+\end{subproblems}
+
+\begin{solution}
+Consider the signal, using the properties of the delta function:
+
+\begin{enumerate}
+    \item The first term \( \sum_{m=-\infty}^{\infty} \delta[n-2m] \) is a periodic signal with period of 2, since:
+    \[
+        \sum_{m=-\infty}^{\infty} \delta[n-2m] = \sum_{m=-\infty}^{\infty} \delta[n+2-2m]
+    \]
+    \item The second term \( 2\sum_{m=-\infty}^{\infty} \delta[n-3m] \) is a periodic signal with period of 3, since:
+    \[
+        2\sum_{m=-\infty}^{\infty} \delta[n-3m] = 2\sum_{m=-\infty}^{\infty} \delta[n+3-3m]
+    \]
+\end{enumerate}
+Thus, the overall signal \( x[n] \) \( \boxed{\textbf{is periodic}} \) with a fundamental period of \( \text{lcm}(2, 3) = \boxed{6} \).
+
+\vspace{5mm}
+
+By using Python and Matplotlib, we can visualize the periodicity of the signal:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.arange(-12, 13, 1)
+x1 = np.isin(t \% 2, [0]).astype(float) # delta[n-2k]
+x2 = np.isin(t \% 3, [0]).astype(float) # delta[n-3k]
+
+x = x1 + 2 * x2
+
+tc = np.arange(-12, 12, 0.01)
+xc = np.exp(1j * np.pi/3 * tc)
+
+plt.title("Problem 5.6")
+plt.stem(t, x, label="x[n]")
+plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 6")
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_5_6.png}
+\end{center}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 06                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Signal transformations:} Study the sawtooth function in the figure below.
+Apply reflection, scaling, shifting operations to the signal and plot the transformed signals compared with the original sawtooth signal.
+
+\begin{codingbox}
+import numpy as np
+from scipy import signal
+
+fig = plt.figure(figsize=(5, 4))
+
+t = np.linspace(-1, 1, 500)
+sawtooth = signal.sawtooth(2 * np.pi * 5 * t)
+
+plt.title("Sawtooth Signal")
+plt.plot(t, sawtooth)
+plt.show()
+\end{codingbox}
+
+The plot of the signal is shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_6_sawtooth.png}
+\end{center}
+\end{problem}
+
+\newpage
+
+% === Problem 6.1. === %
+\begin{subproblems}
+    \item \textbf{time scaling}: scaling factor = 3 and 1/3
+\end{subproblems}
+
+\begin{solution}
+Using Python and Matplotlib to plot the time-scaled signals:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import signal
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.linspace(-1, 1, 500)
+sawtooth = signal.sawtooth(2 * np.pi * 5 * t)
+
+# scaling factor = 3 and 1/3
+## TODO : writing code for time scaling
+
+t1 = t * 3
+sawtooth1 = signal.sawtooth(2 * np.pi * 5 * t1)
+
+t2 = t * (1/3)
+sawtooth2 = signal.sawtooth(2 * np.pi * 5 * t2)
+
+plt.title("Time Scaling: Sawtooth Signal")
+plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
+plt.plot(t1, sawtooth1, label="sawtooth(3t)", alpha=0.5)
+plt.plot(t2, sawtooth2, label="sawtooth(t/3)", alpha=0.5)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_6_1.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 6.2. === %
+\begin{subproblems}[start=2]
+    \item \textbf{time shifting}: shifting amount = \( \pm 0.05 \)
+\end{subproblems}
+
+\begin{solution}
+Using Python and Matplotlib to plot the time-shifted signals:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import signal
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.linspace(-1, 1, 500)
+sawtooth = signal.sawtooth(2 * np.pi * 5 * t)
+
+# scaling factor = 3 and 1/3
+## TODO : writing code for time scaling
+
+t1 = t + 0.05
+sawtooth1 = signal.sawtooth(2 * np.pi * 5 * t1)
+
+t2 = t - 0.05
+sawtooth2 = signal.sawtooth(2 * np.pi * 5 * t2)
+
+plt.title("Time Shifting: Sawtooth Signal")
+plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
+plt.plot(t1, sawtooth1, label="sawtooth(t + 0.05)", alpha=0.5)
+plt.plot(t2, sawtooth2, label="sawtooth(t - 0.05)", alpha=0.5)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_6_2.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 6.3. === %
+\begin{subproblems}[start=3]
+    \item \textbf{time reflection}: reflecting over the y-axis
+\end{subproblems}
+
+\begin{solution}
+Using Python and Matplotlib to plot the time-reflected signals:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import signal
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.linspace(-1, 1, 500)
+sawtooth = signal.sawtooth(2 * np.pi * 5 * t)
+
+## TODO : writing code for time Reflection
+
+t1 = t
+sawtooth1 = signal.sawtooth(2 * np.pi * 5 * (-1 * t))
+
+plt.title("Time Reflection: Sawtooth Signal")
+plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
+plt.plot(t1, sawtooth1, label="sawtooth(-t)", alpha=0.5)
+plt.legend(loc="upper right")
+
+plt.savefig("../images/problem_6_3.png", dpi=300, bbox_inches="tight")
+
+plt.show()
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_6_3.png}
+\end{center}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 09                                    %
+% ================================================================================ %
+\begin{problem}[9]
+Evaluate the following integrals
+\end{problem}
+
+% === Problem 9.1. === %
+\begin{subproblems}
+    \item \( \int_{-\infty}^{\infty} \paren{\frac{2}{3}t-\frac{3}{2}} \delta(t-1) \,dt \)
+\end{subproblems}
+
+\begin{tosubmit}
+\par\noindent\submitsolution
+Using the sifting property of the delta function, we have:
+\begin{align*}
+    \int_{-\infty}^{\infty} \paren{\frac{2}{3}t-\frac{3}{2}} \delta(t-1) \,dt &= \paren{\frac{2}{3}(1)-\frac{3}{2}} \\
+    &= \frac{2}{3} - \frac{3}{2} \\
+    \int_{-\infty}^{\infty} \paren{\frac{2}{3}t-\frac{3}{2}} \delta(t-1) \,dt &= \boxed{-\frac{5}{6}}
+\end{align*}
+\end{tosubmit}
+% ==================== %
+
+
+% === Problem 9.2. === %
+\begin{subproblems}[start=2]
+    \item \( \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt \)
+\end{subproblems}
+
+\begin{solution}
+Using the sifting property of the delta function, we have:
+\begin{align*}
+    \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt &= \int_{-\infty}^{\infty} (t-1) \delta \paren{t - \frac{9}{4}} \cdot \left| \frac{d}{dt} \left( \frac{2}{3}t - \frac{3}{2} \right) \right|^{-1} dt \\
+    &= \int_{-\infty}^{\infty} (t-1) \delta \paren{t - \frac{9}{4}} \cdot \frac{3}{2} dt \\
+    &= ( \frac{9}{4} - 1 ) \cdot \frac{3}{2} \\
+    &= \frac{5}{4} \cdot \frac{3}{2} = \frac{15}{8} \\
+    \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt &= \boxed{\frac{15}{8}}
+\end{align*}
+\end{solution}
+% ==================== %
+
+
+% === Problem 9.3. === %
+\begin{subproblems}[start=3]
+    \item \( \int_{-3}^{-2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt \)
+\end{subproblems}
+
+\begin{tosubmit}
+\par\noindent\submitsolution
+Because the argument of the delta function \( t - \frac{3}{2} \) has its root at \( t = \frac{3}{2} \), which is outside the integration limits of -3 to -2, the integral evaluates to zero:
+\begin{align*}
+    \int_{-3}^{-2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt &= \boxed{0}
+\end{align*}
+\end{tosubmit}
+% ==================== %
+
+
+% === Problem 9.4. === %
+\begin{subproblems}[start=4]
+    \item \( \int_{-3}^{2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt \)
+\end{subproblems}
+
+\begin{solution}
+Using the sifting property of the delta function, we have:
+\begin{align*}
+    \int_{-3}^{2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt &= \sqbracket{ e^{(-\frac{3}{2}+1)} + \sin \paren{ \frac{2\pi (\frac{3}{2})}{3} } } \\
+    &= e^{-\frac{1}{2}} + \sin(\pi) \\
+    &= e^{-\frac{1}{2}} + 0 \\
+    \int_{-3}^{2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt &= \boxed{e^{-\frac{1}{2}}}
+\end{align*}
 \end{solution}
 % ==================== %
 % ================================================================================ %
