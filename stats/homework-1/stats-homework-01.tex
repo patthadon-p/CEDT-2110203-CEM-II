@@ -84,6 +84,8 @@ Now, we can implement the function \texttt{ sample\_increasing(sample\_size) } t
 \begin{codingbox}
 import numpy as np
 
+np.random.seed(1)  # For reproducibility
+
 # sample from pdf f(x)=x/50, 0<=x<=10
 def sample_increasing(sample_size):
   # [YOUR CODE HERE]
@@ -120,6 +122,8 @@ Using Python code, we can visualize this effect by plotting histograms for diffe
 \begin{codingbox}
 import matplotlib.pyplot as plt
 
+np.random.seed(1)  # For reproducibility
+
 Ns = [10, 100, 1000, 10000, 100000, 1000000]
 
 # Create a 3x2 subplot grid
@@ -130,16 +134,16 @@ for i, N in enumerate(Ns):
     data = sample_increasing(N)
     
     # Plot histogram on the corresponding subplot
-    axes[i].hist(data, bins=30, density=True, alpha=0.6, color='g')
+    axes[i].hist(data, bins=30, density=True, alpha=0.6, color="g")
 
     # Plot the theoretical PDF
     x = np.linspace(0, 10, 100)
     pdf = x / 50
-    axes[i].plot(x, pdf, 'r-', lw=2, label='Theoretical PDF')
+    axes[i].plot(x, pdf, "r-", lw=2, label="Theoretical PDF")
 
-    axes[i].set_title(f'Histogram of Sample Size {N}')
-    axes[i].set_xlabel('x')
-    axes[i].set_ylabel('Density')
+    axes[i].set_title(f"Histogram of Sample Size {N}")
+    axes[i].set_xlabel("x")
+    axes[i].set_ylabel("Density")
     axes[i].grid(True)
     axes[i].legend()
 
@@ -190,7 +194,7 @@ machine_failed_time = [2, 3, 1, 3, 4]   # In class example
 def prob1_mle(X):
   return len(X)/np.sum(X)
 
-print('The estimated parameter is: {}'.format(prob1_mle(machine_failed_time)))
+print("The estimated parameter is: {}".format(prob1_mle(machine_failed_time)))
 \end{codingbox}
 
 For example, if the observed lifetimes of the machines are \( [2, 3, 1, 3, 4] \) years, the estimated parameter \( \lambda \) would be:
@@ -230,7 +234,7 @@ def prob2_mle(X):
   # [YOUR CODE HERE]
   return len(X)/np.sum(X)
 
-print('The MLE is {}'.format(prob2_mle(X)))
+print("The MLE is {}".format(prob2_mle(X)))
 \end{codingbox}
 
 For example, if the number of failures before success for different designs are \( [0, 0, 2] \), the estimated parameter \( p \) would be:
@@ -272,7 +276,7 @@ def prob3_mle(X):
   return a, b
 
 a, b = prob3_mle(X)
-print('The MLE is ({}, {})'.format(a, b))
+print("The MLE is ({}, {})".format(a, b))
 \end{codingbox}
 
 By the code above, we can get the MLE of \( a \) and \( b \).
@@ -407,12 +411,12 @@ p_map = 0
 p_map_val = 0
 for i in range(num_spot):
   posterior = spot_posterior(n, h, spot_acorn_prob[i], spot_select_prob[i])
-  print('Spot {} has posterior of {}'.format(i, posterior))
+  print("Spot {} has posterior of {}".format(i, posterior))
   if posterior > p_map_val:
     p_map_val = posterior
     p_map = spot_acorn_prob[i]
 
-print('The estimated parameter is {}'.format(p_map))
+print("The estimated parameter is {}".format(p_map))
 \end{codingbox}
 
 The result of this code will give us the posterior probabilities for each type of hiding spot and the MAP estimate for finding acorns at a new spot.
@@ -520,12 +524,12 @@ for i, sample_size in enumerate(sample_sizes):
     mle = prob2_mle(X)
     mles[i] = mle
 
-plt.plot(sample_sizes, mles, marker='o', label='MLE Estimates')
-plt.axhline(y=true_param, color='r', linestyle='--', label='True Parameter')
-plt.xscale('log')
-plt.xlabel('Sample Size (log scale)')
-plt.ylabel('MLE Estimate of p')
-plt.title('MLE Estimates vs Sample Size for Geometric Distribution')
+plt.plot(sample_sizes, mles, marker="o", label="MLE Estimates")
+plt.axhline(y=true_param, color="r", linestyle="--", label="True Parameter")
+plt.xscale("log")
+plt.xlabel("Sample Size (log scale)")
+plt.ylabel("MLE Estimate of p")
+plt.title("MLE Estimates vs Sample Size for Geometric Distribution")
 plt.legend()
 plt.grid(True)
 plt.show()
@@ -572,12 +576,12 @@ fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 axes = axes.flatten()
 
 for i, p in enumerate(["A", "B"]):
-    axes[i].plot(sample_sizes, mles[:, i], marker='o', label=f'MLE Estimate of {p}')
-    axes[i].axhline(y=[true_param_a, true_param_b][i], color='r', linestyle='--', label=f'True Parameter {p}')
-    axes[i].set_xscale('log')
-    axes[i].set_xlabel('Sample Size (log scale)')
-    axes[i].set_ylabel(f'MLE Estimate of {p}')
-    axes[i].set_title('MLE Estimates vs Sample Size for Uniform Distribution')
+    axes[i].plot(sample_sizes, mles[:, i], marker="o", label=f"MLE Estimate of {p}")
+    axes[i].axhline(y=[true_param_a, true_param_b][i], color="r", linestyle="--", label=f"True Parameter {p}")
+    axes[i].set_xscale("log")
+    axes[i].set_xlabel("Sample Size (log scale)")
+    axes[i].set_ylabel(f"MLE Estimate of {p}")
+    axes[i].set_title("MLE Estimates vs Sample Size for Uniform Distribution")
     axes[i].legend()
     axes[i].grid(True)
 
