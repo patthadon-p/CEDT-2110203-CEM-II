@@ -1373,6 +1373,122 @@ With the resulting plot shown below:
 \newpage
 
 % ================================================================================ %
+%                                    Problem 07                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Elementary signals:} study the ramp signal plotted in the example below.
+Plot these signals.
+\end{problem}
+
+% === Problem 7.1. === %
+\begin{subproblems}
+    \item Writing code for plotting \textbf{Unit step function}
+\end{subproblems}
+
+\begin{solution}
+Using Python and Matplotlib to plot the unit step function:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.linspace(-1, 1, 500)
+
+## TODO : writing code for plotting unit step function
+
+def unit_signal(t):
+    return 1.0 if t >= 0 else 0.0
+
+unit_signal_vectorize = np.vectorize(unit_signal)
+
+x = unit_signal_vectorize(t)
+
+plt.title("Unit step function")
+plt.plot(t, x, label="u(t)", alpha=1)
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_7_1.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 7.2. === %
+\begin{subproblems}[start=2]
+    \item Writing code for plotting \textbf{Unit impulse function}
+\end{subproblems}
+
+\begin{solution}
+Using Python and Matplotlib to plot the unit impulse function:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+t = np.linspace(-1, 1, 500)
+
+## TODO : writing code for plotting unit impulse function
+
+x = np.zeros(t.shape[0])
+x[t == 0] = 1
+
+arrow = plt.arrow(0, 0, 0, 1, head_width=0.02, head_length=0.05, fc='blue', ec='blue')
+origin = plt.plot(0, 0, color='blue', marker = 'o', markerfacecolor='white', markersize=5)
+
+plt.title("Unit impulse function")
+plt.plot(t, x, label=r"$\delta(t)$", alpha=1)
+plt.grid(True)
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_7_2.png}
+\end{center}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 08                                    %
+% ================================================================================ %
+\begin{problem}
+Express the signal that shown in Figure below using Unit-ramp functions
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_8_reference.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+Using Python and Matplotlib to plot this unit-ramp function:
+\begin{codingbox}
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+\end{codingbox}
+
+With the resulting plot shown below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem_8.png}
+\end{center}
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
 %                                    Problem 09                                    %
 % ================================================================================ %
 \begin{problem}[9]
