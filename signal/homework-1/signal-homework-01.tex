@@ -28,11 +28,11 @@ Sketch the following signals
 
 \begin{tosubmit}
 \begin{subproblems}
-    \item \( x(t) = \sin\frac{\pi}{4} t + 20^\circ \)
+    \item \( x(t) = \sin \paren{\frac{\pi}{4} t + 20^\circ} \)
 \end{subproblems}
 
 \par\noindent\submitsolution
-Using Python and Matplotlib to plot the signal \( x(t) = \sin\frac{\pi}{4} t + 20^\circ \):
+Using Python and Matplotlib to plot the signal \( x(t) = \sin \paren{\frac{\pi}{4} t + 20^\circ} \):
 \begin{codingbox}
 import matplotlib.pyplot as plt
 import numpy as np
@@ -43,7 +43,8 @@ t = np.arange(-10, 10, 0.01)
 x = np.sin(np.pi/4 * t + np.pi/9)
 
 plt.title("Problem 1.1")
-plt.plot(t, x)
+plt.plot(t, x, label=r"$x(t) = \sin(\frac{\pi}{4}t + 20^\circ)$")
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
 \end{codingbox}
@@ -79,7 +80,8 @@ t = np.arange(-10, 10, 0.01)
 x = np.piecewise(t, [t < -2, (t >= -2) & (t < 2), t >= 2], [lambda t: t + 2, 0, lambda t: t - 2])
 
 plt.title("Problem 1.2")
-plt.plot(t, x)
+plt.plot(t, x, label=r"$x(t) = t+2, t < -2 \;;\; 0, -2 \leq t < 2 \;;\; t-2, t \geq 2$")
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
 \end{codingbox}
@@ -119,7 +121,8 @@ x3_vectorize = np.vectorize(x3)
 x = x3_vectorize(t)
 
 plt.title("Problem 1.3")
-plt.plot(t, x)
+plt.plot(t, x, label=r"$x(t) = 2e^{-t}, 0 \leq t < 1 \text{ and } x(t + 1) = x(t), \forall t$")
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
 \end{codingbox}
@@ -160,7 +163,8 @@ u3 = unit_signal_vectorize(t - 2)
 x = u1 + 5 * u2 - 2 * u3
 
 plt.title("Problem 1.4")
-plt.plot(t, x)
+plt.plot(t, x, label=r"$u(t) + 5u(t-1) - 2u(t-2)$")
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
 \end{codingbox}
@@ -206,7 +210,8 @@ u1 = unit_signal_vectorize(t - 2)
 x = r1 - r2 - u1
 
 plt.title("Problem 1.5")
-plt.plot(t, x)
+plt.plot(t, x, label=r"$r(t) - r(t-1) - u(t-2)$")
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
 \end{codingbox}
@@ -257,7 +262,7 @@ import numpy as np
 
 fig = plt.figure(figsize=(10, 4))
 
-t = np.arange(-10, 10, 0.01)
+t = np.arange(-12, 12, 0.01)
 
 x1 = np.sin(np.pi/3 * t)
 x2 = np.cos(8*np.pi/3 * t)
@@ -265,7 +270,7 @@ x2 = np.cos(8*np.pi/3 * t)
 x = np.sin(np.pi/3 * t)
 
 plt.title("Problem 2.1")
-plt.plot(t, x1 + x2, label="x1(t) + x2(t)")
+plt.plot(t, x1 + x2, label=r"$x(t) = \sin\left(\frac{\pi}{3}t\right) + \cos\left(\frac{8\pi}{3}t\right)$")
 plt.plot(t, x, label="sinusoidal signal with period 6")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -308,7 +313,7 @@ import numpy as np
 
 fig = plt.figure(figsize=(10, 4))
 
-t = np.arange(-20, 20, 0.01)
+t = np.arange(-24, 24, 0.01)
 
 x1 = np.exp(1j * 7*np.pi/6 * t)
 x2 = np.exp(1j * 5*np.pi/6 * t)
@@ -316,7 +321,7 @@ x2 = np.exp(1j * 5*np.pi/6 * t)
 x = np.exp(1j * np.pi/6 * t)
 
 plt.title("Problem 2.2")
-plt.plot(t, x1 + x2, label="x1(t) + x2(t)")
+plt.plot(t, x1 + x2, label=r"$r(t) = \exp(j\,\frac{7\pi}{6}t) + \exp(j\,\frac{5\pi}{6}t)$")
 plt.plot(t, x, label="sinusoidal signal with period 12")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -361,7 +366,7 @@ x1 = np.exp(1j * 7*np.pi/6 * t)
 x2 = np.exp(5*np.pi/6 * t)
 
 plt.title("Problem 2.3")
-plt.plot(t, x1 + x2, label="x1(t) + x2(t)")
+plt.plot(t, x1 + x2, label=r"$r(t) = \exp(j\,\frac{7\pi}{6}t) + \exp(\frac{5\pi}{6}t)$")
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
@@ -429,7 +434,7 @@ t = np.arange(-10, 10, 0.01)
 x = np.sin(t)
 
 plt.title("Problem 3.1")
-plt.plot(t, x, label="x(t), A = 1")
+plt.plot(t, x, label=r"$x(t) = A\sin(t) \;; A = 1$")
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
@@ -478,7 +483,7 @@ The integral converges to 0, so the power is 0.
 
 Thus, the signal \( x(t) = A(u(t-a) - u(t+a)) \) is \( \boxed{\textbf{a energy signal}} \) with energy \( \boxed{E = 2aA^2} \).
 
-\vspace{2mm}
+\newpage
 
 By using Python and Matplotlib, we can visualize the signal:
 \begin{codingbox}
@@ -496,13 +501,11 @@ t = np.arange(-4, 4, 0.01)
 x = unit_signal_vectorize(t - 1) - unit_signal_vectorize(t + 1)
 
 plt.title("Problem 3.2")
-plt.plot(t, x, label="x(t), a = 1, A = 1")
+plt.plot(t, x, label=r"$x(t) = A\left(u(t-a) - u(t+a)\right) \;; A = 1, a = 1$")
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
 \end{codingbox}
-
-\newpage
 
 The plot of the signal is shown below:
 \begin{center}
@@ -522,11 +525,9 @@ Consider the energy of the signal:
 \begin{align*}
     E &= \lim_{N \to \infty} \int_{-N}^{N} |x(t)|^2 dt \\
     &= \lim_{N \to \infty} \int_{-N}^{N} |\exp(-at)u(t)|^2 dt \\
-    &= \lim_{N \to \infty} \int_{0}^{N} |\exp(-at)|^2 dt \\
-    &= \lim_{N \to \infty} \int_{0}^{N} \exp(-2at) dt \\
+    &= \lim_{N \to \infty} \int_{0}^{N} \exp(-2at) \paren{u(t)}^2 dt \\
     &= \lim_{N \to \infty} \sqbracket{ -\frac{1}{2a} \exp(-2at) }_{0}^{N} \\
-    &= \lim_{N \to \infty} \paren{ -\frac{1}{2a} \exp(-2aN) + \frac{1}{2a} } \\
-    E &= \frac{1}{2a}
+    E &= \lim_{N \to \infty} \paren{ -\frac{1}{2a} \exp(-2aN) + \frac{1}{2a} } = \frac{1}{2a}
 \end{align*}
 The integral converges to a finite value, so the energy is finite.
 
@@ -562,7 +563,7 @@ t = np.arange(-8, 8, 0.01)
 x = np.exp(-t) * unit_signal_vectorize(t)
 
 plt.title("Problem 3.3")
-plt.plot(t, x, label="x(t), a = 1")
+plt.plot(t, x, label=r"$x(t) = \exp(-at)u(t) \;; a = 1$")
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
@@ -629,7 +630,7 @@ t = np.arange(-4, 6, 0.01)
 x = np.exp(t) * unit_signal_vectorize(t)
 
 plt.title("Problem 3.4")
-plt.plot(t, x, label="x(t), A = 1, b = 1")
+plt.plot(t, x, label=r"$x(t) = A\exp(bt) \;; A = 1, b = 1$")
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
@@ -662,7 +663,7 @@ t = np.arange(-2, 4)
 x_t = np.array([-3, 1, 2, -2, 3, -1])
 
 plt.stem(t, x_t)
-plt.title('x[n]')
+plt.title(r"$x[n]$")
 plt.show()
 \end{codingbox}
 
@@ -714,7 +715,7 @@ x_t = np.array([-3, 1, 2, -2, 3, -1])
 x_t, t = transform_signal(x_t, t, lambda x: 2 - x)
 
 plt.stem(t, x_t)
-plt.title("x[2 - n]")
+plt.title(r"$x[2 - n]$")
 plt.show()
 \end{codingbox}
 
@@ -746,7 +747,7 @@ x_t = np.array([-3, 1, 2, -2, 3, -1])
 x_t, t = transform_signal(x_t, t, lambda x: (x + 4) / 3)
 
 plt.stem(t, x_t)
-plt.title("x[3n - 4]")
+plt.title(r"$x[3n - 4]$")
 plt.show()
 \end{codingbox}
 
@@ -778,7 +779,7 @@ x_t = np.array([-3, 1, 2, -2, 3, -1])
 x_t, t = transform_signal(x_t, t, lambda x: (x - 1) * 3 / 2)
 
 plt.stem(t, x_t)
-plt.title("x[(2/3)n + 1]")
+plt.title(r"$x[\frac{2}{3}n + 1]$")
 plt.show()
 \end{codingbox}
 
@@ -811,7 +812,7 @@ x_t = np.array([-3, 1, 2, -2, 3, -1])
 x_t, t = transform_signal(x_t, t, lambda x: (-4 * x) - 8)
 
 plt.stem(t, x_t)
-plt.title("x[-(n + 8) / 4]")
+plt.title(r"$x[-\frac{n + 8}{4}]$")
 plt.show()
 \end{codingbox}
 
@@ -844,7 +845,7 @@ x_t = np.array([-3, 1, 2, -2, 3, -1])
 x_t, t = transform_signal(x_t, t, lambda x: np.cbrt(x))
 
 plt.stem(t, x_t)
-plt.title("x[n^3]")
+plt.title(r"$x[n^3]$")
 plt.show()
 \end{codingbox}
 
@@ -896,7 +897,7 @@ x_t_2, t_2 = transform_signal(x_t, t, lambda x: (x + 4) / 3)
 x_t, t = add_discrete_signals(x_t_1, t_1, x_t_2, t_2)
 
 plt.stem(t, x_t)
-plt.title("x[2-n] + x[3n-4]")
+plt.title(r"$x[2-n] + x[3n-4]$")
 plt.show()
 \end{codingbox}
 
@@ -945,7 +946,7 @@ tc = np.arange(-24, 24, 0.01)
 xc = np.sin(np.pi/4 * tc + np.pi/8)
 
 plt.title("Problem 5.1")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \sin(\frac{\pi}{4} n + \frac{\pi}{8})$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 8")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -997,7 +998,7 @@ tc = np.arange(-72, 72, 0.01)
 xc = np.sin(np.pi/12 * tc)
 
 plt.title("Problem 5.2")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \sin(\frac{3\pi}{4}n) + \sin(\frac{\pi}{3}n)$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 24")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -1054,7 +1055,7 @@ tc = np.arange(-72, 72, 0.01)
 xc = np.sin(np.pi/12 * tc)
 
 plt.title("Problem 5.3")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \sin(\frac{3\pi}{4}n) \sin(\frac{\pi}{3}n)$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 24")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -1095,7 +1096,7 @@ tc = np.arange(-2, 2, 0.01)
 xc = np.exp(6 * np.pi/5 * tc)
 
 plt.title("Problem 5.4")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \exp(\frac{6\pi}{5}n)$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous exponential signal")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -1143,7 +1144,7 @@ tc = np.arange(-36, 36, 0.01)
 xc = np.exp(1j * np.pi/6 * tc)
 
 plt.title("Problem 5.5")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \exp(j\,\frac{5\pi}{6}n)$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 12")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -1189,8 +1190,8 @@ import numpy as np
 fig = plt.figure(figsize=(10, 4))
 
 t = np.arange(-12, 13, 1)
-x1 = np.isin(t \% 2, [0]).astype(float) # delta[n-2k]
-x2 = np.isin(t \% 3, [0]).astype(float) # delta[n-3k]
+x1 = np.isin(np.mod(t, 2), [0]).astype(float) # delta[n-2k]
+x2 = np.isin(np.mod(t, 3), [0]).astype(float) # delta[n-3k]
 
 x = x1 + 2 * x2
 
@@ -1198,7 +1199,7 @@ tc = np.arange(-12, 12, 0.01)
 xc = np.exp(1j * np.pi/3 * tc)
 
 plt.title("Problem 5.6")
-plt.stem(t, x, label="x[n]")
+plt.stem(t, x, label=r"$x[n] = \delta[n-2k] + 2\delta[n-3k]$")
 plt.plot(tc, xc, "r", alpha=0.8, label="continuous sinusoidal signal with period 6")
 plt.grid(True)
 plt.legend(loc="upper right")
@@ -1271,9 +1272,9 @@ t2 = t * (1/3)
 sawtooth2 = signal.sawtooth(2 * np.pi * 5 * t2)
 
 plt.title("Time Scaling: Sawtooth Signal")
-plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
-plt.plot(t1, sawtooth1, label="sawtooth(3t)", alpha=0.5)
-plt.plot(t2, sawtooth2, label="sawtooth(t/3)", alpha=0.5)
+plt.plot(t, sawtooth, label=r"Original: sawtooth$(t)$", alpha=1)
+plt.plot(t, sawtooth1, label=r"Compressed: sawtooth$(3t)$", linestyle="--", alpha=0.8)
+plt.plot(t, sawtooth2, label=r"Expanded: sawtooth$(t/3)$", linestyle="--", alpha=0.8)
 plt.legend(loc="upper right")
 plt.show()
 \end{codingbox}
@@ -1304,8 +1305,8 @@ fig = plt.figure(figsize=(10, 4))
 t = np.linspace(-1, 1, 500)
 sawtooth = signal.sawtooth(2 * np.pi * 5 * t)
 
-# scaling factor = 3 and 1/3
-## TODO : writing code for time scaling
+## TODO : writing code for time shifting
+# shifting t to the left and right 0.05 units
 
 t1 = t + 0.05
 sawtooth1 = signal.sawtooth(2 * np.pi * 5 * t1)
@@ -1314,9 +1315,9 @@ t2 = t - 0.05
 sawtooth2 = signal.sawtooth(2 * np.pi * 5 * t2)
 
 plt.title("Time Shifting: Sawtooth Signal")
-plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
-plt.plot(t1, sawtooth1, label="sawtooth(t + 0.05)", alpha=0.5)
-plt.plot(t2, sawtooth2, label="sawtooth(t - 0.05)", alpha=0.5)
+plt.plot(t, sawtooth, label=r"Original: sawtooth$(t)$", alpha=1)
+plt.plot(t, sawtooth1, label=r"Left Shift: sawtooth$(t + 0.05)$", linestyle="--", alpha=0.8)
+plt.plot(t, sawtooth2, label=r"Right Shift: sawtooth$(t - 0.05)$", linestyle="--", alpha=0.8)
 plt.legend(loc="upper right")
 plt.show()
 \end{codingbox}
@@ -1353,8 +1354,8 @@ t1 = t
 sawtooth1 = signal.sawtooth(2 * np.pi * 5 * (-1 * t))
 
 plt.title("Time Reflection: Sawtooth Signal")
-plt.plot(t, sawtooth, label="sawtooth(t)", alpha=1)
-plt.plot(t1, sawtooth1, label="sawtooth(-t)", alpha=0.5)
+plt.plot(t, sawtooth, label=r"Original: sawtooth$(t)$", alpha=1)
+plt.plot(t, sawtooth1, label=r"Reflected: sawtooth$(-t)$", linestyle="--", alpha=0.8)
 plt.legend(loc="upper right")
 
 plt.savefig("../images/problem_6_3.png", dpi=300, bbox_inches="tight")
@@ -1405,7 +1406,7 @@ unit_signal_vectorize = np.vectorize(unit_signal)
 x = unit_signal_vectorize(t)
 
 plt.title("Unit step function")
-plt.plot(t, x, label="u(t)", alpha=1)
+plt.plot(t, x, label=r"$u(t)$", alpha=1)
 plt.grid(True)
 plt.legend(loc="upper right")
 plt.show()
@@ -1440,8 +1441,8 @@ t = np.linspace(-1, 1, 500)
 x = np.zeros(t.shape[0])
 x[t == 0] = 1
 
-arrow = plt.arrow(0, 0, 0, 1, head_width=0.02, head_length=0.05, fc='blue', ec='blue')
-origin = plt.plot(0, 0, color='blue', marker = 'o', markerfacecolor='white', markersize=5)
+arrow = plt.arrow(0, 0, 0, 1, head_width=0.02, head_length=0.05, fc="blue", ec="blue")
+origin = plt.plot(0, 0, color="blue", marker = "o", markerfacecolor="white", markersize=5)
 
 plt.title("Unit impulse function")
 plt.plot(t, x, label=r"$\delta(t)$", alpha=1)
@@ -1472,13 +1473,35 @@ Express the signal that shown in Figure below using Unit-ramp functions
 \end{problem}
 
 \begin{solution}
+The signal can be expressed using unit-ramp functions as follows:
+\[
+    -r(t+1)+3.5r(t)-3r(t-1)-0.5r(t-2)+r(t-3)
+\]
 Using Python and Matplotlib to plot this unit-ramp function:
 \begin{codingbox}
 import matplotlib.pyplot as plt
 import numpy as np
 
+fig = plt.figure(figsize=(5, 4))
 
+t = np.linspace(-2, 5, 500)
+
+x = np.zeros(t.shape[0])
+
+x += ramp_signal_vectorize(t + 1) * (-1)            # -r(t+1)
+x += ramp_signal_vectorize(t - 0) * (1 + 2.5)       # 3.5r(t)
+x += ramp_signal_vectorize(t - 1) * (-2.5 + -0.5)   # -3r(t-1)
+x += ramp_signal_vectorize(t - 2) * (0.5 + -1)      # -0.5r(t-2)
+x += ramp_signal_vectorize(t - 3) * (1)             # r(t-3)
+
+plt.title("Problem 8, expressed using Unit-ramp functions")
+plt.plot(t, x, label=r"$-r(t+1)+3.5r(t)-3r(t-1)-0.5r(t-2)+r(t-3)$")
+plt.legend(loc="lower right")
+plt.grid(True)
+plt.show()
 \end{codingbox}
+
+\newpage
 
 With the resulting plot shown below:
 \begin{center}
@@ -1496,11 +1519,11 @@ Evaluate the following integrals
 \end{problem}
 
 % === Problem 9.1. === %
+\begin{tosubmit}
 \begin{subproblems}
     \item \( \int_{-\infty}^{\infty} \paren{\frac{2}{3}t-\frac{3}{2}} \delta(t-1) \,dt \)
 \end{subproblems}
 
-\begin{tosubmit}
 \par\noindent\submitsolution
 Using the sifting property of the delta function, we have:
 \begin{align*}
@@ -1523,19 +1546,19 @@ Using the sifting property of the delta function, we have:
     \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt &= \int_{-\infty}^{\infty} (t-1) \delta \paren{t - \frac{9}{4}} \cdot \left| \frac{d}{dt} \left( \frac{2}{3}t - \frac{3}{2} \right) \right|^{-1} dt \\
     &= \int_{-\infty}^{\infty} (t-1) \delta \paren{t - \frac{9}{4}} \cdot \frac{3}{2} dt \\
     &= ( \frac{9}{4} - 1 ) \cdot \frac{3}{2} \\
-    &= \frac{5}{4} \cdot \frac{3}{2} = \frac{15}{8} \\
-    \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt &= \boxed{\frac{15}{8}}
+    \int_{-\infty}^{\infty} (t-1) \delta \paren{\frac{2}{3}t- \frac{3}{2} } \,dt &= \frac{5}{4} \cdot \frac{3}{2} = \boxed{\frac{15}{8}}
 \end{align*}
 \end{solution}
 % ==================== %
 
+\newpage
 
 % === Problem 9.3. === %
+\begin{tosubmit}
 \begin{subproblems}[start=3]
     \item \( \int_{-3}^{-2} \sqbracket{ e^{(-t+1)} + \sin \paren{ \frac{2\pi t}{3} } } \delta \paren{t- \frac{3}{2} } \,dt \)
 \end{subproblems}
 
-\begin{tosubmit}
 \par\noindent\submitsolution
 Because the argument of the delta function \( t - \frac{3}{2} \) has its root at \( t = \frac{3}{2} \), which is outside the integration limits of -3 to -2, the integral evaluates to zero:
 \begin{align*}
