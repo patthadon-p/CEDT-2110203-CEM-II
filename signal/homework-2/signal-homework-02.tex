@@ -475,5 +475,555 @@ y[n] = \begin{cases}
 % ==================== %
 % ================================================================================ %
 
+\newpage
+
+% ================================================================================ %
+%                                    Problem 05                                    %
+% ================================================================================ %
+\begin{problem}
+    Find the convolution \( y[n] = h[n] * x[n] \) of the following signals
+\end{problem}
+
+% === Problem 5.1. === %
+\begin{subproblems}[start=1]
+    \item \( x[n] = \set{ 1, -\frac{1}{2}, \frac{1}{4}, -\frac{1}{8}, \frac{1}{16} },\, h[n] = \set{ 1, -1, 1, -1 } \)
+\end{subproblems}
+
+\begin{solution}
+Using the tabular method to compute the convolution \( y[n] = h[n] * x[n] \):
+
+\renewcommand{\arraystretch}{1.3}
+\[
+\begin{array}{c|ccc:ccccc:ccc||r}
+n  & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & y[n] \\
+\hline
+x[n] &  &  &  & 1 & -\frac{1}{2} & \frac{1}{4} & -\frac{1}{8} & \frac{1}{16} &  &  &  &  \\
+h[n] &  &  &  & 1 & -1 & 1 & -1 &  &  &  &  &  \\
+\hline
+h[0-n] & -1 & 1 & -1 & 1 &  &  &  &  &  &  &  & 1.0000 \\
+h[1-n] &  & -1 & 1 & -1 & 1 &  &  &  &  &  &  & -1.5000 \\
+h[2-n] &  &  & -1 & 1 & -1 & 1 &  &  &  &  &  & 1.7500 \\
+h[3-n] &  &  &  & -1 & 1 & -1 & 1 &  &  &  &  & -1.8750 \\
+h[4-n] &  &  &  &  & -1 & 1 & -1 & 1 &  &  &  & 0.9375 \\
+h[5-n] &  &  &  &  &  & -1 & 1 & -1 & 1 &  &  & -0.4375 \\
+h[6-n] &  &  &  &  &  &  & -1 & 1 & -1 & 1 &  & 0.1875 \\
+h[7-n] &  &  &  &  &  &  &  & -1 & 1 & -1 & 1 & -0.0625 \\
+\hline
+\end{array}
+\]
+
+Thus, the final result of the convolution is:
+\[ \boxed{ y[n] = \set{ 1, -1.5, 1.75, -1.875, 0.9375, -0.4375, 0.1875, -0.0625 } } \]
+\end{solution}
+% ==================== %
+
+
+% === Problem 5.2. === %
+\begin{subproblems}[start=2]
+    \item \( x[n] = \set{ 1, 2, 3, 0, -1 },\, h[n] = \set{ 2, -1, 3, 1, -2 } \)
+\end{subproblems}
+
+\begin{solution}
+Using the tabular method to compute the convolution \( y[n] = h[n] * x[n] \):
+
+\renewcommand{\arraystretch}{1.3}
+\[
+\begin{array}{c|cccc:ccccc:cccc||r}
+n  & -4 & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & y[n] \\
+\hline
+x[n] &  &  &  &  & 1 & 2 & 3 & 0 & -1 &  &  &  &  \\
+h[n] &  &  &  &  & 2 & -1 & 3 & 1 & -2 &  &  &  &  \\
+\hline
+h[0-n] & -2 & 1 & 3 & -1 & 2 &  &  &  &  &  &  &  &  & 2 \\
+h[1-n] &  & -2 & 1 & 3 & -1 & 2 &  &  &  &  &  &  &  & 3 \\
+h[2-n] &  &  & -2 & 1 & 3 & -1 & 2 &  &  &  &  &  &  & 7 \\
+h[3-n] &  &  &  & -2 & 1 & 3 & -1 & 2 &  &  &  &  &  & 4 \\
+h[4-n] &  &  &  &  & -2 & 1 & 3 & -1 & 2 &  &  &  &  & 7 \\
+h[5-n] &  &  &  &  &  & -2 & 1 & 3 & -1 & 2 &  &  &  & 0 \\
+h[6-n] &  &  &  &  &  &  & -2 & 1 & 3 & -1 & 2 &  &  & -9 \\
+h[7-n] &  &  &  &  &  &  &  & -2 & 1 & 3 & -1 & 2 &  & -1 \\
+h[8-n] &  &  &  &  &  &  &  &  & -2 & 1 & 3 & -1 & 2 & 2 \\
+\hline
+\end{array}
+\]
+
+Thus, the final result of the convolution is:
+\[ \boxed{ y[n] = \set{ 2, 3, 7, 4, 7, 0, -9, -1, 2 } } \]
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 5.3. === %
+\begin{subproblems}[start=3]
+    \item \( x[n] = \set{ 3, \frac{1}{2}, -\frac{1}{4}, 1, 4 },\, h[n] = \set{ 2, -1, \frac{1}{2}, -\frac{1}{2} } \)
+\end{subproblems}
+
+\begin{solution}
+Using the tabular method to compute the convolution \( y[n] = h[n] * x[n] \):
+
+\renewcommand{\arraystretch}{1.3}
+\[
+\begin{array}{c|ccc:ccccc:ccc||r}
+n  & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & y[n] \\
+\hline
+x[n] &  &  &  & 3 & \frac{1}{2} & -\frac{1}{4} & 1 & 4 &  &  &  &  \\
+h[n] &  &  &  & 2 & -1 & \frac{1}{2} & -\frac{1}{2} &  &  &  &  &  \\
+\hline
+h[0-n] & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  &  &  &  &  &  & 6.000 \\
+h[1-n] &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  &  &  &  &  & -2.000 \\
+h[2-n] &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  &  &  &  & 0.500 \\
+h[3-n] &  &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  &  &  & 1.000 \\
+h[4-n] &  &  &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  &  & 6.625 \\
+h[5-n] &  &  &  &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  &  & -3.375 \\
+h[6-n] &  &  &  &  &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 &  & 1.500 \\
+h[7-n] &  &  &  &  &  &  &  & -\frac{1}{2} & \frac{1}{2} & -1 & 2 & -2.000 \\
+\hline
+\end{array}
+\]
+
+Thus, the final result of the convolution is:
+\[ \boxed{ y[n] = \set{ 6, -2, 0.5, 1, 6.625, -3.375, 1.5, -2 } } \]
+\end{solution}
+% ==================== %
+
+
+% === Problem 5.4. === %
+\begin{subproblems}[start=4]
+    \item \( x[n] = \set{ -1, \frac{1}{2}, \frac{3}{4}, -\frac{1}{5}, 1 },\, h[n] = \set{ 1, 1, 1, 1, 1 } \)
+\end{subproblems}
+
+\begin{solution}
+Using the tabular method to compute the convolution \( y[n] = h[n] * x[n] \):
+
+\renewcommand{\arraystretch}{1.3}
+\[
+\begin{array}{c|cccc:ccccc:cccc||r}
+n  & -4 & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & y[n] \\
+\hline
+x[n] &  &  &  &  & -1 & \frac{1}{2} & \frac{3}{4} & -\frac{1}{5} & 1 &  &  &  &  \\
+h[n] &  &  &  &  & 1 & 1 & 1 & 1 & 1 &  &  &  &  \\
+\hline
+h[0-n] & 1 & 1 & 1 & 1 & 1 &  &  &  &  &  &  &  &  & -1.00 \\
+h[1-n] &  & 1 & 1 & 1 & 1 & 1 &  &  &  &  &  &  &  & 0.50 \\
+h[2-n] &  &  & 1 & 1 & 1 & 1 & 1 &  &  &  &  &  &  & 0.25 \\
+h[3-n] &  &  &  & 1 & 1 & 1 & 1 & 1 &  &  &  &  &  & 0.05 \\
+h[4-n] &  &  &  &  & 1 & 1 & 1 & 1 & 1 &  &  &  &  & 1.05 \\
+h[5-n] &  &  &  &  &  & 1 & 1 & 1 & 1 & 1 &  &  &  & 2.05 \\
+h[6-n] &  &  &  &  &  &  & 1 & 1 & 1 & 1 & 1 &  &  & 1.55 \\
+h[7-n] &  &  &  &  &  &  &  & 1 & 1 & 1 & 1 & 1 &  & 0.80 \\
+h[8-n] &  &  &  &  &  &  &  &  & 1 & 1 & 1 & 1 & 1 & 1.00 \\
+\hline
+\end{array}
+\]
+
+Thus, the final result of the convolution is:
+\[ \boxed{ y[n] = \set{ -1, -0.5, 0.25, 0.05, 1.05, 2.05, 1.55, 0.8, 1 } } \]
+\end{solution}
+% ==================== %
+
+\vspace{3mm}
+
+\begin{center}
+Note that all of the convolutions in Problem 5 are also available in the gif files in \href{https://github.com/patthadon-p/CEDT-2110203-CEM-II/tree/main/signal/homework-2/images}{this repository}.
+\end{center}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 06                                    %
+% ================================================================================ %
+\begin{problem}
+\end{problem}
+
+% === Problem 6.1. === %
+\begin{subproblems}[start=1]
+    \item \textbf{Convolution 1-D:} \vspace{2mm}
+    \par\noindent The following code creates a gaussian pulse and its self convolutions.
+    Study and apply the convolution between signal \texttt{e} and another signal \texttt{e} with noise (\texttt{e\_noise}) and write the report to analyze the results.
+
+    \begin{codingbox}
+from scipy import signal
+
+t = np.linspace(-1, 1, 2 * 100, endpoint=False)
+i, q, e = signal.gausspulse(t, fc=5, retquad=True, retenv=True)
+plt.plot(t, e, "--",label = "original signal")
+plt.legend(loc="upper right")
+plt.show()
+
+conv_e = np.convolve(e,e,"same")
+plt.plot(t, e, "--",label = "original signal")
+plt.plot(t, conv_e, "--",label = "self conv signal")
+plt.legend(loc="upper right")
+plt.show()
+
+e_noise = e + np.random.randn(len(e))*2.5
+conv_e_noise = np.convolve(e, e_noise,"same")
+
+# TODO : Apply the convolution between signal e and another signal e with noise (e_noise) and check the results
+    \end{codingbox}
+
+    \par\noindent \textbf{Results:} \par\noindent \vspace{3mm}
+
+    1. Original Signal \texttt{e}:
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{images/problem_6_1_original_signal.png}
+    \end{center}
+    
+    \newpage
+
+    2. Convolution between signal \texttt{e} and signal \texttt{e}:
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{images/problem_6_1_self_conv_signal.png}
+    \end{center}
+\end{subproblems}
+
+\begin{solution}
+To apply the convolution between the signal \( e \) and the noisy signal \( e\_noise \), we can use the following code snippet:
+
+\begin{codingbox}
+conv_e_noise = np.convolve(e, e_noise, "same")
+plt.plot(t, e, "--", label="original signal")
+plt.plot(t, conv_e_noise, "--", label="conv with noise signal")
+plt.legend(loc="upper right")
+plt.show()
+\end{codingbox}
+
+The result of the convolution between the original signal \( e \) and the noisy signal \( e\_noise \) is shown below:
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{images/problem_6_1_conv_with_noise_signal.png}
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 6.2. === %
+\begin{subproblems}[start=2]
+    \item From the self convolution below, when increasing the number of self convolution (now is 8),
+    what is noticeable from the final shape resulted from the convolution?
+
+    \vspace{2mm}
+
+    (\textbf{HINT 01:} Central limit theorem)
+
+    \vspace{2mm}
+
+    (\textbf{HINT 02:} What is Probability Density Function (PDF) of \( z \) if \( z = x + y \)? )
+
+    \begin{codingbox}
+from scipy.stats import uniform
+
+x = np.linspace(-5,5, 1000)
+plt.plot(x, uniform.pdf(x), "r-", lw=5, alpha=0.6, label="uniform pdf")
+plt.show()
+
+x = np.linspace(-15,15, 10000)
+pdf_1 = uniform.pdf(x)
+pdf_2 = uniform.pdf(x)
+
+for i in range(8):
+    pdf_2 = np.convolve(pdf_2,pdf_1, "same")
+
+pdf_2 = pdf_2/np.max(pdf_2)
+plt.plot(x, pdf_2,"r-", lw=5, alpha=0.6, label="conv uniform")
+plt.show()
+    \end{codingbox}
+
+    \par\noindent \textbf{Results:} \par\noindent \vspace{3mm}
+    1. Original Uniform PDF:
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{images/problem_6_2_uniform_pdf.png}
+    \end{center}
+
+    \newpage
+
+    2. Resulted PDF after 8 times of self convolution:
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{images/problem_6_2_8_conv_uniform_pdf.png}
+    \end{center}
+\end{subproblems}
+
+\begin{solution}
+Firstly, we create a function to compute the PDF of a uniform distribution after specified number of self-convolutions. The code snippet is as follows:
+\begin{codingbox}
+def plot_uniform_convolution(ax, num_convolutions=1):
+    x = np.linspace(-15, 15, 10000)
+    pdf = uniform.pdf(x)
+
+    conv_pdf = pdf.copy()
+    for _ in range(num_convolutions):
+        conv_pdf = np.convolve(conv_pdf, pdf, mode="same")
+
+    conv_pdf = conv_pdf / np.max(conv_pdf)
+
+    ax.plot(x, conv_pdf, "r-", lw=3, alpha=0.7, label=f"{num_convolutions} convolutions")
+    ax.set_title(f"Uniform PDF convolved {num_convolutions} times")
+    ax.set_xlabel("x")
+    ax.set_ylabel("Normalized PDF")
+    ax.legend()
+    ax.grid(True)
+
+    # Automatically adjust x-limits based on significant values
+    threshold = 1e-4
+    significant_indices = np.where(conv_pdf > threshold)[0]
+    ax.set_xlim(x[significant_indices[0]], x[significant_indices[-1]])
+\end{codingbox}
+
+\newpage
+
+Then, we can visualize the effect of multiple self-convolutions on the uniform PDF.
+\begin{codingbox}
+np.random.seed(1)  # For reproducibility
+
+Ns = [1, 2, 4, 8, 12, 16]
+
+# Create a 3x2 subplot grid
+fig, axes = plt.subplots(3, 2, figsize=(8, 8))
+axes = axes.flatten()  # Flatten to make indexing easier
+
+for i, N in enumerate(Ns):
+    plot_uniform_convolution(axes[i], N)
+    
+plt.tight_layout()
+plt.savefig("../images/problem_6_2_comparation.png", dpi=600, bbox_inches="tight")
+plt.show()
+\end{codingbox}
+
+The final shape resulted from the convolution approaches a Gaussian distribution as the number of self-convolutions increases.
+This is a direct consequence of the \textbf{Central Limit Theorem},
+which states that \textbf{the sum of a large number of independent random variables},
+regardless of their original distribution, will tend to follow a \textbf{normal (Gaussian) distribution}.
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{images/problem_6_2_comparation.png}
+\end{center}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 07                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{2D (image) signal convolution:}
+
+\vspace{2mm}
+
+\par\noindent The following code show the 2D signal (image \( f(x, y) \)) and a kernel (diag\_line).
+Study the convolution of the kernel and the image. Apply with \texttt{"circuits.png"} image and analyze the results.
+
+\vspace{2mm}
+
+\par\noindent\textbf{TODO :} Apply diag\_line to the \texttt{"circuits.png"} image and analyse the results
+
+\begin{codingbox}
+import cv2
+
+image_path = "hamtaro0.jpg"
+
+diag_line = np.array([[ 2, -1, -1],
+                    [-1, 2, -1],
+                    [-1, -1, 2]])
+
+ham = cv2.imread(image_path, 0)
+plt.figure(figsize=(10, 10))
+plt.imshow(ham, cmap="gray")
+plt.show()
+
+grad = signal.convolve2d(ham, diag_line, boundary="symm", mode="same")
+plt.figure(figsize=(10, 10))
+plt.imshow(grad, cmap="gray")
+plt.show()
+
+# TODO : Apply diag_line to the "circuits.png" image and analyse the results
+\end{codingbox}
+
+\par\noindent \textbf{Results:} \par\noindent \vspace{3mm}
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{images/problem_7_hamtaro_gradient.png}
+\end{center}
+\end{problem}
+
+\newpage
+
+\begin{solution}
+To apply the convolution of the kernel \texttt{diag\_line} to the image \texttt{"circuits.png"}, we can use the following code snippet:
+
+\begin{codingbox}
+image_path = "../images/problem_7_circuits.png"
+
+diag_line = np.array([[ 2, -1, -1],
+                    [-1, 2, -1],
+                    [-1, -1, 2]])
+
+circuits = cv2.imread(image_path, 0)
+plt.figure(figsize=(10, 10))
+plt.imshow(circuits, cmap="gray")
+plt.show()
+
+grad = signal.convolve2d(circuits, diag_line, boundary="symm", mode="same")
+plt.figure(figsize=(10, 10))
+plt.imshow(grad, cmap="gray")
+plt.show()
+\end{codingbox}
+
+The result of the convolution between the image \texttt{"circuits.png"} and the kernel \texttt{diag\_line} is shown below:
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{images/problem_7_circuits_gradient.png}
+\end{center}
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 08                                    %
+% ================================================================================ %
+\begin{problem}
+Are the following systems linear or time invariant?
+\end{problem}
+
+% === Problem 8.1. === %
+\begin{subproblems}[start=1]
+    \item \( x(t) \rightarrow \) \textbf{System(a)} \( \rightarrow 7x(t-1) \)
+\end{subproblems}
+
+\begin{solution}
+\vspace{2mm}
+
+\par\noindent\textbf{1. Check for linearity:}
+Let \( x_1(t) \) and \( x_2(t) \) be two input signals, consider,
+\begin{align*}
+S\{ a x_1(t) + b x_2(t) \} &= 7 [ a x_1(t-1) + b x_2(t-1) ] \\
+&= 7 a x_1(t-1) + 7 b x_2(t-1) \\
+&= a [ 7 x_1(t-1) ] + b [ 7 x_2(t-1) ] \\
+S\{ a x_1(t) + b x_2(t) \} &= a S\{ x_1(t) \} + b S\{ x_2(t) \}
+\end{align*}
+
+Since both sides are equal, the system is linear.
+
+\vspace{2mm}
+
+\par\noindent\textbf{2. Check for time invariance:}
+Let \( x(t) \) be an input signal and \( t_0 \) be a time shift, consider,
+\begin{align*}
+S\{ x(t - t_0) \} &= 7 x((t - t_0) - 1) \\
+&= 7 x(t - t_0 - 1) \\
+&= 7 x((t - 1) - t_0) \\
+\implies S\{ x(t - t_0) \} &= y(t - t_0)
+\end{align*}
+
+Since both sides are equal, the system is time-invariant.
+
+Therefore, the system \( S\{ x(t) \} = 7 x(t-1) \) is \( \boxed{\text{both linear and time-invariant}} \).
+\end{solution}
+% ==================== %
+
+
+% === Problem 8.2. === %
+\begin{subproblems}[start=2]
+    \item \( x(t) \rightarrow \) \textbf{System(b)} \( \rightarrow \cos(2x(t)) \)
+\end{subproblems}
+
+\begin{solution}
+\vspace{2mm}
+
+\par\noindent\textbf{1. Check for linearity:}
+Let \( x_1(t) \) and \( x_2(t) \) be two input signals, consider,
+\begin{align*}
+    \cos(2 [ a x_1(t) + b x_2(t) ]) &\neq a [ \cos(2 x_1(t)) ] + b [ \cos(2 x_2(t)) ] \\
+    \implies S\{ a x_1(t) + b x_2(t) \} &= a S\{ x_1(t) \} + b S\{ x_2(t) \}
+\end{align*}
+
+Since both sides are not equal, the system is non-linear.
+
+\vspace{2mm}
+
+\par\noindent\textbf{2. Check for time invariance:}
+Let \( x(t) \) be an input signal and \( t_0 \) be a time shift, consider,
+\begin{align*}
+S\{ x(t - t_0) \} &= \cos(2 [ x(t - t_0) ]) \\
+&= \cos(2 x(t - t_0)) \\
+\implies S\{ x(t - t_0) \} &= y(t - t_0)
+\end{align*}
+
+Since both sides are equal, the system is time-invariant.
+
+Therefore, the system \( S\{ x(t) \} = \cos(2x(t)) \) is \( \boxed{\text{non-linear but time-invariant}} \).
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 8.3. === %
+\begin{subproblems}[start=3]
+    \item \( x(t) \rightarrow \) \textbf{System(c)} \( \rightarrow t \)
+\end{subproblems}
+
+\begin{solution}
+\vspace{2mm}
+
+\par\noindent\textbf{1. Check for linearity:}
+Let \( x_1(t) \) and \( x_2(t) \) be two input signals, consider,
+\begin{align*}
+t &\neq (a + b)t \\
+&= a \cdot t + b \cdot t \\
+\implies S\{ a x_1(t) + b x_2(t) \} &\neq a S\{ x_1(t) \} + b S\{ x_2(t) \}
+\end{align*}
+
+Since both sides are not equal, the system is non-linear.
+
+\vspace{2mm}
+
+\par\noindent\textbf{2. Check for time invariance:}
+Let \( x(t) \) be an input signal and \( t_0 \) be a time shift, consider,
+\begin{align*}
+t &\neq t - t_0 \\
+\implies S\{ x(t - t_0) \} &\neq y(t - t_0)
+\end{align*}
+
+Since both sides are not equal, the system is time-variant.
+
+Therefore, the system \( S\{ x(t) \} = t \) is \( \boxed{\text{both non-linear and time-variant}} \).
+\end{solution}
+% ==================== %
+
+
+% === Problem 8.4. === %
+\begin{subproblems}[start=4]
+    \item \( x(t) \rightarrow \) \textbf{System(d)} \( \rightarrow x(t)+t \)
+\end{subproblems}
+
+\begin{solution}
+\vspace{2mm}
+
+\par\noindent\textbf{1. Check for linearity:}
+Let \( x_1(t) \) and \( x_2(t) \) be two input signals, consider,
+\begin{align*}
+a x_1(t) + b x_2(t) + t &\neq a [ x_1(t) + t ] + b [ x_2(t) + t ] \\
+\implies S\{ a x_1(t) + b x_2(t) \} &\neq a S\{ x_1(t) \} + b S\{ x_2(t) \}
+\end{align*}
+
+Since both sides are not equal, the system is non-linear.
+
+\vspace{2mm}
+
+\par\noindent\textbf{2. Check for time invariance:}
+Let \( x(t) \) be an input signal and \( t_0 \) be a time shift, consider,
+\begin{align*}
+x(t - t_0) + t &\neq x(t - t_0) + t - t_0 \\
+\implies S\{ x(t - t_0) \} &\neq y(t - t_0)
+\end{align*}
+
+Since both sides are not equal, the system is time-variant.
+
+Therefore, the system \( S\{ x(t) \} = x(t) + t \) is \( \boxed{\text{both non-linear and time-variant}} \).
+\end{solution}
+% ==================== %
+% ================================================================================ %
 
 \end{document}
