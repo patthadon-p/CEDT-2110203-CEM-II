@@ -304,30 +304,34 @@ Find the convolution \( y[n] = h[n] * x[n] \) of the following signals:
 \end{subproblems}
 
 \par\noindent\submitsolution
-To find the convolution \( y[n] = h[n] * x[n] \), we use the discrete convolution formula:
-\[ y[n] = \sum_{k=-\infty}^{\infty} x[k] h[n - k] \]
+Using the property of convolution with unit step function (Running sum):
+\[ y[n] = x[n] * u[n] = \sum_{k=-\infty}^{n} x[k] \]
 
 Consider the value of \( y[n] \):
 \begin{align*}
-    y[n] &= \sum_{k=-\infty}^{\infty} x[k] h[n - k] \\
-    &= \sum_{k=-5}^{-1} x[k] h[n - k] + \sum_{k=0}^{4} x[k] h[n - k] \\
-    &= \sum_{k=-5}^{-1} (-1) \cdot 2u[n - k] + \sum_{k=0}^{4} (1) \cdot 2u[n - k] \\
-    &= -2 \sqbracket{ \sum_{k=-5}^{-1} u[n - k] - \sum_{k=0}^{4} u[n - k] } \\
-    y[n] &= -2 \sqbracket{ \sum_{j=n+1}^{n+5} u[j] - \sum_{j=n-4}^{n} u[j] } \\
+    y[n] &= x[n] * h[n] \\
+    &= x[n] * 2u[n] \\
+    y[n] &= 2 \sum_{k=-\infty}^{n} x[k]
 \end{align*}
 
 Calculating the convolution for different ranges of \( n \):
 \begin{itemize}
     \item For \( -5 \leq n < 0 \):
     \begin{align*}
-        y[n] &= -2 \sqbracket{ \sum_{j=n+1}^{n+5} u[j] - \sum_{j=n-4}^{n} u[j] } \\
-        &= -2 \sqbracket{ n + 6  } \\
+        y[n] &= 2 \sum_{k=-\infty}^{n} x[k] \\
+        &= 2 \sum_{k=-5}^{n} (-1) \\
+        &= 2 \cdot (-1)(n - (-5) + 1) \\
+        &= 2 (-n - 6) \\
         y[n] &= -2n - 12
     \end{align*}
+
     \item For \( 0 \leq n < 5 \):
     \begin{align*}
-        y[n] &= -2 \sqbracket{ \sum_{j=n+1}^{n+5} u[j] - \sum_{j=n-4}^{n} u[j] } \\
-        &= -2 \sqbracket{ 5 - (n - 3) } \\
+        y[n] &= 2 \sum_{k=-\infty}^{n} x[k] \\
+        &= 2 \sqbracket{ \sum_{k=-5}^{-1} x[k] + \sum_{k=0}^{n} x[k] } \\
+        &= 2 \sqbracket{ \sum_{k=-5}^{-1} (-1) + \sum_{k=0}^{n} (1) } \\
+        &= 2 \paren{ -5 + (n + 1) } \\
+        &= 2 \paren{ n - 4 } \\
         y[n] &= 2n - 8
     \end{align*}
 \end{itemize}
@@ -351,29 +355,28 @@ y[n] = \begin{cases}
 \end{subproblems}
 
 \begin{solution}
-To find the convolution \( y[n] = h[n] * x[n] \), we use the discrete convolution formula:
-\[ y[n] = \sum_{k=-\infty}^{\infty} x[k] h[n - k] \]
+Using the property of convolution with unit step function (Running sum):
+\[ y[n] = x[n] * u[n] = \sum_{k=-\infty}^{n} x[k] \]
 
 Consider the value of \( y[n] \):
 \begin{align*}
-    y[n] &= \sum_{k=-\infty}^{\infty} x[k] h[n - k] \\
-    &= \sum_{k=0}^{\infty} u[k] \cdot h[n - k] \\
-    &= \sum_{k=0}^{\infty} 1 \cdot h[n - k] \\
-    y[n] &= \sum_{j=-\infty}^{n} h[j]
+    y[n] &= x[n] * h[n] \\
+    &= u[n] * h[n] \\
+    y[n] &= \sum_{k=-\infty}^{n} h[k]
 \end{align*}
 
 Calculating the convolution for different ranges of \( n \):
 \begin{itemize}
     \item For \( 0 \leq n < 9 \):
     \begin{align*}
-        y[n] &= \sum_{j=-\infty}^{n} h[j] \\
-        &= \sum_{j=0}^{n} 1 \\
+        y[n] &= \sum_{k=-\infty}^{n} h[k] \\
+        &= \sum_{k=0}^{n} 1 \\
         y[n] &= n + 1
     \end{align*}
     \item For \( n \geq 9 \):
     \begin{align*}
-        y[n] &= \sum_{j=-\infty}^{n} h[j] \\
-        &= \sum_{j=0}^{9} 1 \\
+        y[n] &= \sum_{k=-\infty}^{n} h[k] \\
+        &= \sum_{k=0}^{9} 1 \\
         y[n] &= 10
     \end{align*}
 \end{itemize}
@@ -398,34 +401,45 @@ n + 1 & 0 \leq n < 9 \\
 \end{subproblems}
 
 \par\noindent\submitsolution
-To find the convolution \( y[n] = h[n] * x[n] \), we use the discrete convolution formula:
-\[ y[n] = \sum_{k=-\infty}^{\infty} x[k] h[n - k] \]
+Using the property of convolution with unit step function (Running sum):
+\[ y[n] = x[n] * u[n] = \sum_{k=-\infty}^{n} x[k] \]
+
+and the shifting property of convolution:
+\[ x[n] * \delta[n - n_0] = x[n - n_0] \]
 
 Consider the value of \( y[n] \):
 \begin{align*}
-    y[n] &= \sum_{k=-\infty}^{\infty} x[k] h[n - k] \\
-    &= \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k u[k] \cdot \paren{ \delta[n - k] + \delta[n - k - 1] + \paren{ \frac{1}{3} }^{n - k} u[n - k] } \\
-    y[n] &= \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \delta[n - k] + \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \delta[n - k - 1] + \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \paren{ \frac{1}{3} }^{n - k} u[n - k] \\
+    y[n] &= x[n] * h[n] \\
+    &= x[n] * \sqbracket{ \delta[n] + \delta[n - 1] + \paren{ \frac{1}{3} }^n u[n] } \\
+    &= \paren{ x[n] * \delta[n] } + \paren{ x[n] * \delta[n - 1] } + \paren{ x[n] * \paren{ \frac{1}{3} }^n u[n] } \\
+    y[n] &= \paren{ \frac{1}{2} }^n u[n] + \paren{ \frac{1}{2} }^{n - 1} u[n - 1] + \sum_{k=-\infty}^{n} \paren{ \frac{1}{2} }^k u[k] \paren{ \frac{1}{3} }^{n - k} u[n - k]
 \end{align*}
 
 Calculating the convolution for different ranges of \( n \):
 \begin{itemize}
-    \item For \( n \geq 0 \):
+    \item For \( n = 0 \):
     \begin{align*}
-        y[n] &= \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \delta[n - k] + \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \delta[n - k - 1] + \sum_{k=0}^{\infty} \paren{ \frac{1}{2} }^k \paren{ \frac{1}{3} }^{n - k} u[n - k] \\
-        &= \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{2} }^{n-1} + \sum_{k=0}^{n} \paren{ \frac{1}{2} }^k \paren{ \frac{1}{3} }^{n - k} \\
-        &= \paren{ \frac{1}{2} }^n + 2 \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{3} }^n \sum_{k=0}^{n} \paren{ \frac{3}{2} }^k \\
-        &= 3 \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{3} }^n \frac{1 - \paren{ \frac{3}{2} }^{n+1}}{1 - \frac{3}{2}} \\
-        &= 3 \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{3} }^n (-2)\paren{ 1 - \paren{ \frac{3}{2} }^{n+1}} \\
-        &= 3 \paren{ \frac{1}{2} }^n + (-2) \paren{ \frac{1}{3} }^{n} + 3 \paren{ \frac{1}{2} }^{n} \\
-        y[n] &= 6 \paren{ \frac{1}{2} }^n - 2 \paren{ \frac{1}{3} }^{n} \\
+        y[n] &= \paren{ \frac{1}{2} }^0 u[0] + \paren{ \frac{1}{2} }^{0 - 1} u[0 - 1] + \sum_{k=-\infty}^{0} \paren{ \frac{1}{2} }^k u[k] \paren{ \frac{1}{3} }^{0 - k} u[0 - k] \\
+        &= 1 + 0 + \paren{ \frac{1}{2} }^0 u[0] \paren{ \frac{1}{3} }^{0} u[0] \\
+        &= 1 + 0 + 1 \\
+        y[n] &= 2
+    \end{align*}
+
+    \item For \( n \geq 1 \):
+    \begin{align*}
+        y[n] &= \paren{ \frac{1}{2} }^n u[n] + \paren{ \frac{1}{2} }^{n - 1} u[n - 1] + \sum_{k=-\infty}^{n} \paren{ \frac{1}{2} }^k u[k] \paren{ \frac{1}{3} }^{n - k} u[n - k] \\
+        &= \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{2} }^{n - 1} + \sum_{k=0}^{n} \paren{ \frac{1}{2} }^k \paren{ \frac{1}{3} }^{n - k} \\
+        &= 3 \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{3} }^{n} \sqbracket{ \sum_{k=0}^{n} \paren{ \frac{3}{2} }^k } \\
+        &= 3 \paren{ \frac{1}{2} }^n + \paren{ \frac{1}{3} }^{n} \cdot (-2)\paren{1 - \paren{ \frac{3}{2} }^{n+1}} \\
+        y[n] &= 6 \paren{ \frac{1}{2} }^n - 2 \paren{ \frac{1}{3} }^{n}
     \end{align*}
 \end{itemize}
 
 Thus, the final result of the convolution is:
 \[ \boxed{
 y[n] = \begin{cases}
-6 \paren{ \frac{1}{2} }^n - 2 \paren{ \frac{1}{3} }^n & n \geq 0 \\
+2 & n = 0 \\
+6 \paren{ \frac{1}{2} }^n - 2 \paren{ \frac{1}{3} }^n & n \geq 1 \\
 0 & \text{otherwise}
 \end{cases}
 } \]
@@ -440,27 +454,30 @@ y[n] = \begin{cases}
 \end{subproblems}
 
 \begin{solution}
-To find the convolution \( y[n] = h[n] * x[n] \), we use the discrete convolution formula:
-\[ y[n] = \sum_{k=-\infty}^{\infty} x[k] h[n - k] \]
+Using the property of convolution with unit step function (Running sum):
+\[ y[n] = x[n] * u[n] = \sum_{k=-\infty}^{n} x[k] \]
+
+the shifting property of convolution:
+\[ x[n] * \delta[n - n_0] = x[n - n_0] \]
 
 Consider the value of \( y[n] \):
 \begin{align*}
-    y[n] &= \sum_{k=-\infty}^{\infty} x[k] h[n - k] \\
-    &= \sum_{k=0}^{\infty} \paren{ \frac{1}{3} }^k u[k] \cdot \paren{ \delta[n - k] + \paren{ \frac{1}{2} }^{n - k} u[n - k] } \\
-    y[n] &= \sum_{k=0}^{\infty} \paren{ \frac{1}{3} }^k \delta[n - k] + \sum_{k=0}^{\infty} \paren{ \frac{1}{3} }^k \paren{ \frac{1}{2} }^{n - k} u[n - k] \\
+    y[n] &= x[n] * h[n] \\
+    &= x[n] * \sqbracket{ \delta[n] + \paren{ \frac{1}{2} }^n u[n] } \\
+    &= \paren{ \paren{ \frac{1}{3} }^n u[n] * \delta[n] } + \paren{ \paren{ \frac{1}{3} }^n u[n] * \paren{ \frac{1}{2} }^n u[n] } \\
+    y[n] &= \paren{ \frac{1}{3} }^n u[n] + \sum_{k=-\infty}^{\infty} \paren{ \frac{1}{3} }^k u[k] \paren{ \frac{1}{2} }^{n - k} u[n - k] \\
+    y[n] &= \paren{ \frac{1}{3} }^n u[n] + \sum_{k=0}^{n} \paren{ \frac{1}{3} }^k \paren{ \frac{1}{2} }^{n - k} \\
+    y[n] &= \paren{ \frac{1}{3} }^n u[n] + \sum_{k=0}^{n} \paren{ \frac{1}{3} }^k \paren{ \frac{1}{2} }^{n - k} \\
 \end{align*}
 
 Calculating the convolution for different ranges of \( n \):
 \begin{itemize}
     \item For \( n \geq 0 \):
     \begin{align*}
-        y[n] &= \sum_{k=0}^{\infty} \paren{ \frac{1}{3} }^k \delta[n - k] + \sum_{k=0}^{\infty} \paren{ \frac{1}{3} }^k \paren{ \frac{1}{2} }^{n - k} u[n - k] \\
-        &= \paren{ \frac{1}{3} }^n + \sum_{k=0}^{n} \paren{ \frac{1}{3} }^k \paren{ \frac{1}{2} }^{n - k} \\
-        &= \paren{ \frac{1}{3} }^n + \paren{ \frac{1}{2} }^n \sum_{k=0}^{n} \paren{ \frac{2}{3} }^k \\
-        &= \paren{ \frac{1}{3} }^n + \paren{ \frac{1}{2} }^n \cdot \frac{1 - \paren{ \frac{2}{3} }^{n+1}}{1 - \frac{2}{3}} \\
-        &= \paren{ \frac{1}{3} }^n + 3 \paren{ \frac{1}{2} }^n \sqbracket{ 1 - \paren{ \frac{2}{3} }^{n+1} } \\
-        &= \paren{ \frac{1}{3} }^n + 3 \paren{ \frac{1}{2} }^n - 2 \paren{ \frac{1}{3} }^{n} \\
-        y[n] &= 3 \paren{ \frac{1}{2} }^n - \paren{ \frac{1}{3} }^{n} \\
+        y[n] &= \paren{ \frac{1}{3} }^n u[n] + \sum_{k=-\infty}^{\infty} \paren{ \frac{1}{3} }^k u[k] \paren{ \frac{1}{2} }^{n - k} u[n - k] \\
+        &= \paren{ \frac{1}{3} }^n + \paren{ \frac{1}{2} }^n \sqbracket{ \sum_{k=0}^{n} \paren{ \frac{2}{3} }^k } \\
+        &= \paren{ \frac{1}{3} }^n + \paren{ \frac{1}{2} }^n \cot (3) \paren{ 1 - \paren{ \frac{2}{3} }^{n + 1} } \\
+        y[n] &= 3 \paren{ \frac{1}{2} }^n - \paren{ \frac{1}{3} }^{n}
     \end{align*}
 \end{itemize}
 
