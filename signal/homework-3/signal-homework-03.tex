@@ -275,7 +275,7 @@ Evaluating this from \( -\pi \) to \( \pi \) to find \( a_k \):
     &= \frac{1}{2} \sqbracket{ \frac{e^{-j k t}}{-j k} }_{-\pi}^{\pi} - \frac{1}{2\pi} \sqbracket{ \frac{t}{-j k} e^{-j k t} - \frac{1}{(-j k)^2} e^{-j k t} }_{-\pi}^{\pi} \\
     &= \frac{1}{2} \sqbracket{ \frac{ \paren{ e^{-j \pi k} - e^{j \pi k} } }{-j k} } - \frac{1}{2\pi} \sqbracket{ \frac{ \paren{ \pi e^{-j \pi k} + \pi e^{j \pi k} } }{-j k} - \frac{ \paren{ e^{-j \pi k} - e^{j \pi k} } }{(-j k)^2} } \\
     &= \frac{1}{\cancel{2}} \sqbracket{ \frac{ \paren{ -\cancel{2} \bcancel{j} \sin{(\pi k)} } }{- \bcancel{j} k} } - \frac{1}{\cancel{2}\pi} \sqbracket{ \frac{ \paren{ \cancel{2}\pi \cos{(\pi k)} } }{-j k} - \frac{ \paren{ -\cancel{2}j\sin{(\pi k)} } }{(-j k)^2} } \\
-    a_k &= \frac{ \sin{(\pi k)} }{n} + \frac{ \cos{(\pi k)} }{jn} - \frac{ \sin{(\pi k)} }{j\pi k^2}
+    a_k &= \frac{ \sin{(\pi k)} }{k} + \frac{ \cos{(\pi k)} }{jk} - \frac{ \sin{(\pi k)} }{j\pi k^2}
 \end{align*}
 
 We can simplify \( a_k \):
