@@ -177,33 +177,33 @@ Thus, we have:
 Evaluating this from \( -1 \) to \( 1 \) to find \( a_k \):
 \begin{align*}
     a_k &= \frac{\pi}{4} \sqbracket{ \textcolor[HTML]{1F77B4}{ \frac{t^3}{-j \pi k} e^{-j \pi k t} } - \textcolor[HTML]{FF7F0E}{ \frac{3t^2}{(-j \pi k)^2} e^{-j \pi k t} } + \textcolor[HTML]{2CA02C}{ \frac{6t}{(-j \pi k)^3} e^{-j \pi k t} } - \textcolor[HTML]{D62728}{ \frac{6}{(-j \pi k)^4} e^{-j \pi k t} } }_{-1}^{1} \\
-    &= \frac{\pi}{4} \sqbracket{ \textcolor[HTML]{1F77B4}{ \frac{2j\cos{(\pi k)}}{\pi k} } - \textcolor[HTML]{FF7F0E}{ \frac{6 \sin{(\pi k)} }{(\pi k)^2} } + \textcolor[HTML]{2CA02C}{ \frac{-12j \cos{(\pi k)}}{(\pi k)^3} } - \textcolor[HTML]{D62728}{ \frac{-12\sin{(\pi k)}}{(\pi k)^4} } } \\
-    &= \frac{\pi}{\cancel{4}^{\, 2}} \sqbracket{ \frac{\cancel{2}j\cos{(\pi k)}}{\pi k} - \frac{\cancel{6}^{\, 3} \sin{(\pi k)} }{(\pi k)^2} - \frac{\cancel{12}^{\, 6}j \cos{(\pi k)}}{(\pi k)^3} + \frac{\cancel{12}^{\, 6} \sin{(\pi k)}}{(\pi k)^4} } \\
-    a_k &= \frac{\pi}{2} \sqbracket{ \frac{j \cos{(\pi k)}}{\pi k} - \frac{3 \sin{(\pi k)} }{(\pi k)^2} - \frac{6 j \cos{(\pi k)}}{(\pi k)^3} + \frac{6 \sin{(\pi k)}}{(\pi k)^4} }
+    &= \frac{\pi}{4} \sqbracket{ \textcolor[HTML]{1F77B4}{ \frac{2j\cos{(\pi k)}}{\pi k} } - \textcolor[HTML]{FF7F0E}{ \frac{6j \sin{(\pi k)} }{(\pi k)^2} } + \textcolor[HTML]{2CA02C}{ \frac{-12j \cos{(\pi k)}}{(\pi k)^3} } - \textcolor[HTML]{D62728}{ \frac{-12j\sin{(\pi k)}}{(\pi k)^4} } } \\
+    &= \frac{\pi}{\cancel{4}^{\, 2}} \sqbracket{ \frac{\cancel{2}j\cos{(\pi k)}}{\pi k} - \frac{\cancel{6}^{\, 3}j \sin{(\pi k)} }{(\pi k)^2} - \frac{\cancel{12}^{\, 6}j \cos{(\pi k)}}{(\pi k)^3} + \frac{\cancel{12}^{\, 6}j \sin{(\pi k)}}{(\pi k)^4} } \\
+    a_k &= \frac{\pi}{2} \sqbracket{ \frac{j \cos{(\pi k)}}{\pi k} - \frac{3 j \sin{(\pi k)} }{(\pi k)^2} - \frac{6 j \cos{(\pi k)}}{(\pi k)^3} + \frac{6 j \sin{(\pi k)}}{(\pi k)^4} }
 \end{align*}
 
 We can simplify \( a_k \):
-\[ a_k = \frac{\pi}{2} \sqbracket{ \frac{j (-1)^{k}}{\pi k} - 0 - \frac{6 j (-1)^{k}}{(\pi k)^3} + 0 } = \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} \]
+\[ a_k = \frac{\pi}{2} \sqbracket{ \frac{j (-1)^{k}}{\pi k} - 0 - \frac{6 j (-1)^{k}}{(\pi k)^3} + 0 } = - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} \]
 
 Thus, the Fourier series expansion of \( x(t) \) is:
-\[ x(t) = \sum_{k \neq 0} \paren { \text{Re} \set{ \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} } } \]
+\[ x(t) = \sum_{k \neq 0} \paren { \text{Re} \set{ \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} } } \]
 
 \newpage
 
 Because \( e^{jx} - e^{-jx} = 2j\sin{(x)} \) for any real \( x \), we have:
 \begin{align*}
-    \sum_{k \neq 0} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} &= \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
-    &\quad + \sum_{k=-\infty}^{-1} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
-    &= \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
-    &\quad + \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{-k}}{-2jk} - \frac{3 (-1)^{-k}}{-j \pi^2 k^3} } e^{-j \pi k t} \\
-    &= \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } \paren{ e^{j \pi k t} - e^{-j \pi k t} } \\
-    &= \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{k}}{2 \bcancel{j} k} - \frac{3 (-1)^{k}}{\bcancel{j} \pi^2 k^3} } \paren{ 2 \bcancel{j} \sin{(\pi k t)} } \\
-    &= \sum_{k=1}^{\infty} \paren{ \frac{(-1)^{k}}{k} - \frac{6 (-1)^{k}}{\pi^2 k^3} } \sin{(\pi k t)} \\
-    \sum_{k \neq 0} \paren{ \frac{(-1)^{k}}{2jk} - \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} &= \sum_{k=1}^{\infty} \frac{(-1)^k}{k} \paren{ 1 - \frac{6}{\pi^2 k^2} } \sin{(\pi k t)}
+    \sum_{k \neq 0} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} &= \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
+    &\quad + \sum_{k=-\infty}^{-1} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
+    &= \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} \\
+    &\quad + \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{-k}}{-2jk} + \frac{3 (-1)^{-k}}{-j \pi^2 k^3} } e^{-j \pi k t} \\
+    &= \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } \paren{ e^{j \pi k t} - e^{-j \pi k t} } \\
+    &= \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{k}}{2 \bcancel{j} k} + \frac{3 (-1)^{k}}{\bcancel{j} \pi^2 k^3} } \paren{ 2 \bcancel{j} \sin{(\pi k t)} } \\
+    &= \sum_{k=1}^{\infty} \paren{ - \frac{(-1)^{k}}{k} + \frac{6 (-1)^{k}}{\pi^2 k^3} } \sin{(\pi k t)} \\
+    \sum_{k \neq 0} \paren{ - \frac{(-1)^{k}}{2jk} + \frac{3 (-1)^{k}}{j \pi^2 k^3} } e^{j \pi k t} &= \sum_{k=1}^{\infty} \frac{(-1)^k}{k} \paren{ \frac{6}{\pi^2 k^2} - 1 } \sin{(\pi k t)}
 \end{align*}
 
 Therefore, the Fourier series expansion of \( x(t) \) is:
-\[ \boxed{ x(t) = \sum_{k=1}^{\infty} \paren{ \frac{(-1)^k}{k} \paren{ 1 - \frac{6}{\pi^2 k^2} } \sin{(\pi k t)} } } \]
+\[ \boxed{ x(t) = \sum_{k=1}^{\infty} \paren{ \frac{(-1)^k}{k} \paren{ \frac{6}{\pi^2 k^2} - 1 } \sin{(\pi k t)} } } \]
 
 By using Fourier series and Python approximation with \( N = 10 \) harmonics, we can approximate the signal as follows:
 \begin{center}
@@ -502,9 +502,9 @@ Consider the sums separately:
     \item For \( \abs{ k } = 3 \):
     \begin{align*}
         \sum_{\abs{ k } = 3} \paren{ \paren{ -\frac{2}{9\pi^2} + \frac{jk}{24} } e^{ j \pi k t}} &= \sum_{\abs{ k } = 3} \paren{ -\frac{2}{9\pi^2} e^{ j \pi k t} } + \sum_{\abs{ k } = 3} \paren{ \frac{jk}{24} e^{ j \pi k t} } \\
-        &= -\frac{2}{9\pi^2} \paren{ e^{-j 3\pi t} + e^{j 3\pi t} } + \frac{j}{24} \paren{ -e^{-j 3\pi t} + e^{j 3\pi t} } \\
-        &= -\frac{2}{9\pi^2} \paren{ 2\cos{(3\pi t)} } + \frac{j}{24} \paren{ 2j\sin{(3\pi t)} } \\
-        \sum_{\abs{ k } = 3} \paren{ \paren{ -\frac{2}{9\pi^2} + \frac{jk}{24} } e^{ j \pi k t}} &= -\frac{4}{9\pi^2} \cos{(3\pi t)} - \frac{1}{12} \sin{(3\pi t)}
+        &= -\frac{2}{9\pi^2} \paren{ e^{-j 3\pi t} + e^{j 3\pi t} } + \frac{j(3)}{24} \paren{ -e^{-j 3\pi t} + e^{j 3\pi t} } \\
+        &= -\frac{2}{9\pi^2} \paren{ 2\cos{(3\pi t)} } + \frac{j}{8} \paren{ 2j\sin{(3\pi t)} } \\
+        \sum_{\abs{ k } = 3} \paren{ \paren{ -\frac{2}{9\pi^2} + \frac{jk}{24} } e^{ j \pi k t}} &= -\frac{4}{9\pi^2} \cos{(3\pi t)} - \frac{1}{4} \sin{(3\pi t)}
     \end{align*}
 \end{enumerate}
 
@@ -512,14 +512,14 @@ Consider the sums separately:
 
 Consider \( \abs{k} = 1 \) and \( \abs{k} = 3 \) together.
 \begin{align*}
-    = - \frac{4}{\pi^2} \cos{(\pi t)} + \frac{3}{4} \sin{(\pi t)} - \frac{4}{9\pi^2} \cos{(3\pi t)} - \frac{1}{12} \sin{(3\pi t)} \\
-    = - \frac{4}{\pi^2} \paren{ \cos{(\pi t)} + \frac{1}{9} \cos{(3\pi t)} } + \frac{3}{4} \paren{ \sin{(\pi t)} - \frac{1}{9} \sin{(3\pi t)} }
+    = - \frac{4}{\pi^2} \cos{(\pi t)} + \frac{3}{4} \sin{(\pi t)} - \frac{4}{9\pi^2} \cos{(3\pi t)} - \frac{1}{4} \sin{(3\pi t)} \\
+    = - \frac{4}{\pi^2} \paren{ \cos{(\pi t)} + \frac{1}{9} \cos{(3\pi t)} } + \frac{3}{4} \paren{ \sin{(\pi t)} - \frac{1}{3} \sin{(3\pi t)} }
 \end{align*}
 
 
 Therefore, the Fourier series expansion of \( x(t) \) is:
 \[ \boxed{ \scalebox{0.90}{ \(
-x(t) = \frac{1}{3} - \frac{4}{\pi^2} \paren{ \cos{(\pi t)} + \frac{1}{9} \cos{(3\pi t)} } + \frac{3}{4} \paren{ \sin{(\pi t)} - \frac{1}{9} \sin{(3\pi t)} } + \sum_{\substack{ k = 1 \\ \abs{ k } \neq 0, 1, 3 }}^{\infty} \paren{ \frac{4(-1)^{k}}{\pi^2 k^2} \cos{(\pi k t)} }
+x(t) = \frac{1}{3} - \frac{4}{\pi^2} \paren{ \cos{(\pi t)} + \frac{1}{9} \cos{(3\pi t)} } + \frac{3}{4} \paren{ \sin{(\pi t)} - \frac{1}{3} \sin{(3\pi t)} } + \sum_{\substack{ k = 1 \\ \abs{ k } \neq 1, 3 }}^{\infty} \paren{ \frac{4(-1)^{k}}{\pi^2 k^2} \cos{(\pi k t)} }
 \) } } \]
 
 By using Fourier series and Python approximation with \( N = 10 \) harmonics, we can approximate the signal as follows:
