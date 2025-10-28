@@ -21,6 +21,7 @@
 \usepackage{xparse}
 \usepackage{environ}
 \usepackage{amssymb}
+\usepackage{mathrsfs}
 \usepackage{mdframed}
 \usepackage{booktabs}
 \usepackage{arydshln}
@@ -166,6 +167,15 @@
   leftmargin=*
 }
 
+\newlist{subsubproblems}{enumerate}{3}
+\setlist[subsubproblems]{
+  label*=\arabic{problem}.\arabic{subproblemsi}.\arabic*,
+  ref=\arabic{problem}.\arabic{subproblemsi}.\arabic*,
+  wide=0pt,
+  itemsep=2pt,
+  parsep=0pt,
+  leftmargin=*,
+}
 
 % =========================== Hyperref setup ===========================
 \hypersetup{
