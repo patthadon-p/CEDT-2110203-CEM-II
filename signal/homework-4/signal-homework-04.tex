@@ -160,19 +160,19 @@ Because, \( \textrm{rect} \) is an even function, we can express the Fourier tra
 \end{subproblems}
 
 \par\noindent\submitsolution
-Using the Time-shifting property of the Fourier transform, we have:
-\[
-    \textbf{Time-shifting: } \mathscr{F} \set{ x(t - t_0) } = e^{-j\omega t_0} X(j\omega)
-\]
-
 First, define a new signal \( y(t) = tx(t) \). Then, we can express \( (t-1)x(t-1) \) as:
 \[
     (t-1)x(t-1) = y(t-1)
 \]
 
-Now, applying the Time-shifting property to \( y(t-1) \), we get:
+Now, using the Time-shifting property of the Fourier transform, we have:
+\[
+    \textbf{Time-shifting: } \mathscr{F} \set{ x(t - t_0) } = e^{-j\omega t_0} X(j\omega)
+\]
+
+Applying to \( y(t-1) \), we get:
 \begin{align*}  
-    \mathscr{F} \set{ y(t-1) } &= e^{-j\omega \cdot 1} Y(j\omega) \\
+    \mathscr{F} \set{ y(t-1) } &= e^{-j\omega \cdot (1)} Y(j\omega) \\
     &= e^{-j\omega} \mathscr{F} \set{ y(t) } \\
     \mathscr{F} \set{ y(t-1) } &= e^{-j\omega} \mathscr{F} \set{ tx(t) }
 \end{align*}
@@ -211,27 +211,27 @@ Therefore, we can express the Fourier transform of \( (t-1)x(t-1) \) as:
 \end{subproblems}
 
 \par\noindent\submitsolution
-Using the Differentiation in time property of the Fourier transform, we have:
-\[
-    \textbf{Differentiation in time: } \mathscr{F} \set{ \frac{d x(t)}{dt} } = j\omega X(j\omega)
-\]
-
-And, using the Differentiation in frequency property (proved in the previous problem) of the Fourier transform, we have:
-\[
-    \textbf{Differentiation in frequency: } \mathscr{F} \set{ t x(t) } = j \frac{d}{d\omega} X(j\omega)
-\]
-
 First, define a new signal \( y(t) = \frac{d x(t)}{dt} \). Then, we can express \( t \frac{d x(t)}{dt} \) as:
 \[
     t \frac{d x(t)}{dt} = t y(t)
 \]
 
-Now, applying the Differentiation in frequency property to \( t y(t) \), we get:
+Now, using the Differentiation in frequency property (proved in the previous problem) of the Fourier transform, we have:
+\[
+    \textbf{Differentiation in frequency: } \mathscr{F} \set{ t x(t) } = j \frac{d}{d\omega} X(j\omega)
+\]
+
+Applying to \( t y(t) \), we get:
 \[
     \mathscr{F} \set{ t y(t) } = j \frac{d}{d\omega} Y(j\omega) = j \frac{d}{d\omega} \mathscr{F} \set{ y(t) } = j \frac{d}{d\omega} \mathscr{F} \set{ \frac{d x(t)}{dt} }
 \]
 
-Next, substituting the Differentiation in time property into the equation, we get:
+Next, using the Differentiation in time property of the Fourier transform, we have:
+\[
+    \textbf{Differentiation in time: } \mathscr{F} \set{ \frac{d x(t)}{dt} } = j\omega X(j\omega)
+\]
+
+Substituting into the equation, we get:
 \begin{align*}  
     \frac{d}{d\omega} \mathscr{F} \set{ \frac{d x(t)}{dt} } &= \frac{d}{d\omega} \paren{ j\omega X(j\omega) } \\
     &= \frac{d}{d\omega} \paren{ j\omega \cdot \textrm{rect} \paren{ \frac{\omega - 1}{2} } } \\
@@ -266,12 +266,9 @@ Therefore, we can express the Fourier transform of \( t \frac{d x(t)}{dt} \) as:
 \end{subproblems}
 
 \par\noindent\submitsolution
-Using the Time-scaling, Time-shifting, and Frequency-shifting properties of the Fourier transform, we have:
+Using the Time-scaling, and Time-shifting properties of the Fourier transform, we have:
 \[
     \textbf{Time-scaling + Time-shifting: } \mathscr{F} \set{ x(at - b) } = \frac{1}{|a|} e^{-j\omega \frac{b}{a}} X\paren{ \frac{j\omega}{a} }
-\]
-\[
-    \textbf{Frequency-shifting: } \mathscr{F} \set{ x(t) e^{j\omega_0 t} } = X(j(\omega - \omega_0))
 \]
 
 Define a new signal \( y(t) = x(2t - 1) \). Then, we can express \( x(2t - 1) e^{-j2t} \) as:
@@ -282,7 +279,12 @@ Define a new signal \( y(t) = x(2t - 1) \). Then, we can express \( x(2t - 1) e^
     Y(j\omega) &= \frac{1}{2} e^{-j\frac{\omega}{2}} X\paren{ \frac{j\omega}{2} }
 \end{align*}
 
-Now, applying the Frequency-shifting property to \( y(t) e^{-j2t} \), we get:
+Now, using the Frequency-shifting property of the Fourier transform, we have:
+\[
+    \textbf{Frequency-shifting: } \mathscr{F} \set{ x(t) e^{j\omega_0 t} } = X(j(\omega - \omega_0))
+\]
+
+Applying to \( y(t) e^{-j2t} \), we get:
 \begin{align*}  
     \mathscr{F} \set{ y(t) e^{-j2t} } &= \mathscr{F} \set{ y(t) e^{j(-2)t} } \\
     &= Y(j(\omega - (-2))) \\
@@ -314,20 +316,17 @@ Therefore, we can express the Fourier transform of \( x(2t - 1) e^{-j2t} \) as:
 \end{subproblems}
 
 \par\noindent\submitsolution
-Using the Convolution property and Time-shifting property of the Fourier transform, we have:
-\[
-    \textbf{Convolution: } \mathscr{F} \set{ x_1(t) * x_2(t) } = X_1(j\omega) \cdot X_2(j\omega)
-\]
-\[
-    \textbf{Time-shifting: } \mathscr{F} \set{ x(t - t_0) } = e^{-j\omega t_0} X(j\omega)
-\]
-
 First, define a new signal \( y(t) = x(t - 1) \). Then, we can express \( x(t) * x(t - 1) \) as:
 \[
     x(t) * x(t - 1) = x(t) * y(t)
 \]
 
-Next, substituting the Time-shifting property into the equation, we get:
+Next, using the Time-shifting property of the Fourier transform, we have:
+\[
+    \textbf{Time-shifting: } \mathscr{F} \set{ x(t - t_0) } = e^{-j\omega t_0} X(j\omega)
+\]
+
+Substituting into the equation, we get:
 \begin{align*}  
     Y(j\omega) &= \mathscr{F} \set{ y(t) } \\
     &= \mathscr{F} \set{ x(t - 1) } \\
@@ -335,18 +334,32 @@ Next, substituting the Time-shifting property into the equation, we get:
     Y(j\omega) &= e^{-j\omega} X(j\omega)
 \end{align*}
 
-Now, applying the Convolution property to \( x(t) * y(t) \), we get:
+Now, using the Convolution property of the Fourier transform, we have:
+\[
+    \textbf{Convolution: } \mathscr{F} \set{ x_1(t) * x_2(t) } = X_1(j\omega) \cdot X_2(j\omega)
+\]
+
+Applying to \( x(t) * y(t) \), we get:
 \begin{align*}  
     \mathscr{F} \set{ x(t) * y(t) } &= \mathscr{F} \set{ x(t) } \cdot \mathscr{F} \set{ y(t) } \\
     &= X(j\omega) \cdot \mathscr{F} \set{ x(t - 1) } \\
-    \mathscr{F} \set{ x(t) * y(t) } &= X(j\omega) \cdot e^{-j\omega (1)} X(j\omega)
+    &= X(j\omega) \cdot e^{-j\omega (1)} X(j\omega) \\
+    \mathscr{F} \set{ x(t) * y(t) } &= \paren{ X(j\omega) }^2 \cdot e^{-j\omega}
 \end{align*}
 
 Lastly, substituting \( \mathscr{F} \set{ x(t) } = \textrm{rect} \paren{ (\omega-1)/2 } \) back into the equation, we get:
+\[
+    \mathscr{F} \set{ x(t) * y(t) } = \textrm{rect}^2 \paren{ \frac{\omega - 1}{2} } \cdot e^{-j\omega}
+\]
+
+But, since \( \textrm{rect}(\cdot) \) is equal to either 0 or 1, we have:
+\[
+    \textrm{rect}^2 \paren{ \frac{\omega - 1}{2} } = \textrm{rect} \paren{ \frac{\omega - 1}{2} }
+\]
 
 Therefore, we can express the Fourier transform of \( x(t) * x(t - 1) \) as:
 \[ \boxed{
-    \mathscr{F} \set{ x(t) * x(t - 1) } = e^{-j\omega} \textrm{rect}^2 \paren{ \frac{\omega - 1}{2} }
+    \mathscr{F} \set{ x(t) * x(t - 1) } = e^{-j\omega} \textrm{rect} \paren{ \frac{\omega - 1}{2} }
 } \]
 \end{tosubmit}
 % ================================================================================ %
