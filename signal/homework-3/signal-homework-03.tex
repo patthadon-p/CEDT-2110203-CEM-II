@@ -24,7 +24,7 @@
 Find the Fourier series of the following periodic function:
 
 \begin{center}
-    \includegraphics[width=0.6\textwidth]{images/problem_1_reference.png}
+    \includegraphics[width=0.55\textwidth]{images/problem_1_reference.png}
 \end{center}
 \end{problem}
 
@@ -33,8 +33,8 @@ From the graph, we can see that the function \( x(t) \) can be defined piecewise
 \[
 x(t) =
 \begin{cases}
-1, & -\frac{1}{2} \leq t < 0 \\
--1, & 0 \leq t < \frac{1}{2}
+-1, & -\frac{1}{2} \leq t < 0 \\
+1, & 0 \leq t < \frac{1}{2}
 \end{cases}
 \]
 with a period \( T = 1 \).
@@ -54,8 +54,8 @@ Calculating \( a_0 \):
 \begin{align*}
     a_0 &= \frac{1}{T} \int_{\langle T \rangle} x(t) e^{-j (0) \omega_0 t} \,dt \\
     &= \frac{1}{1} \int_{-0.5}^{0.5} x(t) \,dt \\
-    &= \int_{-0.5}^{0} (1) \,dt + \int_{0}^{0.5} (-1) \,dt \\
-    &= \frac{1}{2} - \frac{1}{2} \\
+    &= \int_{-0.5}^{0} (-1) \,dt + \int_{0}^{0.5} (1) \,dt \\
+    &= -\frac{1}{2} - \paren{ -\frac{1}{2} } \\
     a_0 &= 0
 \end{align*}
 
@@ -66,8 +66,8 @@ Calculating \( a_k \) for \( k \neq 0 \):
     a_k &= \frac{1}{T} \int_{\langle T \rangle} x(t) e^{-j k \omega_0 t} \,dt \\
     &= \frac{1}{1} \int_{-0.5}^{0.5} x(t) e^{-j k (2 \pi / T) t} \,dt \\
     &= \frac{1}{1} \int_{-0.5}^{0.5} x(t) e^{-j k (2 \pi / 1) t} \,dt \\
-    &= \int_{-0.5}^{0} (1) \cdot e^{-j 2 \pi k t} \,dt + \int_{0}^{0.5} (-1) \cdot e^{-j 2 \pi k t} \,dt \\
-    &= \sqbracket{ \frac{e^{-j 2 \pi k t}}{-j 2 \pi k} }_{-0.5}^{0} + \sqbracket{ \frac{e^{-j 2 \pi k t}}{j 2 \pi k} }_{0}^{0.5} \\
+    &= \int_{-0.5}^{0} (-1) \cdot e^{-j 2 \pi k t} \,dt + \int_{0}^{0.5} (1) \cdot e^{-j 2 \pi k t} \,dt \\
+    &= \sqbracket{ -\frac{e^{-j 2 \pi k t}}{-j 2 \pi k} }_{-0.5}^{0} + \sqbracket{ \frac{e^{-j 2 \pi k t}}{-j 2 \pi k} }_{0}^{0.5} \\
     &= \frac{1}{-j 2 \pi k} \paren{ e^{j \pi k} - 1 } + \frac{1}{j 2 \pi k} \paren{ 1 - e^{-j \pi k} } \\
     &= \frac{j}{2\pi k} \paren{ e^{j \pi k} - 1 - 1 + e^{-j \pi k} } \\
     &= \frac{j}{\cancel{2}\pi k} \paren{ \cancel{2} \cos{(\pi k)} - \cancel{2} } \\
