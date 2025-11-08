@@ -537,4 +537,49 @@ Therefore, we can express the Fourier transform of \( \frac{1}{2\pi t^2 + 1} \) 
 % =========== %
 % ================================================================================ %
 
+\newpage
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{problem}
+    For each of the following Fourier transform (\( X(j\omega) \)),
+    use Fourier transform properties to determine the corresponding time-domain signal (\( x(t) \)).
+\end{problem}
+
+% === 4.1 === %
+\begin{subproblems}[start=1]
+    \item \( X(j\omega) = u(\omega) - u(\omega -2) \)
+\end{subproblems}
+
+\begin{solution}
+Using the Duality property of the Fourier transform, we have:
+\[
+    \textbf{Duality: } \mathscr{F} \set{ X(jt) } = 2\pi x(-\omega)
+\]
+
+Thus, we can express the inverse Fourier transform of \( X(\omega) \) as:
+\begin{align*}  
+    x(t) &= \mathscr{F}^{-1} \set{ X(j\omega) } \\
+    &= \frac{1}{2\pi} \mathscr{F} \set{ X(t) } \bigg|_{t = -\omega} \\
+    &= \frac{1}{2\pi} \mathscr{F} \set{ u(t) - u(t - 2) } \bigg|_{t = -\omega} \\
+    &= \frac{1}{2\pi} \mathscr{F} \set{ \textrm{rect} \paren{ \frac{t - 1}{2} } } \bigg|_{t = -\omega} \\
+    x(t) &= \frac{1}{2\pi} \cdot 2 e^{-j\omega} \cdot \frac{\sin(\omega)}{\omega} \\
+    x(t) &= \frac{1}{\pi} e^{-j\omega} \cdot \frac{\sin(\omega)}{\omega}
+\end{align*}
+\end{solution}
+% =========== %
+
+
+% === 4.2 === %
+\begin{subproblems}[start=2]
+    \item \( X(j\omega) = \cos(2\omega)\sin \paren{ \frac{\omega}{2} } \)
+\end{subproblems}
+
+\begin{solution}
+Cooming Soon...
+\end{solution}
+% =========== %
+% ================================================================================ %
+
 \end{document}
