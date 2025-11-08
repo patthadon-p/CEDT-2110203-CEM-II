@@ -1,0 +1,187 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Stats 1}{}{Week 1}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{Sampling}
+% ================================================================================ %
+
+
+Sampling is a process that is very important for writing simulations.
+In this section, you will try to sample from some common distributions.
+You may implement them yourself or use the provided distribution from \texttt{ scipy.stats }.
+
+\begin{codingbox}
+from scipy.stats import norm, bernoulli, binom, uniform, geom, expon
+
+# Sample from Uniform(a, b)
+def sample_uniform(sample_size, a, b):
+  # [YOUR CODE HERE]
+  dist = uniform(a, b)
+  return dist.rvs(sample_size)
+
+def sample_normal(sample_size, mu, sigma):
+  # [YOUR CODE HERE]
+  dist = norm(mu, sigma)
+  return dist.rvs(sample_size)
+
+def sample_bernoulli(sample_size, p):
+  # [YOUR CODE HERE]
+  dist = bernoulli(p)
+  return dist.rvs(sample_size)
+
+def sample_binomial(sample_size, n, p):
+  # [YOUR CODE HERE]
+  dist = binom(n, p)
+  return dist.rvs(sample_size)
+
+def sample_geometric(sample_size, p):
+  # [YOUR CODE HERE]
+  dist = geom(p)
+  return dist.rvs(sample_size)
+
+def sample_exponential(sample_size, l):
+  # [YOUR CODE HERE]
+  dist = expon(l)
+  return dist.rvs(sample_size)
+\end{codingbox}
+
+\newpage
+
+% ================================================================================ %
+%                                  TO SUBMIT 01                                    %
+% ================================================================================ %
+\begin{tosubmit}
+Hamtaro and his friends are collecting sunflower seeds. The bigger the sunflower, the more seeds they can find!
+The probability of finding a sunflower of a certain height \( x \) (in cm, from 0 to 10) increases with its height, following the probability density function \( f(x)= \frac{x}{50} \).
+Write a function \texttt{ sample\_increasing(sample\_size) } to simulate the heights of the sunflowers the Ham-Hams find.
+
+\vspace{5mm}
+
+\par\noindent\submitsolution
+First, we need to find the cumulative distribution function (CDF) from the given probability density function (PDF) \( f(x) = \frac{x}{50} \).
+To find the CDF, we integrate the PDF from 0 to \( x \):
+\[
+    F(x) = \int_0^x f(t) \, dt = \int_0^x \frac{t}{50} \, dt = \sqbracket{ \frac{t^2}{100} }_0^x = \frac{x^2}{100} \text{ for } 0 \leq x \leq 10.
+\]
+Next, we need to find the inverse of the CDF, \( F^{-1}(y) \), to use the inverse transform sampling method.
+Setting \( y = F(x) \), we have:
+\[
+    y = \frac{x^2}{100} \implies x^2 = 100y \implies x = 10\sqrt{y}.
+\]
+Thus, the inverse CDF is \( F^{-1}(y) = 10\sqrt{y} \).
+
+Now, we can implement the function \texttt{ sample\_increasing(sample\_size) } to generate random samples from the distribution.
+\begin{codingbox}
+import numpy as np
+
+np.random.seed(1)  # For reproducibility
+
+# sample from pdf f(x)=x/50, 0<=x<=10
+def sample_increasing(sample_size):
+  # [YOUR CODE HERE]
+  u = np.random.rand(sample_size)
+  dist = 10 * np.sqrt(u)
+  return dist
+\end{codingbox}
+
+We can plot the histogram of our samples.
+If the sample functions are implemented correctly, the histogram should looks like our distribution.
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{images/sampling_increasing.png}
+\end{center}
+\end{tosubmit}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{Maximum Likelihood Estimation}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\begin{problem}[4]
+Dexter tracks the growth of his prized sunflower over three days (day 0, 1, and 2).
+He believes the sunflower's height at the end of each day \( y_{t+1} \) is its height from the previous day \( y_t \)
+multiplied by a secret growth factor, \( \alpha \), plus some random daily noise.
+
+\vspace{3mm}
+
+For a two-day period, we can observe the following Markov process:
+\[
+    P(y_2, y_1, y_0 | \alpha) = P(y_2|y_1)P(y_1|y_0)P(y_0 |\alpha)
+\]
+\noindent where \( y_2 \sim \mathcal{N}(\alpha y_1, \sigma^2), y_1 \sim \mathcal{N}(\alpha y_0, \sigma^2), y_0 \sim \mathcal{N}(0,\lambda) \)
+
+\vspace{3mm}
+
+\noindent Find the Maximum Likelihood Estimate (MLE) for the secret growth factor, \( \alpha \), given the observed heights at the end of each day \( y_2,y_1,y_0 \).
+In other words, compute for the value of \( \alpha \) that maximizes \( P(y_2,y_1,y_0|\alpha) \).
+\end{problem}
+
+\par\noindent\submitsolution
+The probability density functions for the normal distributions are given by:
+\[
+    P(y_2|y_1) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_2 - \alpha y_1)^2}{2\sigma^2}}
+\]
+\[
+    P(y_1|y_0) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_1 - \alpha y_0)^2}{2\sigma^2}}
+\]
+\[
+    P(y_0|\alpha) = \frac{1}{\sqrt{2\pi\lambda}} e^{-\frac{y_0^2}{2\lambda}}
+\]
+
+Thus, the joint probability is:
+\begin{align*}
+    P(y_2, y_1, y_0| \alpha) &= P(y_2|y_1)P(y_1|y_0)P(y_0| \alpha)\\
+    &= \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_2 - \alpha y_1)^2}{2\sigma^2}} \times \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_1 - \alpha y_0)^2}{2\sigma^2}} \times \frac{1}{\sqrt{2\pi\lambda}} e^{-\frac{y_0^2}{2\lambda}}
+\end{align*}
+
+Using \textbf{log likelihood}, we have:
+\[
+    \ln(P(y_2|y_1)) = \ln(\frac{1}{\sqrt{2\pi\sigma^2}}) + \paren{ -\frac{(y_2-\alpha y_1)^2}{2\sigma^2} }
+\]
+\[
+    \ln(P(y_1|y_0)) = \ln(\frac{1}{\sqrt{2\pi\sigma^2}}) + \paren{ -\frac{(y_1-\alpha y_0)^2}{2\sigma^2} }
+\]
+\[
+    \ln(P(y_0|\alpha)) = \ln(\frac{1}{\sqrt{2\pi\lambda}}) + \paren{ -\frac{y_0^2}{2\lambda}}
+\]
+
+Therefore, the log-likelihood function is:
+\[
+    \ln(P(y_2, y_1, y_0| \alpha)) = \ln(P(y_2|y_1)) + \ln(P(y_1|y_0)) + \ln(P(y_0| \alpha))
+\]
+\[
+    \implies \sqbracket{ \ln(\frac{1}{\sqrt{2\pi\sigma^2}}) + \ln(\frac{1}{\sqrt{2\pi\sigma^2}}) + \ln(\frac{1}{\sqrt{2\pi\lambda}}) } - \frac{(y_2-\alpha y_1)^2 + (y_1-\alpha y_0)^2}{2\sigma^2} - \frac{y_0^2}{2\lambda}
+\]
+
+\newpage
+
+To find the MLE of \( \alpha \), we take the derivative of the log-likelihood with respect to \( \alpha \) and set it to zero:
+\begin{align*}
+    \frac{\text{d}}{\text{d}\alpha}\ln(P(y_2, y_1, y_0| \alpha)) &= - \frac{-2y_1(y_2-\alpha y_1) -2y_0(y_1-\alpha y_0)}{2\sigma^2} \\
+    &=  \frac{y_1(y_2-\alpha y_1) + y_0(y_1-\alpha y_0)}{\sigma^2} \\
+    0 &= y_1(y_2-\alpha y_1) + y_0(y_1-\alpha y_0) \\
+    \implies y_1(y_2-y_1\hat{\alpha}) &= -y_0(y_1-y_0\hat{\alpha}) \\
+    y_1y_2 - y_1^2\hat{\alpha} &= -y_0y_1+y_0^2\hat{\alpha} \\
+    \hat{\alpha}(y_1^2 + y_0^2) &= y_0y_1 + y_1y_2
+\end{align*}
+
+Therefore: \( \boxed{\implies \hat{\alpha} = \frac{y_0y_1 + y_1y_2}{y_1^2 + y_0^2}} \)
+\end{tosubmit}
+% ================================================================================ %
+
+\end{document}
