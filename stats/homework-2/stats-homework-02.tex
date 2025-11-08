@@ -16,6 +16,292 @@
 % ================================================================================ %
 
 
+
+% ================================================================================ %
+%                                    Problem 01                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Hamtaro and his entertainment:}
+
+\vspace{2mm}
+
+\par Hamtaro operates an entertainment website called HamHub.
+Last Monday, the most famous website in this field of entertainment was blocked by the government.
+Hearing the news, Hamtaro wants to know whether the blockade has a significant effect on the number of HamHub's visitors?
+
+\begin{itemize}
+    \item Before last Monday, the average number of visitors was \( x_0 \sim \mathcal{N}(10000, \sigma^2) \).
+    \item After last Monday, Hamtaro spent ten days collecting the number of users (stored in \texttt{X1}).
+\end{itemize}
+\end{problem}
+
+% === Problem 1.1. === %
+\begin{subproblems}
+    \item Can Hamtaro conclude that the blockade significantly increases the number of visitors with a significant level of 0.001?
+\end{subproblems}
+
+\begin{solution}
+To make the Hypothesis Testing, we first need to formulate the null hypothesis \( H_0 \) and alternative hypothesis \( H_A \):
+\[ \boxed{ H_0: \mu = 10000 \quad \text{(The blockade does not increase the number of visitors)} } \]
+\[ \boxed{ H_A: \mu > 10000 \quad \text{(The blockade increases the number of visitors)} } \]
+
+Thus, this test is a one-sided test (right).
+Next, we want to calculate p-value to determine whether we can reject the null hypothesis or not.
+
+\vspace{3mm}
+
+Using the provided data, \texttt{X1}:
+\begin{codingbox}
+X1 = array([
+    10190.25479236, 10082.65748517, 10161.37971691,
+    10042.27783459, 10129.73858138,  9962.73586162,
+    10187.78833611, 10013.48007958, 10372.98760763,
+    10238.55408072
+])
+\end{codingbox}
+
+we can compute p-value from t score (9 degrees of freedom, since we have 10 samples) by using python code:
+
+\begin{codingbox}
+def calculate_sample_variance(X):
+  # HINT: Look up parameter ddof of numpy.var
+  # [YOUR CODE HERE]
+  return np.var(X, ddof=1)
+
+def studentized_mean(X, mu0):
+  # [YOUR CODE HERE]
+  return (np.mean(X) - mu0) / ( np.sqrt(calculate_sample_variance(X) / X.shape[0]))
+
+t_score = studentized_mean(X1, 10000)
+
+# [YOUR CODE HERE]
+# Calculate p-value.
+# HINT: scipy.stats.t
+pvalue = 1 - stats.t.cdf(abs(t_score), X1.shape[0] - 1)
+
+# Check if it is equal to the library
+result = stats.ttest_1samp(X1, 10000, alternative="greater")
+print(tuple(float(p.round(6)) for p in [result[1], pvalue]))
+\end{codingbox}
+
+From the output of the code, we find that the p-value is approximately \( 0.002694 \) (for both methods).
+Because the p-value \( p = 0.002694 > \alpha = 0.001 \), we \textbf{do not reject} the null hypothesis \( H_0 \).
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.2. === %
+\begin{subproblems}[start=2]
+    \item If the sample mean and variance are held the same, what is the minimum number of samples Hamtaro need to reject the null hypothesis?
+    For the same observation effect, larger sample size will result in a significant result.
+\end{subproblems}
+
+\begin{solution}
+From the previous calculation, we have:
+\begin{itemize}
+    \item Sample mean: \( \bar{x} \approx 10138.19 \)
+    \item Sample variance: \( s^2 \approx 14400.28 \)
+    \item Sample standard deviation: \( s \approx 120.00 \)
+    \item Sample size: \( n = 10 \)
+\end{itemize}
+
+To find the minimum number of samples \( n \) needed to reject the null hypothesis at a significance level of \( \alpha = 0.001 \), we can use the formula for the t-score:
+\[ t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]
+
+We want to find the smallest \( n \) such that the p-value is less than \( 0.001 \).
+
+\vspace{3mm}
+
+Using python code to find the minimum \( n \):
+\begin{codingbox}
+sample_mean = np.mean(X1)
+population_mean = 10000
+
+sample_std_dev = np.std(X1, ddof=1)
+
+alpha = 0.001
+
+n = 10
+while (True):
+    t = (sample_mean - population_mean) / (sample_std_dev / math.sqrt(n))
+    p_value = 1 - stats.t.cdf(abs(t), df=n-1)
+    
+    if p_value < alpha:
+        break
+    
+    n += 1
+
+print(f"Minimum sample size required: {n}, p-value: {p_value.round(6)}")
+\end{codingbox}
+
+From the result, we find that the minimum sample size required to reject the null hypothesis at a significance level of \( \alpha = 0.001 \) is:
+\[ \boxed{ n = 13 \text{, with p-value } p = 0.000671 } \]
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{T-Test:}
+
+\vspace{2mm}
+
+\par Hamtaro performs a t-test for the null hypothesis \( H_0: \mu = 10 \) at significance level \( \alpha=0.05 \)
+from a dataset consisting of \( n = 16 \) elements with sample mean 11 and sample variance 4.
+
+\begin{subproblems}
+    \item Should we reject the null hypothesis in favor of \( H_A: \mu \neq 10 \)
+    \item What if we test against \( H_{A^{'}}: \mu > 10 \) ?
+\end{subproblems}
+\end{problem}
+
+\begin{solution}
+These are hypothesis testing problems for a t-distribution with \( n - 1 = 15 \) degrees of freedom.
+Note that, the first alternative hypothesis \( H_A \) is two-sided, while the second alternative hypothesis \( H_{A^{'}} \) is one-sided (right).
+
+\vspace{1mm}
+
+Each subproblems can be solved using the following python code:
+\begin{codingbox}
+mu = 11; s2 = 4; n = 16
+
+t_score = (mu - 10) / (math.sqrt(s2) / math.sqrt(n))
+pvalue_1tail = 1 - stats.t.cdf(abs(t_score), n - 1)
+pvalue_2tail = 2 * pvalue_1tail
+\end{codingbox}
+
+The results are:
+\begin{enumerate}
+    \item \texttt{pvalue\_2tail = 0.0639} \\
+    which is greater than \( \alpha = 0.05 \), so we \( \boxed{\textbf{(2.1) do not reject}} \) the null hypothesis \( H_0 \).
+
+    \item \texttt{pvalue\_1tail = 0.0320} \\
+    which is lower than \( \alpha = 0.05 \), so we \( \boxed{\textbf{(2.2) reject}} \) the null hypothesis \( H_0 \).
+\end{enumerate}
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 03                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Hamtaro and his entertainment \#2}
+
+\vspace{2mm}
+
+\par\noindent The story in this problem is a parallel universe of problem 1.
+
+\vspace{3mm}
+
+\par Last Monday, Hamtaro added the new channel to the website, and he wanted to know its effects on the number of visitors.
+However, the most famous website in this field of entertainment was also blocked by the government on the same day.
+Since there was no sign of unblocking from the government, Hamtaro could not perform a hypothesis testing on only the factor of adding the new channel.
+How could Hamtaro know that the changes from adding the new channel are significant?
+
+\vspace{3mm}
+
+\par There are four scenarios in this problem:
+\begin{enumerate} 
+    \item Before the last Monday, the average number of visitors was
+    \[ x_0 \sim \mathcal{N}(\mu_0, \sigma^2) \quad \text{(no block + no new channel).} \]
+
+    \item After the last Monday, the average number of visitors are
+    \[ x_1 \sim \mathcal{N}(\mu_1, \sigma^2) \quad \text{(block + new channel).} \]
+
+    \item Days after removing the channel, the average number of visitors are
+    \[ x_2 \sim \mathcal{N}(\mu_2, \sigma^2) \quad \text{(block + no new channel).}\]
+
+    \item In an imaginative scenario that the new channel is added but the most famous website haven't been blocked, the average number of visitors is
+    \[ x_3 \sim \mathcal{N}(\mu_3, \sigma_3^2) \quad \text{(no block + new channel).}\]
+\end{enumerate}
+
+\par Assuming that a user decides to visit the website because of the blockade, a new channel, or none of the two (independent).
+\end{problem}
+
+% === Problem 3.1. === %
+\begin{subproblems}
+    \item Hamtaro found the p-value of 0.03 from doing a t-test on \( H_A: x_1 > x_0 \).
+    Can he conclude that adding the new channel significantly increases the number of visitors? Justify your answer.
+\end{subproblems}
+
+\begin{solution}
+
+\vspace{1mm}
+
+\par\hspace{5mm} \textbf{No}, Hamtaro cannot conclude that adding the new channel significantly increases the number of visitors based on the t-test result of \( H_A: x_1 > x_0 \) with a p-value of 0.03.
+
+\vspace{1mm}
+
+\par\hspace{5mm} This is because the observed increase in visitors could be attributed to the blockade rather than the new channel.
+To isolate the effect of the new channel, Hamtaro would need to compare the number of visitors in scenario 4 (\( x_3 \)) with scenario 1 (\( x_0 \)), which represents the situation without the blockade but with the new channel.
+\end{solution}
+% ==================== %
+
+
+% === Problem 3.2. === %
+\begin{subproblems}[start=2]
+    \item Hamtaro did another t-test and found the p-value of 0.1 from testing \( H_A: x_1 > x_2 \).
+    Does he now have enough information to conclude anything about \( x_3 \) ?
+\end{subproblems}
+
+\begin{solution}
+
+\vspace{1mm}
+
+\par\hspace{5mm} \textbf{No}, Hamtaro does not have enough information to conclude anything about \( x_3 \) based on the t-test result of \( H_A: x_1 > x_2 \) with a p-value of 0.1.
+
+\vspace{1mm}
+
+\par\hspace{5mm} The t-test comparing \( x_1 \) and \( x_2 \) only provides information about the effect of the new channel in the presence of the blockade.
+It does not provide any information about the scenario where the new channel is added without the blockade (\( x_3 \)).
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 3.3. === %
+\begin{subproblems}[start=3]
+    \item Does the current setups, 1. and 2., lead to the final question about the significance of adding the new channel?
+    \begin{itemize}
+        \item If yes, what should you do next to get the final answer?
+        \item If no, Can we use the hypothesis testing answer to solve this problem?
+        \begin{itemize}
+            \item If yes, design your testing, describe assumptions you made.
+            \item If no, explain why.
+        \end{itemize}
+    \end{itemize}
+\end{subproblems}
+
+\begin{solution}
+
+\vspace{1mm}
+
+\par\hspace{5mm} From the current setups, 1. and 2., we \textbf{cannot} directly conclude the significance of adding the new channel.
+
+\vspace{1mm}
+
+\par\hspace{5mm} To isolate the effect of the new channel, Hamtaro would need to conduct a hypothesis test comparing scenario 4 (\( x_3 \)) with scenario 1 (\( x_0 \)).
+This would involve collecting data on the number of visitors when the new channel is added without the blockade and comparing it to the baseline scenario without both the blockade and the new channel.
+
+\vspace{3mm}
+
+The null hypothesis \( H_0 \) and alternative hypothesis \( H_A \) for this test would be:
+\[ \boxed{ H_0: \mu_3 = \mu_0 \quad \text{(The new channel does not increase the number of visitors)} } \]
+\[ \boxed{ H_A: \mu_3 > \mu_0 \quad \text{(The new channel increases the number of visitors)} } \]
+
+\vspace{1mm}
+
+\par\hspace{5mm} The information from the previous hypothesis tests (comparing \( x_1 \) with \( x_0 \) and \( x_1 \) with \( x_2 \)) cannot be directly used to solve this problem, as they do not isolate the effect of the new channel without the blockade.
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+
 % ================================================================================ %
 %                                    Problem 04                                    %
 % ================================================================================ %
@@ -74,7 +360,6 @@ A one-sided hypothesis test is appropriate here because we are only interested i
 % ==================== %
 
 \vspace{3mm} \hrule \vspace{3mm}
-\newpage
 
 % === Problem 4.3. === %
 \begin{subproblems}[resume]
@@ -136,7 +421,6 @@ from the result, we find that the rejection region is:
 % ==================== %
 
 \vspace{3mm} \hrule \vspace{3mm}
-\newpage
 
 % === Problem 4.5. === %
 \begin{subproblems}[resume]
@@ -194,9 +478,8 @@ print('Lower critical value:', lower_critical_value - 1)
 From the result, we find that the rejection region is:
 \[ \text{Rejection Region: } X \leq 21 \]
 
-\newpage
-
 Next, we need to find the lowest probability \( p \) such that the power of the test is at least \( 0.95 \) (i.e., the probability of being caught is less than \( 0.05 \)).
+
 \begin{codingbox}
 target_power = 0.95
 
@@ -226,6 +509,9 @@ From the result, the lowest probability \( p \) that Hamtaro can use is:
 
 \par\noindent\submitsolution
 From the previous calculation, we need to find the lowest probability \( p \) such that the power of the test is at least \( 0.99 \) (i.e., the probability of being caught is less than \( 0.01 \)).
+
+\newpage
+
 \begin{codingbox}
 target_power = 0.99
 
@@ -247,7 +533,145 @@ From the result, the lowest probability \( p \) that Hamtaro can use is:
 \end{tosubmit}
 % ================================================================================ %
 
-\newpage
+
+% ================================================================================ %
+%                                    Problem 05                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Hamtaro and the new AC company:}
+
+\vspace{2mm}
+
+\par In a datacenter for HamHub, Hamtaro tried to control the temperature of the cloud storage room so that the failure rate of storage disks is as low as possible.
+Later, a new company came to him and offered a new AC system that, in theory, could provide a more stable room temperature.
+To strengthen their claim, the company sends the historical room temperature of the new AC, of which the target temperature is set 15, to Hamtaro.
+
+\vspace{1mm}
+
+\par Given that Hamtaro's existing AC provides the room temperature of \( t \sim \mathcal{N}(15, 0.5^2) \):
+
+\begin{codingbox}
+temp_log = np.array([
+    14.66017243, 14.82134507, 14.75354867, 15.02847413,
+    15.96338554, 15.46598137, 15.35605532, 14.91048177,
+    15.13237189, 14.38789873, 15.76833691, 14.85383663,
+    15.28335022, 15.06718901, 15.44364169, 14.29511914,
+    15.13458572, 14.57428013, 15.14885716, 14.08580661,
+    15.60066540, 14.98109974, 14.95059512, 14.91460432,
+    14.68809902, 15.49886170, 14.99646465, 15.00654947,
+    14.65024467, 15.20684546, 15.54078700, 15.39207656,
+    14.53129171, 14.27527689, 14.37856735, 15.46854760,
+    14.94268835, 15.28311368, 14.88781520, 15.52350034,
+    14.35791689, 15.11741279, 15.41721681, 15.56690632,
+    15.30108101, 14.71389760, 15.39536719, 15.02994055,
+    14.74887633, 14.81419334, 15.36735467, 14.89706838,
+    14.89134826, 15.19781408, 15.32733540, 15.16729623,
+    14.82748547, 15.59488402, 15.49763473, 15.12876929,
+    14.11446324, 14.61298282, 14.57006854, 15.13227246,
+    14.68369474, 14.96443757, 15.73872741, 15.48498884,
+    15.35770021, 15.13471147, 14.94871779, 13.91322937,
+    14.84786617, 14.42086587, 15.26216287, 14.33225067,
+    14.94179209, 14.57095395, 15.12615130, 14.93201265,
+    14.82252959, 15.19061294, 15.33257912, 14.72448901,
+    15.54406202, 14.72704346, 14.99027730, 14.71477903,
+    14.90866689, 14.28862563, 15.04302902, 15.06973955,
+    14.51951387, 14.61413562, 14.58725869, 14.41407727,
+    15.05585075, 14.69229146, 14.30425173, 14.76913898,
+    14.27819269, 14.93917912, 14.22675051, 15.20964000,
+    14.96122782, 14.05371218, 15.10273752, 15.50886439,
+    15.43965366, 14.98863063, 15.34326459, 15.23694786,
+    13.90170147, 15.29660252, 15.26635161, 15.34710713,
+    14.34928594, 15.61509746, 15.80476574, 15.36769161,
+    14.52027993, 14.80624255, 14.58269606, 15.58830065,
+    14.25665696, 14.86914893, 15.40500584, 15.28855103,
+    15.43907472, 15.18196326, 15.47088551, 15.06327054,
+    15.01022434, 14.43508736, 15.37918870, 14.86202479,
+    15.16977660, 14.64346330, 15.72632770, 14.31813452,
+    15.30657752, 14.91471004, 15.14566170, 14.93856484,
+    15.14098396, 14.76996958, 15.38908210, 15.53549397,
+    15.28528007, 15.61416247, 14.45143470, 14.75105769,
+    14.22367585, 14.93898327, 14.61033024, 14.96348807,
+    15.24771829, 14.84653005, 15.36780845, 14.96846837,
+    14.66094081, 14.75905691, 14.96864336, 15.55687252,
+    14.62138304, 16.02201637, 14.95786084, 14.98549356,
+    15.18029872, 14.82305383, 15.09356200, 15.98065684,
+    15.27950419, 15.42169411, 15.66950953, 14.90725077,
+    13.69523862, 15.74709530, 14.93824139, 15.65590845,
+    14.69911713, 14.63306529, 15.09566097, 15.00531748,
+    15.06648240, 15.00496274, 15.15775270, 15.26365236,
+    14.98708579, 14.43256043, 15.58167070, 14.69227952,
+    15.22774367, 15.01510129, 15.03105086, 15.07222669,
+    15.22579141, 15.34835664, 15.14017702, 15.12604511
+])
+\end{codingbox}
+\end{problem}
+
+% === Problem 5.1. === %
+\begin{subproblems}
+    \item Formulate the null and alternative hypotheses for determining whether the new AC is better than the existing one or not.
+    List your assumptions that are required to make this experiment possible.
+\end{subproblems}
+
+\begin{solution}
+Firstly, let us set the significance level \( \alpha = 0.05 \).
+
+\vspace{2mm}
+
+From the problem statement, we want to investigate whether the new AC system provides a \underline{more stable} room temperature compared to the existing one.
+Let \( \sigma_{\text{new}}^2 \) be the variance of the room temperature provided by the new AC system.
+
+\vspace{2mm}
+
+We can formulate the hypotheses as follows:
+\[ \boxed{ H_0: \sigma_{\text{new}}^2 = 0.5^2 \quad \text{(The new AC is as same as the existing one)} } \]
+\[ \boxed{ H_A: \sigma_{\text{new}}^2 < 0.5^2 \quad \text{(The new AC is better than the existing one)} } \]
+
+Assumptions required to make this experiment possible:
+\begin{itemize}
+    \item The room temperature data from both AC systems are normally distributed.
+    \item The samples from both AC systems are independent of each other.
+\end{itemize}
+
+In order to test these hypotheses, we can use a Chi-square test for variance.
+The test statistic for the Chi-square test is given by:
+\[
+\chi^2 = \frac{(n-1)S^2}{\sigma_0^2}
+\]
+
+Substitute the values into the formula to calculate the test statistic and compare it to the critical value from the Chi-square distribution table with \( n-1 \) degrees of freedom at a significance level of \( \alpha \).
+
+\begin{codingbox}
+temp_log_std = np.std(temp_log, ddof=1)
+n = temp_log.shape[0]
+
+chi_square = (n - 1) * (temp_log_std ** 2) / (0.5 ** 2)
+p_value = stats.chi2.cdf(chi_square, df=n - 1)
+\end{codingbox}
+
+The result shows that the p-value \( p = 0.0015\) is less than \( \alpha = 0.05 \), so we
+\[ \boxed{\textbf{reject the null hypothesis, } H_0} \]
+
+and conclude that the new AC system is better than the existing one in terms of providing a more stable room temperature.
+\end{solution}
+% ==================== %
+
+
+% === Problem 5.2. === %
+\begin{subproblems}[start=2]
+    \item Can you decide which AC system is better? Justify your answer.
+\end{subproblems}
+
+\begin{solution}
+First, we need to compare the mean of the two AC systems in addition to the variance.
+Using the data stored in \texttt{temp\_log}, we can calculate the mean and standard deviation of the new AC system.
+\[ \bar{t}_{new} = 15.005 \quad \text{(very close to the target temperature of 15)} \]
+
+Combine this with the previous result that the variance of the new AC system is significantly lower than that of the existing one,
+we can conclude that the \textbf{new AC system is better} than the existing one in terms of stability (lower variance) and also kept the mean close to the target temperature.
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
 
 % ================================================================================ %
 %                                    Problem 06                                    %
@@ -267,7 +691,7 @@ Therefore, to ease their concern, he decided to conduct a z-testing.
 
 \par\hspace{3mm} Given that the number of goods produced each day by the old machines was \( x \sim \mathcal{N}(5000, 20^2) \):
 
-\vspace{5mm}
+\vspace{4mm}
 
 % === Problem 6.1. === %
 \begin{subproblems}
@@ -286,9 +710,11 @@ The alternative hypothesis \( H_A \) states that the new machine increases produ
 % ==================== %
 
 \vspace{3mm} \hrule \vspace{3mm}
+\newpage
 
 For the following problems, we will use the data from 4 factories provided below.
 The following information is given for the testing:
+
 \begin{codingbox}
 from scipy.stats import norm
 import numpy as np
@@ -307,9 +733,7 @@ fac_0 = np.array([
     4997.09106036, 4982.80291132, 5037.18158407,
     4996.54197735, 5007.57964251, 4971.18880247
 ])
-\end{codingbox}
 
-\begin{codingbox}
 fac_1 = np.array([
     5036.80041897, 4989.33779117, 4971.68709581,
     5041.92493487, 5041.64823146, 5026.33602398,
@@ -335,7 +759,9 @@ fac_2 = np.array([
     5028.58100504, 4997.84267810, 5011.42021980,
     5018.71432385, 4969.03296199, 5009.23456565
 ])
+\end{codingbox}
 
+\begin{codingbox}
 fac_3 = np.array([
     4962.36508403, 5015.91734917, 5030.86885403,
     5012.74787091, 5036.94455211, 4995.21037570,
@@ -389,6 +815,8 @@ Considering the z-table, the critical value is approximately:
 Calculating the z-score with the provided data will give us the final conclusion.
 \[ z = \frac{\bar{x} - 5000}{20 / \sqrt{n}} \]
 
+\newpage
+
 Next, using python to calculate the z-score and compare it with the critical value:
 \begin{codingbox}
 mu_0 = 5000
@@ -429,7 +857,6 @@ Thus, \boxed{\text{Hamtaro can conclude that factory productivity increased as a
 % ==================== %
 
 \vspace{3mm} \hrule \vspace{3mm}
-\newpage
 
 % === Problem 6.3. === %
 \begin{subproblems}[resume]
@@ -465,6 +892,9 @@ Thus, \boxed{\text{Hamtaro cannot say the same for each individual factory.}} (F
 \par\noindent\submitsolution
 To perform a t-test, we will use the sample standard deviation instead of the population standard deviation.
 The t-score is calculated as follows:
+
+\newpage
+
 \[ t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]
 
 where \( s \) is the sample standard deviation.
