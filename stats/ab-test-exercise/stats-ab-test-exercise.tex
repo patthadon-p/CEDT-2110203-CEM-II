@@ -1,0 +1,760 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Stats - AB Testing Exercise}{}{Week 4}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{AB Testing}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 01                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Select The Problem:}
+\par\noindent Which of the following use cases can you reliably conduct an A/B test? (True/False)
+\end{problem}
+
+% === Problem 1.1. === %
+\begin{subproblems}
+    \item Frontend person wants to change color of the `Go' button on a search bar. Will it increase conversion rate?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, we can randomly assign users to see either version of the button (A: original color, B: new color) and measure the conversion rates for both groups.
+By comparing the conversion rates, we can determine if the color change has a statistically significant effect on user behavior.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.2. === %
+\begin{subproblems}[start=2]
+    \item The data team created four versions of machine learning model for product recommendations to new users of an app. Which one is the best?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, we can randomly assign new users to one of the four versions of the recommendation model (A, B, C, D) and track key performance metrics such as click-through rate, conversion rate, or user engagement for each group.
+By analyzing the results using statistical methods, we can identify which model performs best and make data-driven decisions on which one to implement.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.3. === %
+\begin{subproblems}[start=3]
+    \item Two managers from different factions have Layout A and Layout B for a physical convenience store. Which one should we use?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, conducting an A/B test in a physical store setting can be challenging due to factors such as customer traffic patterns, store location, and external influences that may affect customer behavior.
+Additionally, it may be difficult to randomly assign customers to different layouts without introducing bias.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.4. === %
+\begin{subproblems}[start=4]
+    \item Mr. Rabbito thinks offline stores are the best channel to distribute our products, whereas Ms. Rakko thinks online websites are the way to go. Who is right?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, conducting an A/B test to compare offline stores and online websites can be complex due to differences in customer demographics, purchasing behavior, and external factors that may influence sales.
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 1.5. === %
+\begin{subproblems}[start=5]
+    \item Your boss wants to add a premium version to your freemium service. Is it a good idea?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, introducing a premium version to a freemium service involves multiple factors that may not be easily isolated in an A/B test.
+These factors include pricing strategy, feature differentiation, and user willingness to pay, which can all impact the success of the premium offering.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.6. === %
+\begin{subproblems}[start=6]
+    \item The backend team came up with a new setup that they think will speed up the website load time. Should we implement this change?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, we can randomly assign users to either the current website setup (A) or the new backend setup (B) and measure the website load times for both groups.
+By comparing the load times using statistical analysis, we can determine if the new setup significantly improves performance.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.7. === %
+\begin{subproblems}[start=7]
+    \item Kuruma Inc., a car dealer, wants to change the banner on their homepage to see if it will attract more repeated customers. Average time between purchase of the car company is 5 years. How do you know if the banner change has an effect?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, the long purchase cycle makes it difficult to measure the immediate impact of the banner change on customer behavior.
+A/B testing may not capture the delayed effects of the banner change on repeat purchases over such a long timeframe.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.8. === %
+\begin{subproblems}[start=8]
+    \item Your company undergoes a total revamp of its corporate identity. Is it the right call?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, a total revamp of corporate identity is a significant change that may not be easily tested through A/B testing.
+The impact of such a change on brand perception, customer loyalty, and overall business performance may take time to manifest and may be influenced by various external factors.
+\end{solution}
+% ==================== %
+
+
+% === Problem 1.9. === %
+\begin{subproblems}[start=9]
+    \item Elastic ninja at your company wants to show 15 products on the first page of search results instead of 20 products. Should you allow them?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, showing fewer products on the first page may impact user engagement and conversion rates.
+A/B testing can help determine if the change leads to better performance or if it negatively affects user behavior.
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 1.10. === %
+\begin{subproblems}[start=10]
+    \item Marketing person wants to know who respond better to our ads campaigns between iOS users and Android users. How to tell?
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, we can segment users based on their operating system (iOS vs. Android) and randomly assign them to receive different ad campaigns.
+By measuring key performance metrics such as click-through rates, conversion rates, and return on ad spend for each group, we can determine which platform responds better to the ads.
+\end{solution}
+% ===================== %
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Choose The Methods:}
+\par\noindent What are the metrics you should use for the following A/B tests?
+Assume that the granularities are: page views and unique visitors.
+\end{problem}
+
+% === Problem 2.1. === %
+\begin{subproblems}
+    \item Which button colors will make customers find it more easily? \textbf{clicks / \underline{\hspace{1cm}}}
+\end{subproblems}
+
+\begin{solution}
+\textbf{clicks / page views}
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.2. === %
+\begin{subproblems}[start=2]
+    \item Which sets of products on a landing page will make customers more likely to buy? \textbf{purchases / \underline{\hspace{1cm}}}
+\end{subproblems}
+
+\begin{solution}
+\textbf{purchases / unique visitors}
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.3. === %
+\begin{subproblems}[start=3]
+    \item Which types of promotion coupons will be more effective? \textbf{purchases / \underline{\hspace{1cm}}}
+\end{subproblems}
+
+\begin{solution}
+\textbf{purchases / unique visitors}
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.4. === %
+\begin{subproblems}[start=4]
+    \item Which website layouts will attract more customers to click on sign up button? \textbf{clicks / \underline{\hspace{1cm}}}
+\end{subproblems}
+
+\begin{solution}
+\textbf{clicks / page views}
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 03                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Concern The Period:}
+\par\noindent Based on the transaction table below,
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{date} & \textbf{user} & \textbf{event} \\
+\hline
+2020-11-01 & A & visit \\
+2020-11-01 & A & purchase \\
+2020-11-05 & B & visit \\
+2020-11-13 & B & visit \\
+2020-11-30 & C & visit \\
+2020-12-05 & C & purchase \\
+\hline
+\end{tabular}
+\end{center}
+
+\par\noindent Assume 7-day attribution period. Conversion rate is calculated by purchases / unique users.
+\end{problem}
+
+% === Problem 3.1. === %
+\begin{subproblems}
+    \item What are the event-based conversion rate of 2020-11?
+\end{subproblems}
+
+\begin{solution}
+\textbf{1 purchase (A) / 3 unique visitors (A, B, C)}
+
+\par\hspace{5mm} Because, \underline{event-based} conversion rate considers all events (visits and purchases) that occurred within the attribution period.
+In November 2020, there were a total of 3 unique visitors (A, B, C) who visited the site.
+However, only user A made a purchase within the 7-day attribution period.
+Thus, the event-based conversion rate for November 2020 is calculated as 1 purchase divided by 3 unique visitors, resulting in a conversion rate of approximately 33.33\%.
+\end{solution}
+% ==================== %
+
+
+% === Problem 3.2. === %
+\begin{subproblems}[start=2]
+    \item What are the cohort-based conversion rate of 2020-11?
+\end{subproblems}
+
+\begin{solution}
+\textbf{2 purchases (A, C) / 3 unique visitors (A, B, C)}
+
+\par\hspace{5mm} Because, \underline{cohort-based} conversion rate considers users who made a purchase within the attribution period, regardless of when they first visited the site.
+In November 2020, there were a total of 3 unique visitors (A, B, C).
+Users A and C made purchases within the 7-day attribution period following their visits.
+Thus, the cohort-based conversion rate for November 2020 is calculated as 2 purchases divided by 3 unique visitors, resulting in a conversion rate of approximately 66.67\%.
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Familiar With Incoming Data:}
+\par\noindent Give 3 examples of values that are usually distributed in the following manner (do not use examples from class).
+\end{problem}
+
+% === Problem 4.1. === %
+\begin{subproblems}
+    \item Bernoulli/Binomial distributions
+\end{subproblems}
+
+\begin{solution}
+\begin{enumerate}
+    \item coin tosses
+    \item chance of a lottery ticket to be a winning one
+    \item chance of a product being defective
+\end{enumerate}
+\end{solution}
+% =================== %
+
+\newpage
+
+% === Problem 4.2. === %
+\begin{subproblems}[start=2]
+    \item Normal/Student t's distribution
+\end{subproblems}
+
+\begin{solution}
+\begin{enumerate}
+    \item heights
+    \item weights
+    \item standardized test scores
+\end{enumerate}
+\end{solution}
+% =================== %
+
+
+% === Problem 4.3. === %
+\begin{subproblems}[start=3]
+    \item Exponential distribution
+\end{subproblems}
+
+\begin{solution}
+\begin{enumerate}
+    \item wait times between buses
+    \item customer spending
+    \item number of days between machine breakdowns
+\end{enumerate}
+\end{solution}
+% =================== %
+
+
+% === Problem 4.4. === %
+\begin{subproblems}[start=4]
+    \item Poisson distribution
+\end{subproblems}
+
+\begin{solution}
+\begin{enumerate}
+    \item number of bus arrivals at a stop per hour
+    \item number of site visitors per day
+    \item number of road accidents per day during the holiday season
+\end{enumerate}
+\end{solution}
+% =================== %
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 05                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Design Experiments:}
+\par\noindent Which variables should you control for in an A/B test of the following cases?
+\end{problem}
+
+% === Problem 5.1. === %
+\begin{subproblems}
+    \item We want to test if SMOKING \( \Rightarrow \) CANCER (Smoking causes cancer) and we know that AGE \( \Rightarrow \) SMOKING and AGE \( \Rightarrow \) CANCER.
+\end{subproblems}
+
+\begin{solution}
+We should control for \textbf{AGE}.
+\end{solution}
+% ==================== %
+
+
+% === Problem 5.2. === %
+\begin{subproblems}[start=2]
+    \item We want to test if GUN OWNERSHIP \( \Rightarrow \) CRIMES and we know that GUN OWNERSHIP \( \Rightarrow \) GUN SALES and CRIMES \( \Rightarrow \) GUN SALES.
+\end{subproblems}
+
+\begin{solution}
+We should control for \textbf{NOTHING}.
+\end{solution}
+% ==================== %
+
+
+% === Problem 5.3. === %
+\begin{subproblems}[start=3]
+    \item We want to test if CROP BURNING \( \Rightarrow \) LUNG DISEASES and we know that CROP BURNING \( \Rightarrow \) PM2.5 and PM2.5 \( \Rightarrow \) LUNG DISEASES.
+\end{subproblems}
+
+\begin{solution}
+We should control for \textbf{NOTHING}.
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 06                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{LLN:}
+\par\noindent The Law of Large Numbers (LLN) says that sample mean will converge to expectation as sample size grows. Assuming that this is true, prove that sample variance will converge to variance as sample size grows.
+\end{problem}
+
+\begin{solution}
+From the definition of sample variance,
+\[
+    s^2 = \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X}^2), \; \text{where } \bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i
+\]
+
+Apply LLN, we have,
+\[
+    \text{As } n \rightarrow \infty, \; \bar{X} \rightarrow \mu
+\]
+
+Therefore,
+\begin{align*}
+s^2 &= \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X}^2) \\
+&= \frac{1}{n}\sum_{i=1}^{n}(X_i - \mu)^2 \\
+&= \frac{1}{n}(\sum_{i=1}^{n}{X_i}^2 - 2\mu\sum_{i=1}^{n}X_i + n\mu^2) \\
+&= \frac{\sum_{i=1}^{n}{X_i}^2}{n} - \frac{2\mu\sum_{i=1}^{n}X_i}{n} + \mu^2 \\
+&= \frac{\sum_{i=1}^{n}{X_i}^2}{n} - 2\mu\bar{X} + \mu^2 \\
+&= \frac{\sum_{i=1}^{n}{X_i}^2}{n} - 2\mu^2 + \mu^2 \\
+&= \frac{\sum_{i=1}^{n}{X_i}^2}{n} - \mu^2 \\
+&= E[{X_i}^2] - E[X_i]^2 \\
+&= Var(X_i) \\
+s^2 &= \sigma^2
+\end{align*}
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 07                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{P-values:}
+\par\noindent What is p-value? (Choose one or more)
+
+\begin{subproblems}
+    \item Assuming that the null hypothesis is true, what is the probability of observing the current or more extreme data.
+    \item Based on the observed data, what is the probability of the null hypothesis being true.
+    \item Based on the observed data, what is the probability of the null hypothesis being false.
+    \item Assuming that our hypothesis is true, what is the chance that we reject the null hypothesis.
+\end{subproblems}
+\end{problem}
+
+\begin{solution}
+\begin{itemize}
+    \item 7.1. \underline{\textbf{is correct}} because p-value quantifies the probability of obtaining results at least as extreme as the observed data, assuming that the null hypothesis is true.
+    \item 7.2. \underline{\textbf{is incorrect}} because p-value does not provide the probability of the null hypothesis being true based on the observed data.
+    \item 7.3. \underline{\textbf{is incorrect}} because p-value does not provide the probability of the null hypothesis being false based on the observed data.
+    \item 7.4. \underline{\textbf{is incorrect}} because it describes the concept of statistical power, not p-value.
+\end{itemize}
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 08                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{AB Testing Exercise:}
+\par\noindent If we conduct a frequentist statistical test at 5\% significance level repeatedly for 4,000 times,
+how many times can we expect to have statistically significant results even if group A and B are exactly the same?
+\end{problem}
+
+\begin{solution}
+At 5\% significance level, we can expect to have statistically significant results in 5\% of the tests even if group A and B are exactly the same.
+
+\vspace{3mm}
+
+Therefore, for 4,000 tests, the expected number of statistically significant results is:
+\[
+0.05 \times 4000 = \boxed{200}
+\]
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 09                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Hamster Inc. and His Color Package:}
+\par\noindent Hamster Inc. once again wants to test the conversion rates between package colors of its sunflower seeds; this time it is Red Package vs Gold Package.
+The Red Package is the existing group with average conversion rate of 11\%.
+If they think the minimum detectable effect is 1\% and want to make a 80/20 control/test split,
+how many unique users should see each package color before we decide which one performs better?
+Assume that they are testing at significance level of 15\%.
+Show your work. (Power = 0.5)
+\end{problem}
+
+\begin{solution}
+From the control/test split, we have \[ m = \frac{\text{control}}{\text{test}} = \frac{80}{20} = 4 \].
+
+The conversion rate of control group is \( p = 0.11 \).
+Thus, the sample variance of control group, that can be assumed to be equal to the test group, is \[ \sigma^2 = p(1-p) = 0.11(1-0.11) = 0.0979 \].
+
+\newpage
+
+From the formula for minimum detectable effect (MDE),
+\[
+Z_{\alpha} + Z_{\beta} = \frac{\text{MDE}-\mu}{\sqrt{\sigma^2 \paren{\frac{1}{n} + \frac{1}{mn}}}}
+\]
+
+While, the value of MDE is given as \[ \text{MDE} = 0.01 \].
+And, we are testing at significance level of 15\%, thus, \[ Z_{\alpha} = Z_{0.15, \text{one-tailed}} = 1.03643 \]
+Also, the power is given as 0.5, thus, \[ Z_{\beta} = Z_{0.5, \text{one-tailed}} = 0 \]
+
+Now, we can calculate the required sample size for the test group \( n \) as follows,
+\begin{align*}
+Z_{\alpha} + Z_{\beta} &= \frac{\text{MDE} - \mu}{\sqrt{\sigma^2 \paren{\frac{1}{n} + \frac{1}{mn}}}} \\
+\frac{(m+1)\sigma^2}{mn} &= \paren{ \frac{\text{MDE}}{Z_{\alpha} + Z_{\beta}} }^2 \\
+n &= \frac{m+1}{m} \paren{ \frac{(Z_{\alpha} + Z_{\beta}) \sigma}{\text{MDE}} }^2 \\
+&= \frac{5}{4} \paren{ \frac{(Z_{\alpha} + Z_{\beta})\sigma}{\text{MDE}} }^2 \\
+&= \frac{5}{4} \paren{ \frac{(Z_{\alpha} + Z_{\beta})}{\text{MDE}} }^2 \times \sigma^2 \\
+&= \frac{5}{4} \paren{ \frac{(1.03643 + 0)}{0.01} }^2 \times (0.0979) \\
+n &\approx 1314.55
+\end{align*}
+
+Rounding up, we need at least \textbf{1,315 unique visitors} in the test group.
+From the control/test split, the required sample size for the control group is \[ mn = 4 \times 1,315 = 5,260 \; \text{unique visitors} \]
+
+Thus, \[ \boxed{\textbf{test group of 1,315 unique visitors}} \] and \[ \boxed{\textbf{control group of 5,260 unique visitors}} \]
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 10                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Hamster Inc. and His A/B Testing Experiment:}
+\par\noindent Let us say Hamster Inc. ran the experiment and got the following results.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{campaign\_id} & \textbf{clicks} & \textbf{conv\_cnt} & \textbf{conv\_per} \\
+\hline
+Red  & 59504 & 5901 & 0.099170 \\
+Gold & 58944 & 6012 & 0.101995 \\
+\hline
+\end{tabular}
+\end{center}
+\end{problem}
+
+
+% === Problem 10.1. === %
+\begin{subproblems}
+    \item At significance level of 7\%, which variation should be chosen to run at 100\% traffic? Show your work.
+\end{subproblems}
+
+\begin{solution}
+To decide which variation to choose, we can perform a hypothesis test to compare the conversion rates of the Red and Gold packages.
+
+\vspace{2mm}
+
+The conversion rates for Red and Gold packages are given as follows:
+\[ p_{red} = 0.099170 \quad \text{and} \quad p_{gold} = 0.101995 \]
+
+The null hypothesis \( H_0 \) is that there is no difference in conversion rates:
+\[ H_0: p_{red} = p_{gold} \]
+
+The alternative hypothesis \( H_A \) is that the Gold package \textbf{has a higher conversion rate}:
+\[ H_A: p_{gold} > p_{red} \]
+
+Since we are testing at a significance level of 7\%, we need to find the critical value \( Z_{\alpha} \) for a one-tailed test:
+\[ Z_{\alpha} = Z_{0.07, \text{one-tailed}} = 1.475791 \]
+
+And, we can consider the sample variances for both groups:
+\[ \sigma^2 = p \times (1 - p) \]
+
+We can calculate the standard error (SE) for the difference in conversion rates:
+\begin{align*}
+SE &= \sqrt{\frac{p_{red}(1 - p_{red})}{n_{red}} + \frac{p_{gold}(1 - p_{gold})}{n_{gold}}} \\
+&= \sqrt{\frac{0.099170(1 - 0.099170)}{59504} + \frac{0.101995(1 - 0.101995)}{58944}} \\
+&= \sqrt{\frac{0.089253}{59504} + \frac{0.091584}{58944}} \\
+SE &\approx 0.001748
+\end{align*}
+
+Next, we calculate the test statistic \( Z \):
+\begin{align*}
+Z &= \frac{p_{gold} - p_{red}}{SE} \\
+&= \frac{0.101995 - 0.099170}{0.001748} \\
+Z &\approx 1.616 > Z_{\alpha} = 1.475791
+\end{align*}
+
+Since \( Z > Z_{\alpha} \), we reject the null hypothesis.
+Therefore, we can conclude that the Gold package has a significantly higher conversion rate than the Red package at the 7\% significance level.
+
+\begin{center}
+    Thus, Hamster Inc. should choose the \( \boxed{\textbf{Gold package}} \) to run at 100\% traffic.
+\end{center}
+\end{solution}
+% ==================== %
+
+\newpage
+
+% === Problem 10.2. === %
+\begin{subproblems}[start=2]
+    \item What are the confidence intervals at 7\% significance of conversion rates for Red and Gold? Show your work.
+\end{subproblems}
+
+\begin{solution}
+To calculate the confidence intervals for the conversion rates of Red and Gold packages at a 7\% significance level, we can use the formula for the confidence interval of a proportion:
+\[ CI = p \pm \paren{ Z_{\alpha/2} \times SE } \]
+
+At a 7\% significance level, the critical value \( Z_{\alpha/2} \) for a two-tailed test is:
+\[ Z_{\alpha/2} = Z_{0.035, \text{two-tailed}} = 1.811911 \]
+
+For each group, we can calculate the confidence intervals as follows:
+
+\textbf{Red Package:}
+\begin{align*}
+SE_{red} &= \sqrt{\frac{p_{red}(1 - p_{red})}{n_{red}}} \\
+&= \sqrt{\frac{0.099170(1 - 0.099170)}{59504}} \\
+SE_{red} &\approx 0.001225 \\ \\
+CI_{red} &= 0.099170 \pm \paren{ 1.811911 \times 0.001225 } \\
+&= 0.099170 \pm 0.002220 \\
+CI_{red} &\approx (0.096950, 0.101390)
+\end{align*}
+
+\textbf{Gold Package:}
+\begin{align*}
+SE_{gold} &= \sqrt{\frac{p_{gold}(1 - p_{gold})}{n_{gold}}} \\
+&= \sqrt{\frac{0.101995(1 - 0.101995)}{58944}} \\
+SE_{gold} &\approx 0.001247 \\ \\
+CI_{gold} &= 0.101995 \pm \paren{ 1.811911 \times 0.001247 } \\
+&= 0.101995 \pm 0.002259 \\
+CI_{gold} &\approx (0.099736, 0.104254)
+\end{align*}
+
+In conclusion, the confidence intervals at 7\% significance level are:
+\[ \boxed{ CI_{red} \approx (0.096950, 0.101390) } \text{ and } \boxed{ CI_{gold} \approx (0.099736, 0.104254) } \]
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 11                                    %
+% ================================================================================ %
+\begin{problem}
+\textbf{Understanding of A/B Testing:}
+\par\noindent Which of the following are true about frequentist A/B tests? (True/False)
+\end{problem}
+
+% === Problem 11.1. === %
+\begin{subproblems}
+    \item It does not tell us the magnitude of the difference between control and test groups.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, frequentist A/B tests primarily focus on determining whether there is a statistically significant difference between the control and test groups.
+They do not provide information about the size or practical significance of that difference.
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.2. === %
+\begin{subproblems}[start=2]
+    \item We can never know when to stop the experiments.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, we can use techniques such as sequential testing or adaptive experimentation to determine when to stop experiments based on the data collected.
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.3. === %
+\begin{subproblems}[start=3]
+    \item We can never determine if the null hypothesis being true.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, we can never know for sure if the null hypothesis is true or false.
+We can only gather evidence to support or reject it based on the data we collect.
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.4. === %
+\begin{subproblems}[start=4]
+    \item We can run one or as many experiments as we want using the same significance level.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, while it is possible to run multiple experiments using the same significance level, doing so without proper adjustments (like Bonferroni correction) can increase the risk of Type I errors (false positives).
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.5. === %
+\begin{subproblems}[start=5]
+    \item If we have too many samples in each group, the validity of the test can be jeopardized.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, excessively large sample sizes can lead to detecting statistically significant differences that are not practically meaningful, potentially leading to misguided decisions.
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.6. === %
+\begin{subproblems}[start=6]
+    \item If you have set up the experiment based on desired minimum detectable effect and significance level, statististical significance is the only factor in determining which group is the better one.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{28A745}{\textbf{True}}
+
+\par\hspace{5mm} Because, if the experiment is properly designed and conducted, statistical significance can provide strong evidence for determining which group is better.
+However, it is important to also consider practical significance and the context of the results.
+\end{solution}
+% ===================== %
+
+\newpage
+
+% === Problem 11.7. === %
+\begin{subproblems}[start=7]
+    \item We can only test difference between two proportions.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, frequentist A/B tests can be used to compare means, variances, and other statistical measures, not just proportions.
+\end{solution}
+% ===================== %
+
+
+% === Problem 11.8. === %
+\begin{subproblems}[start=8]
+    \item More samples in control and test groups are always better.
+\end{subproblems}
+
+\begin{solution}
+\textcolor[HTML]{DC3545}{\textbf{False}}
+
+\par\hspace{5mm} Because, while larger sample sizes can provide more accurate estimates and increase the power of a test, they can also lead to overfitting and the detection of statistically significant but practically meaningless effects.
+\end{solution}
+% ===================== %
+% ================================================================================ %
+
+
+\end{document}
