@@ -8,25 +8,686 @@
 
 \begin{document}
 \subject[2110203 - Computer Engineering Mathematics II]
-\hwtitle{Stats 3}{}{Week 4}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+\hwtitle{Stats 3}{}{Week 5}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
 
 
 % ================================================================================ %
 \section{MAB: Multi-Armed Bandit}
 % ================================================================================ %
 
+\textbf{A/B Testing from Scratch: Multi-armed Bandits}
+
+\vspace{2mm}
+
+\par Frequentist and Bayesian A/B tests require you to divide your traffic into arbitrary groups for a period of time, then perform statistical tests based on the results.
+By definition, this forces us to divert out traffic to suboptimal variations during the test period, resulting in lower overall conversion rates.
+On the other hand, multi-barmed bandit appraoch (MAB) dynamically adjusts the percentage of traffic shown to each variation according to how they have performed so far during the test, resulting in smaller loss in conversion rates.
+
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{./images/ab_vs_mab.png}
+
+    \par\noindent \underline{\textbf{Source:}}
+    \href{https://automizy.com/blog/increase-email-course-open-rates-with-machine-learning/}{Automizy} via \href{https://medium.com/brillio-data-science/multi-arm-bandits-a-potential-alternative-to-a-b-tests-a647d9bf2a7e}{Multi-Arm Bandits: a potential alternative to A/B tests}.
+\end{center}
+
+\vspace{5mm}
+
+\textbf{Arms, Variations, Ads, or Anything}
+
+\vspace{2mm}
+
+\par We treat serving a variation of content, be it product listings, recommended products, search results, online ads, or whatever we want to experiment on as \textit{pulling an arm}.
+The arm will record an impression and, at an arbitrary amount of delay time, an action such as a click or add-to-cart based on that impression.
+In our example, we define our arm as a Bernoulli trial with the true probability of conversion (\( \frac{\text{actions}}{\text{impressions}} \)) as \texttt{true\_p}.
+
+\begin{codingbox}
+class Arm:
+    def __init__(self, true_p):
+        self.true_p = true_p
+        self.reset()
+
+    def reset(self):
+        self.impressions = 0
+        self.actions = 0
+
+    def get_state(self):
+        return self.impressions, self.actions
+
+    def get_rate(self):
+        return self.actions / self.impressions if self.impressions > 0 else 0.
+
+    def pull(self):
+        self.impressions += 1
+        res = 1 if np.random.random() < self.true_p else 0
+        self.actions += res
+        return res
+\end{codingbox}
+
+
+% ================================================================================ %
+%                                 Code Explanation                                 %
+% ================================================================================ %
+\par The \texttt{Arm} class simulates an arm of a multi-armed bandit.
+It has the following methods:
+\begin{itemize}
+    \item \texttt{\_\_init\_\_(self, true\_p)}:
+    \par Initializes the arm with a true probability of conversion \texttt{true\_p} and resets the arm's state.
+
+    \item \texttt{reset(self)}:
+    \par Resets the arm's state by setting the number of impressions and actions to zero.
+
+    \item \texttt{get\_state(self)}:
+    \par Returns the current state of the arm as a tuple containing the number of impressions and actions.
+
+    \item \texttt{get\_rate(self)}:
+    \par Calculates and returns the conversion rate of the arm, which is the ratio of actions to impressions. If there are no impressions, it returns 0.
+
+    \item \texttt{pull(self)}:
+    \par Simulates pulling the arm by incrementing the number of impressions and determining whether an action occurs based on the true probability. It updates the number of actions accordingly and returns the result of the pull (1 for action, 0 for no action).
+\end{itemize}
+% ================================================================================ %
+
+
+\par\noindent For example,
+\begin{codingbox}
+a = Arm(0.1)
+for i in range(100):
+    a.pull()
+
+a.get_state()
+\end{codingbox}
+
+\par After pulling the arm 100 times, we can check its state using \texttt{get\_state()}, which will return the number of impressions and actions recorded by the arm.
+\par The output will be similar to \texttt{(100, 13)}, indicating that there were 100 impressions and 13 actions (this is result at \texttt{random\_seed}) = 42.
+
+\newpage
+
+\textbf{Environment}
+
+\vspace{2mm}
+
+\par We simulate an environment is an arbitrary number of arms with a set of predefined true probability \texttt{true\_p} and average number of rewards \texttt{avg\_rewards} per time period \texttt{t}.
+This environment mimics most content serving APIs which display each variation at the ratio \texttt{ps} as defined by experimenters.
+
+\begin{codingbox}
+class MusketeerEnv:
+    def __init__(self, true_ps, avg_impressions):
+        self.true_ps = true_ps
+        self.avg_impressions = avg_impressions
+        self.nb_arms = len(true_ps)
+        self.reset()
+
+    def reset(self):
+        self.t = -1
+        self.ds = []
+        self.arms = [Arm(p) for p in self.true_ps]
+        return self.get_state()
+
+    def get_state(self):
+        return [
+            self.arms[i].get_state()
+            for i in range(self.nb_arms)
+        ]
+
+    def get_rates(self):
+        return [
+            self.arms[i].get_rate()
+            for i in range(self.nb_arms)
+        ]
+
+    # sample the actual number of impressions from a triangular function
+    def get_impressions(self):
+        return int(
+            np.random.triangular(
+                self.avg_impressions * 0.5,
+                self.avg_impressions,
+                self.avg_impressions * 1.5
+            )
+        )
+
+    # ramdomly choose arm based on a given probabiliy `ps`
+    def step(self, ps):
+        self.t += 1
+        impressions = self.get_impressions()
+        
+        for i in np.random.choice(
+            a=self.nb_arms,
+            size=impressions,
+            p=ps
+        ):
+            self.arms[i].pull()
+        
+        self.record()
+        return self.get_state()
+
+    # For logging
+    def record(self):
+        d = {
+            "t": self.t,
+            "max_rate": 0.0,
+            "opt_impressions": 0.0
+        }
+
+        for i in range(self.nb_arms):
+            d[f"impressions_{i}"], d[f"actions_{i}"] = self.arms[i].get_state()
+            d[f"rate_{i}"] = self.arms[i].get_rate()
+
+            if d[f"rate_{i}"] > d["max_rate"]:
+                d["max_rate"] = d[f"rate_{i}"]
+                d["opt_impressions"] = d[f"impressions_{i}"]
+
+
+        d["total_impressions"] = sum([self.arms[i].impressions for i in range(self.nb_arms)])
+        d["opt_impressions_rate"] = d["opt_impressions"] / d["total_impressions"]
+        
+        d["total_actions"] = sum([self.arms[i].actions for i in range(self.nb_arms)])
+        d["total_rate"] = d["total_actions"] / d["total_impressions"]
+        
+        d["regret_rate"] = d["max_rate"] - d["total_rate"]
+        d["regret"] = d["regret_rate"] * d["total_impressions"]
+
+        self.ds.append(d)
+
+    # for printing
+    def show_df(self):
+        df = pd.DataFrame(self.ds)
+        cols  = ["t"] + [
+                    f"rate_{i}"
+                    for i in range(self.nb_arms)
+                ] + [
+                    f"impressions_{i}"
+                    for i in range(self.nb_arms)
+                ] + [
+                    f"actions_{i}"
+                    for i in range(self.nb_arms)
+                ] + [
+                    "total_impressions",
+                    "total_actions",
+                    "total_rate"
+                ] + [
+                    "opt_impressions",
+                    "opt_impressions_rate"
+                ] + [
+                    "regret_rate",
+                    "regret"
+                ]
+               
+        df = df[cols]
+        return df
+\end{codingbox}
+
+
+% ================================================================================ %
+%                                 Code Explanation                                 %
+% ================================================================================ %
+\par The \texttt{MusketeerEnv} class simulates a multi-armed bandit environment with multiple arms, each having its own true probability of conversion.
+It provides methods to reset the environment, get the current state of the arms, simulate pulling the arms based on a given probability distribution, and record the results of each time step.
+The environment also keeps track of various metrics such as total impressions, total actions, conversion rates, and regret.
+
+\par The main methods of the \texttt{MusketeerEnv} class are:
+\begin{itemize}
+    \item \texttt{\_\_init\_\_(self, true\_ps, avg\_impressions)}:
+    \par Initializes the environment with a list of true probabilities for each arm and the average number of impressions per time step. It also resets the environment.
+
+    \item \texttt{reset(self)}:
+    \par Resets the environment by setting the time step to -1, clearing the recorded data, and creating new arms based on the provided true probabilities.
+
+    \item \texttt{get\_state(self)}:
+    \par Returns the current state of all arms in the environment as a list of tuples, where each tuple contains the number of impressions and actions for each arm.
+
+    \item \texttt{get\_rates(self)}:
+    \par Returns the conversion rates of all arms in the environment as a list.
+
+    \item \texttt{get\_impressions(self)}:
+    \par Samples the actual number of impressions for the current time step from a triangular distribution based on the average number of impressions.
+
+    \item \texttt{step(self, ps)}:
+    \par Simulates a time step in the environment by incrementing the time step counter, sampling the number of impressions, and randomly choosing arms to pull based on the provided probability distribution \texttt{ps}.
+    It then records the results and returns the current state of the arms.
+
+    \item \texttt{record(self)}:
+    \par Records the results of the current time step, including impressions, actions, conversion rates, and various metrics such as optimal impressions rate and regret.
+
+    \item \texttt{show\_df(self)}:
+    \par Returns a pandas DataFrame containing the recorded data for all time steps, organized in a specific order of columns.
+\end{itemize}
+% ================================================================================ %
+
+
+\par For instance, in a traditional A/B test with a default variation, new variation \texttt{A} and new variation \texttt{B}.
+We may divide 60\% traffic to the default variation and 20\% each to \texttt{A} and \texttt{B}.
+After 1,000 time steps, we will get the following results.
+\vspace{2mm}
+\par\noindent Using the following code:
+\begin{codingbox}
+N = 1000
+env = MusketeerEnv(true_ps = [0.1, 0.12, 0.13], avg_impressions=400)
+
+for i in range(N):
+    env.step([0.6, 0.2, 0.2])
+
+print(env.get_rates())
+\end{codingbox}
+
+\par We will get the output similar to:
+\begin{center}
+\texttt{[0.09988851447635333, 0.11837382400725431, 0.12914850187737822]}
+\end{center}
+
+\par Indicating that the estimated conversion rates for the (1) default variation, (2) variation \texttt{A}, and (3) variation \texttt{B} are approximately 9.99\%, 11.84\%, and 12.91\% respectively.
+
+\vspace{3mm}
+
+\par In order to evaluate an MAB agent, we use 3 main metrics:
+\begin{enumerate}
+    \item \texttt{opt\_impressions\_rate}:
+    cumulative percentage of impressions we have given to the optimal arm at that timestep;
+    this shows us how often we have picked the ``best'' arm.
+
+    \item \texttt{regret\_rate}:
+    cumulative conversion rate of the best arm at that timestep minus cumulative conversion rate of all impressions;
+    this shows us the difference in conversion rate we have lost by not picking the ``best'' arm.
+
+    \item \texttt{regret}:
+    cumulative actions if we had chosen the ``best'' arm minus actual cumulative conversions;
+    this shows us how much actions we have lost by not picking the ``best'' arm
+\end{enumerate}
+
+\vspace{5mm}
+
+\textbf{Agent}
+
+\vspace{2mm}
+
+\par An MAB agent solves the explore-vs-exploit dilemma.
+Exploitation means we choose what we know as the best choice at the current timestep, sometimes called being \textit{greedy};
+on the other hand, exploration means we try pulling other arms in order to know more about the environment.
+\vspace{2mm}
+\par Exploiting 100\% of the time is a bad idea.
+For instance; let us assume there are two arms \texttt{A} and \texttt{B} with true probabilities 0.1 and 0.9 and it happens that when we pull \texttt{A} it returns a conversion whereas when we pull \texttt{B} it does not.
+If our policy is to always exploit, we would end up pulling only \texttt{A} which has much lower return rate than \texttt{B}.
+This is when you do not have any experiment set up for your content at all.
+\vspace{2mm}
+\par In contrast, if we always explore, we would end up pulling both arms randomly with expected return rates of \( 0.9 \times 0.5 + 0.1 \times 0.5 = 0.5 \) instead of much higher if we could find out \texttt{B} is the better arm.
+This is close to what happens in a traditional A/B test during the test period.
+\vspace{2mm}
+\par Some common policies for distributing impressions to each arm are:
+\begin{enumerate}
+    \item \textbf{Equal weights:}
+    all arms have the same amount of traffic or a fixed amount.
+
+    \item \textbf{Randomize:}
+    randomly assign traffic to all arms.
+
+    \item \textbf{Epsilon-greedy:}
+    Assign a majority of traffic to the ``best'' arm at that time step, and the rest randomized among all arms;
+    the degree of random traffic can be decayed by a parameter \texttt{gamma} as time goes on.
+
+    \item \textbf{Softmax or Boltzmann exploration:}
+    Assigns traffic equal to the softmax activation of their current return rates;
+    regulated by temperature parameter \texttt{tau} (lower \texttt{tau} means less exploration) that can also be decayed by \texttt{gamma} over time.
+    \[ P(A_i) = \frac{e^{\text{rate}_i/\tau}}{\sum{e^{\text{rate}_i/\tau}}} \]
+
+    \item \textbf{Upper Confidence Bound:}
+    by utilizing Hoeffding's Inequality, we can have a deterministic policy based on number of times the arms are pulled so far and impressions of each arm:
+    \[ A = \arg\max\paren{\text{rate}_i + \sqrt{\frac{2\log{t}}{\text{impressions}_i}}} \]
+
+    \item \textbf{Deterministic Thompson Sampling:}
+    based on a posterior distribution (in our case a Beta distribution) for each arm, sample that number of rates.
+    Choose the arm with the highest sampled rate.
+
+    \item \textbf{Stochastic Thompson Sampling:} Instead of sampling only once, perform a Monte Carlo simulation for an arbitrary number of times, the traffic to each arm is divided by the percentage of times that arm is the best arm in the simulation.
+\end{enumerate}
 
 % ================================================================================ %
 %                                    Problem 01                                    %
 % ================================================================================ %
-\begin{problem}
-Cooming Soon...
-\end{problem}
+\begin{tosubmit}
+\problem[1] From the following \texttt{BanditAgent} class:
+\begin{codingbox}
+class BanditAgent:
+    def __init__(self):
+        pass
 
-\begin{solution}
-Cooming Soon...
-\end{solution}
+    # baselines
+    def equal_weights(self, state):
+        p_actions = np.array([
+            1 / len(state) for i in range(len(state))
+        ])
+        return p_actions
+\end{codingbox}
+
+\par\noindent Implement the following policies:
+
+% === Problem 1.1 === %
+\begin{subproblems}
+    \item \textbf{TODO1:} write a \texttt{randomize} function that give the probability of choosing arm randomly
+\end{subproblems}
+
+\par\noindent\submitsolution
+Because each arm has an equal chance of being selected, the probability of choosing each arm is uniform across all arms.
+\begin{codingbox}
+def randomize(self, state):
+    p_actions = np.random.rand(len(state))
+    p_actions = p_actions / p_actions.sum()
+    return p_actions
+\end{codingbox}
+
+\textbf{Explanation:}
+The \texttt{randomize} function generates a random probability distribution for selecting arms.
+Using \texttt{np.random.rand(len(state))}, it creates an array of random values for each arm.
+To ensure that these values represent valid probabilities, the function normalizes the array by dividing each element by the sum of all elements, resulting in a probability distribution where the sum of probabilities equals 1.
+% =================== %
+
+\vspace{3mm} \hrule \vspace{3mm}
+
+% === Problem 1.2 === %
+\begin{subproblems}[start=2]
+    \item \textbf{TODO2:} write a \texttt{eps\_greedy} function that give the probability of choosing arm based on epsilon greedy policy
+\end{subproblems}
+
+\par\noindent\submitsolution
+Because the epsilon-greedy policy balances exploration and exploitation, the function calculates the probability of choosing each arm based on the current estimated rates and a decaying exploration factor.
+\begin{codingbox}
+def eps_greedy(self, state, t, start_eps=0.3, end_eps=0.01, gamma=0.99):
+    eps = end_eps + (start_eps - end_eps) * np.exp(-gamma * t)
+    
+    n_arms = len(state)
+    rates = np.array([ (s[1] / s[0] if s[0] > 0 else 0) for s in state ])
+    best_arm = np.argmax(rates)
+    p_actions = np.ones(n_arms) * (eps / n_arms)
+    p_actions[best_arm] += (1 - eps)
+    return p_actions
+\end{codingbox}
+
+\textbf{Explanation:}
+The \texttt{eps\_greedy} function implements the epsilon-greedy policy for selecting arms in a multi-armed bandit scenario.
+It first calculates the exploration probability \texttt{eps}, which decays exponentially over time based on the parameters \texttt{start\_eps}, \texttt{end\_eps}, and \texttt{gamma}.
+\[ \text{eps}(t) = \text{end\_eps} + (\text{start\_eps} - \text{end\_eps}) \times e^{-\text{gamma} \times t} \]
+
+Next, it computes the estimated conversion rates for each arm using the current state, identifying the arm with the highest rate as the \texttt{best\_arm}.
+The function then constructs a probability distribution \texttt{p\_actions} where each arm is assigned a base probability of \texttt{eps / n\_arms} for exploration.
+The \texttt{best\_arm} receives an additional probability of \texttt{1 - eps} for exploitation.
+Finally, the function returns the probability distribution for selecting each arm.
+% =================== %
+
+\vspace{3mm} \hrule \vspace{3mm}
+
+% === Problem 1.3 === %
+\begin{subproblems}[start=3]
+    \item \textbf{TODO3:} write a \texttt{softmax} function that give the probability of choosing arm based on softmax greedy policy
+\end{subproblems}
+
+\par\noindent\submitsolution
+Because the softmax policy assigns probabilities based on the estimated rates of each arm, the function calculates the softmax probabilities using a temperature parameter that decays over time.
+\begin{codingbox}
+def softmax(self, state, t, start_tau=1e-1, end_tau=1e-4, gamma=0.9):
+    tau = end_tau + (start_tau - end_tau) * np.exp(-gamma * t)
+    
+    rates = np.array([ (s[1] / s[0] if s[0] > 0 else 0) for s in state ])
+    max_scaled = np.max(rates / tau)
+    exp_rewards = np.exp((rates / tau) - max_scaled)
+    
+    p_actions = exp_rewards / exp_rewards.sum()
+    return p_actions
+\end{codingbox}
+
+\textbf{Explanation:}
+The \texttt{softmax} function implements the softmax policy for selecting arms in a multi-armed bandit scenario.
+It first calculates the temperature parameter \texttt{tau}, which decays exponentially over time based on the parameters \texttt{start\_tau}, \texttt{end\_tau}, and \texttt{gamma}.
+\[ \text{tau}(t) = \text{end\_tau} + (\text{start\_tau} - \text{end\_tau}) \times e^{-\text{gamma} \times t} \]
+
+Next, it computes the estimated conversion rates for each arm using the current state.
+To ensure numerical stability during the exponentiation step, the function subtracts the maximum scaled rate from each rate divided by \texttt{tau}.
+It then calculates the exponentiated rewards using the softmax formula.
+\[ \text{exp\_rewards}_i = e^{(\text{rate}_i / \text{tau}) - \max(\text{rates} / \text{tau})} \]
+
+Finally, the function normalizes the exponentiated rewards to obtain a probability distribution \texttt{p\_actions} for selecting each arm and returns it.
+% =================== %
+
+\vspace{3mm} \hrule \vspace{3mm}
+\newpage
+
+% === Problem 1.4 === %
+\begin{subproblems}[start=4]
+    \item \textbf{TODO4:} write a \texttt{ucb} function that give the probability of choosing arm based on UCB policy
+\end{subproblems}
+
+\par\noindent\submitsolution
+\begin{codingbox}
+def ucb(self, state, t):
+    rates = np.array([ (s[1] / s[0] if s[0] > 0 else 0) for s in state ])
+    impressions = np.array([ s[0] for s in state ])
+
+    ucbs = rates + np.array([ np.sqrt(2 * np.log(t + 1) / imp) if imp > 0 else float("inf") for imp in impressions ])
+    best_arm = np.argmax(ucbs)
+    
+    p_actions = np.zeros(len(state))
+    p_actions[best_arm] = 1.0
+    return p_actions
+\end{codingbox}
+
+\textbf{Explanation:}
+The \texttt{ucb} function implements the Upper Confidence Bound (UCB) policy for selecting arms in a multi-armed bandit scenario.
+It first computes the estimated conversion rates for each arm using the current state.
+Next, it retrieves the number of impressions for each arm.
+The function then calculates the UCB values for each arm using the formula:
+\[ \text{UCB}_i = \text{rate}_i + \sqrt{\frac{2 \log(t + 1)}{\text{impressions}_i}} \]
+
+If an arm has not been pulled yet (i.e., impressions are zero), its UCB value is set to infinity to ensure it gets selected.
+The function identifies the arm with the highest UCB value as the \texttt{best\_arm}.
+Finally, it constructs a probability distribution \texttt{p\_actions} where only the \texttt{best\_arm} has a probability of 1.0, while all other arms have a probability of 0.0, and returns this distribution.
+% =================== %
+
+\vspace{3mm} \hrule \vspace{3mm}
+
+After implementing all the required functions, the complete \texttt{BanditAgent} class is as follows:
+\begin{codingbox}
+class BanditAgent:
+    def __init__(self): pass
+    
+    def equal_weights(self, state): ...
+        return p_actions
+    
+    def randomize(self, state): ...
+        return p_actions
+    
+    def eps_greedy(self, state, ...): ...
+        return p_actions
+
+    def softmax(self, state, ...): ...
+        return p_actions
+    
+    def ucb(self, state, ...): ...
+        return p_actions
+\end{codingbox}
+
+We can now use this \texttt{BanditAgent} class to simulate and compare the performance of different policies in a multi-armed bandit environment.
+\end{tosubmit}
 % ================================================================================ %
+
+\newpage
+
+\textbf{Simulation Results}
+
+\vspace{2mm}
+
+\par We simulate 4 campaigns with true probabilities of 12\%, 13\%, 15\% and, 16\% respectively.
+Our number of overall impressions is 400 on average.
+
+\begin{codingbox}
+env = MusketeerEnv(
+    true_ps=[0.12, 0.13, 0.15, 0.16],
+    avg_impressions=400
+)
+
+a = BanditAgent()
+
+for i in range(20):
+    p = a.equal_weights(env.get_state())
+    env.step(p)
+    t = i
+
+results_df = pd.DataFrame(
+    (
+        a.equal_weights(env.get_state()),
+        a.randomize(env.get_state()),
+        a.eps_greedy(env.get_state(), t),
+        a.softmax(env.get_state(), t),
+        a.ucb(env.get_state(), t)
+    ),
+    index=[
+        "equal_weights",
+        "randomize",
+        "eps_greedy",
+        "softmax",
+        "ucb"
+    ]
+)
+\end{codingbox}
+
+The results of each policy after 20 time steps are as follows:
+
+\vspace{3mm}
+
+\begin{center}
+\begin{tabular}{lcccc}
+    \hline
+    Policy          & Arm 0 & Arm 1 & Arm 2 & Arm 3 \\
+    \hline
+    equal\_weights  & 0.2500  & 0.2500  & 0.2500  & 0.2500  \\
+    randomize       & 0.5476  & 0.2092  & 0.0779  & 0.1652  \\
+    eps\_greedy     & 0.0025  & 0.0025  & 0.0025  & 0.9925  \\
+    softmax         & \( 1.48 \times 10^{-149} \) & \( 1.96 \times 10^{-137} \) & \( 1.70 \times 10^{-5} \) & 0.999983  \\
+    ucb             & 0.0000  & 0.0000  & 0.0000  & 1.0000  \\
+    \hline
+\end{tabular}
+\end{center}
+
+After 20 time steps, we can see that both \texttt{eps\_greedy}, \texttt{softmax}, and \texttt{ucb} policies have converged to choosing Arm 3 almost all the time, which has the highest true probability of 16\%.
+While the \texttt{randomize} policy shows a more varied distribution of choices among the arms, while the \texttt{equal\_weights} policy maintains an equal distribution across all arms.
+
+\newpage
+
+To further analyze the performance of each policy over time, we can visualize the metrics such as \texttt{opt\_impressions\_rate}, \texttt{regret\_rate}, \texttt{regret} and \texttt{total\_rate} after running for 250 times.
+The following code generates the plots:
+\begin{codingbox}
+N_policy = 5
+
+envs = [MusketeerEnv(true_ps = [0.12, 0.13, 0.15, 0.16], avg_impressions=400) for i in range(N_policy)]
+a = BanditAgent()
+
+for t in range(250):
+    states = [env.get_state() for env in envs]
+    actions = [
+        a.equal_weights(states[0]),
+        a.randomize(states[1]),
+        a.eps_greedy(states[2], t),
+        a.softmax(states[3], t),
+        a.ucb(states[4], t)
+    ]
+
+    for i in range(N_policy):
+        envs[i].step(actions[i])
+
+dfs = [env.show_df() for env in envs]
+policies = ["equal_weights", "randomize", "eps_greedy", "softmax", "ucb"]
+
+for i in range(N_policy):
+    dfs[i]["policy"] = policies[i]
+
+df = pd.concat(dfs)[["policy", "t", "opt_impressions_rate", "regret_rate", "regret", "total_rate"]]
+
+g = (
+    ggplot(df_m, aes(x="t", y="value", color="policy", group="policy")) +
+    geom_line() +
+    theme_minimal() +
+    facet_wrap("~variable", scales="free_y")
+)
+
+display(g)
+\end{codingbox}
+
+\par The code initializes multiple instances of the \texttt{MusketeerEnv} class, each representing a different policy.
+It then runs a simulation for 250 time steps, where at each step, it retrieves the current state of each environment and determines the actions to take based on the respective policies.
+
+\vspace{2mm}
+
+\par The following table is the head and tail of the combined DataFrame used for plotting:
+\begin{center}
+\begin{tabular}{lcccccc}
+    \hline
+    \textbf{policy} & \texttt{t}   & \texttt{opt\_impressions\_rate} & \texttt{regret\_rate} & \texttt{regret} & \texttt{total\_rate} \\
+    \hline
+    equal\_weights  & 0            & 0.223278                        & 0.031207              & 13.138298       & 0.149644             \\
+    equal\_weights  & 1            & 0.238987                        & 0.033045              & 30.004608       & 0.142070             \\
+    equal\_weights  & 2            & 0.240838                        & 0.034275              & 45.826087       & 0.145849             \\
+    equal\_weights  & 3            & 0.239195                        & 0.024766              & 41.829208       & 0.150977             \\
+    \( \cdots \)    & \( \cdots \) & \( \cdots \)                    & \( \cdots \)          & \( \cdots \)    & \( \cdots \)         \\
+    ucb             & 246          & 0.670520                        & 0.005602              & 549.024163      & 0.154991             \\
+    ucb             & 247          & 0.672082                        & 0.005560              & 547.561962      & 0.154987             \\
+    ucb             & 248          & 0.670326                        & 0.005550              & 547.983229      & 0.154998             \\
+    ucb             & 249          & 0.672070                        & 0.005568              & 552.722370      & 0.155125             \\
+    \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\par The resulting plots illustrate how each policy performs over time in terms of the selected metrics.
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{./images/policies_comparison.png}
+\end{center}
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\problem[2] \textbf{TODO5:} Compare the result. Which policy has the best performance?
+
+\par\noindent\submitsolution \vspace{3mm}
+\par First, lets print out the final value of \texttt{"opt\_impressions\_rate"}, \texttt{"regret\_rate"}, \texttt{"regret"}, and \texttt{"total\_rate"}
+
+\begin{codingbox}
+df[df["t"]==df["t"].max()]
+\end{codingbox}
+
+\par To select the best performance algorithm, we should choose the algorithm that has the highest \texttt{"total\_rate"} and the lowest \texttt{"regret"} among all algorithms.
+
+\vspace{2mm}
+
+\par The following is the result of the simulation.
+\begin{center}
+\begin{tabular}{lcccc}
+    \hline
+    \textbf{Policy}         & \texttt{opt\_impressions\_rate} & \texttt{regret\_rate} & \texttt{regret} & \texttt{total\_rate} \\
+    \hline
+    \texttt{equal\_weights} & 0.250529                        & 0.021550              & 2150.471960     & 0.142090             \\
+    \texttt{randomize}      & 0.255510                        & 0.021394              & 2131.409491     & 0.140533             \\
+    \texttt{eps\_greedy}    & 0.977498                        & 0.000487              & 48.635314       & 0.159635             \\
+    \texttt{softmax}        & 0.987997                        & 0.000152              & 15.510418       & 0.161609             \\
+    \texttt{ucb}            & 0.667973                        & 0.005684              & 561.241847      & 0.153273             \\
+    \hline
+\end{tabular}
+\end{center}
+
+\par Since, the \texttt{softmax} algorithm has the highest \texttt{"total\_rate"} of \texttt{0.161609} and the lowest \texttt{"regret"} of \texttt{15.510418}, we can conclude that the \texttt{softmax} algorithm has the best performance among all algorithms.
+\end{tosubmit}
+% ================================================================================ %
+
+\newpage
+
+\section*{References}
+
+Here are some useful resources reviewed for this exercise:
+\begin{itemize}
+    \item \href{https://medium.com/hockey-stick/tl-dr-bayesian-a-b-testing-with-python-c495d375db4d}{tl;dr Bayesian A/B test}
+    \item \href{http://www.claudiobellei.com/2017/11/02/bayesian-AB-testing/}{Bayesian A/B Testing: a step-by-step guide}
+    \item \href{https://www.thomasjpfan.com/2015/09/bayesian-coin-flips/}{Bayesian Coin Flips}
+    \item \href{https://medium.com/brillio-data-science/multi-arm-bandits-a-potential-alternative-to-a-b-tests-a647d9bf2a7e}{Multi-Arm Bandits: a potential alternative to A/B tests}
+    \item \href{https://sudeepraja.github.io/Bandits/}{Multi Armed Bandits and Exploration Strategies}
+    \item \href{https://support.google.com/analytics/answer/2846882?hl=en}{MAB Google}
+\end{itemize}
 
 
 \end{document}
