@@ -157,6 +157,16 @@
 
 
 % =========================== Custom enumerate for subproblems ===========================
+\newlist{subproblems_alpha}{enumerate}{2}
+\setlist[subproblems_alpha]{
+  label*=\alph*),
+  ref=\alph*),
+  wide=0pt,
+  itemsep=2pt,
+  parsep=0pt,
+  leftmargin=*
+}
+
 \newlist{subproblems}{enumerate}{2}
 \setlist[subproblems]{
   label*=\arabic{problem}.\arabic*,
