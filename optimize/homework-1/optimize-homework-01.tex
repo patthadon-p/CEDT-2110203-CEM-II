@@ -8,25 +8,154 @@
 
 \begin{document}
 \subject[2110203 - Computer Engineering Mathematics II]
-\hwtitle{Optimize 1}{}{Week 1}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+\hwtitle{Optimize 1}{}{Week 6}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
 
 
 % ================================================================================ %
-\section{PUT THE SECTION HERE}
+\section{Linear Programming (LP)}
 % ================================================================================ %
 
 
-
 % ================================================================================ %
-%                                    Problem 0x                                    %
+%                                    Problem 01                                    %
 % ================================================================================ %
 \begin{problem}
+Which of the following shapes are convex sets?
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/problem-01-questions.png}
+\end{center}
+\end{problem}
+
+\begin{solution} \\
+The Definition of Convex Set:
+
+\vspace{2mm}
+
+\par\hspace{5mm} A set \( S \) in a vector space is called convex if, for any two points \( u, v \in S \), the line segment connecting them lies entirely within \( S \).
+Mathematically, this means that for any \( \lambda \) such that \( 0 \leq \lambda \leq 1 \), the point \( \lambda u + (1 - \lambda) v \) is also in \( S \).
+
+\vspace{2mm}
+
+\par\hspace{5mm} Now, let's analyze each shape:
+...
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+Determine whether each of the following LPs has unique solution, infinite solutions, infeasible, or unbounded.
+\end{problem}
+
+% === Problem 2.1. === %
+\begin{subproblems_alpha}
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & x_1 + x_2 \\
+        \text{subject to } & 3x_1 + 2x_2 & \leq & 6 \\
+        & x_1 + 2x_2 & \leq & 4 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
 Coming Soon...
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.2. === %
+\begin{subproblems_alpha}[start=2]
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & \frac{x_1}{2} + x_2 \\
+        \text{subject to } & 3x_1 + 2x_2 & \leq & 6 \\
+        & x_1 + 2x_2 & \leq & 4 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.3. === %
+\begin{subproblems_alpha}[start=3]
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & x_1 + x_2 \\
+        \text{subject to } & 3x_1 + 2x_2 & \geq & 6 \\
+        & x_1 + 2x_2 & \geq & 4 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 03                                    %
+% ================================================================================ %
+\begin{problem}
+Convert the following LP to standard form and find all BFSs.
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & x_1 - x_2 \\
+    \text{subject to } & x_1 + x_2 & \leq & 3 \\
+    & x_1 + 3x_2 & \leq & 4 \\
+    & 2x_1 - x_2 & \geq & 1 \\
+    & x_1, x_2 & \geq & 0
+\end{array}
+\]
 \end{problem}
 
 \begin{solution}
-The solution goes here.
+Coming Soon...
 \end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\problem[4] Formulate the following problem into LP.
+Then, convert it to standard form and find all BFSs. Is the optimal BFS unique?
+
+\vspace{3mm}
+
+In the 2036 Summer Olympics, Thailand wins a total of 2 gold, 6 silver, and 8 bronze medals.
+Among these, 1 gold, 2 silver, and 3 bronze medals come from equestrian events.
+The government wants to award total money of exactly 60 million baht to the medalists such that people winning the same type of medal will receive the same amount of money.
+Also, a gold medalist should receive at least 2 million baht more than a silver medalist, and a silver medalist should receive at least 1 million baht more than a bronze medalist.
+Find the minimum possible amount of money that all equestrians will receive in total.
+
+\vspace{3mm}
+
+\textit{Remark:} It is possible that some people may receive no money.
+
+\vspace{3mm}
+
+\par\noindent\submitsolution
+Coming Soon...
+\end{tosubmit}
 % ================================================================================ %
 
 
