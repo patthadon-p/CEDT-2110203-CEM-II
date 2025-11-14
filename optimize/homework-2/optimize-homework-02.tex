@@ -1,0 +1,159 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Optimize 2}{}{Week 7}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{Simplex Method \& Two-Phase Method}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 01                                    %
+% ================================================================================ %
+\begin{problem}
+Use the simplex method to solve the following LP.
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & 3x_1 + 2x_2 \\
+    \text{subject to } & x_1 + x_2 & \leq & 3 \\
+    & x_1 + 2x_2 & \leq & 5 \\
+    & 2x_1 + x_2 & \leq & 5 \\
+    & x_1, x_2 & \geq & 0
+\end{array}
+\]
+\end{problem}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+Determine whether each of the following LPs is degenerate or nondegenerate.
+\end{problem}
+
+% === Problem 2.1. === %
+\begin{subproblems_alpha}
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & 2x_1 + x_2 \\
+        \text{subject to } & x_1 + x_2 & \leq & 4 \\
+        & x_1 + 2x_2 & \leq & 4 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.2. === %
+\begin{subproblems_alpha}[start=2]
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & 2x_1 + x_2 \\
+        \text{subject to } & x_1 + x_2 & \leq & 4 \\
+        & x_1 + 2x_2 & \leq & 6 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ==================== %
+
+
+% === Problem 2.3. === %
+\begin{subproblems_alpha}[start=3]
+    \item
+    \[
+    \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+        \text{max } & z & = & 2x_1 + x_2 \\
+        \text{subject to } & x_1 + x_2 & \leq & 4 \\
+        & x_1 + 2x_2 & \leq & 8 \\
+        & x_1, x_2 & \geq & 0
+    \end{array}
+    \]
+\end{subproblems_alpha}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ==================== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 03                                    %
+% ================================================================================ %
+\begin{problem}
+Use the two-phase method to solve the following LP.
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & 2x_1 + 3x_2 \\
+    \text{subject to } & 3x_1 + x_2 & \leq & 14 \\
+    & x_1 - x_2 & \geq & 1 \\
+    & -x_1 + 3x_2 & \leq & 2 \\
+    & x_1, x_2 & \geq & 0
+\end{array}
+\]
+\end{problem}
+
+\begin{solution}
+Coming Soon...
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\problem[4] Formulate the following problem into LP and solve it.
+You can use any method you want.
+
+\vspace{3mm}
+
+Hamtaro likes to eat sunflower seed. He wants to eat it as much as possible. There are two
+types of sunflower seed: the regular one and the low-fat one. A gram of regular sunflower
+seed contains 0.5g of fat, 0.2g of protein, and 0.1g of fiber. A gram of low-fat sunflower seed
+contains 0.3g of fat, 0.3g of protein, and 0.15g of fiber.
+
+\vspace{3mm}
+
+Hamtaro should get at most 11 grams of fat and at most 8 grams of protein per day. To be
+healthy, he should get at least 3 grams of fiber per day. Find the maximum possible total
+amount of sunflower seed he can eat in a day.
+
+\vspace{3mm}
+
+\par\noindent\submitsolution
+Coming Soon...
+\end{tosubmit}
+% ================================================================================ %
+
+
+\end{document}
