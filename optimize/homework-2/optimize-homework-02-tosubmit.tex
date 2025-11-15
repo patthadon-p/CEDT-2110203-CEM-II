@@ -1,0 +1,208 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Optimize 2}{}{Week 7}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{Simplex Method \& Two-Phase Method}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\problem[4] Formulate the following problem into LP and solve it.
+You can use any method you want.
+
+\vspace{3mm}
+
+Hamtaro likes to eat sunflower seed. He wants to eat it as much as possible. There are two
+types of sunflower seed: the regular one and the low-fat one. A gram of regular sunflower
+seed contains 0.5g of fat, 0.2g of protein, and 0.1g of fiber. A gram of low-fat sunflower seed
+contains 0.3g of fat, 0.3g of protein, and 0.15g of fiber.
+
+\vspace{3mm}
+
+Hamtaro should get at most 11 grams of fat and at most 8 grams of protein per day. To be
+healthy, he should get at least 3 grams of fiber per day. Find the maximum possible total
+amount of sunflower seed he can eat in a day.
+
+\vspace{3mm}
+
+\par\noindent\submitsolution
+Let \( x_1 \) be the grams of regular sunflower seed and \( x_2 \) be the grams of low-fat sunflower seed that Hamtaro eats in a day.
+The objective is to maximize the total amount of sunflower seed he can eat:
+\[ \text{max } z = x_1 + x_2 \]
+
+The constraints based on fat, protein, and fiber intake are as follows:
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} ll}
+    \text{subject to } & 0.5x_1 + 0.3x_2 & \leq & 11 & \text{(fat constraint)} \\
+    & 0.2x_1 + 0.3x_2 & \leq & 8 & \text{(protein constraint)} \\
+    & 0.1x_1 + 0.15x_2 & \geq & 3 & \text{(fiber constraint)} \\
+    & x_1, x_2 & \geq & 0 & \text{(non-negativity constraint)}
+\end{array}
+\]
+
+Since, the third constraint is a `greater than or equal to' type, we should use the two-phase method to solve this LP.
+
+\vspace{3mm}
+
+\par\hspace{5mm} Re-write the standard form by introducing slack variables \( s_1, s_2 \), excess variable \( e_1 \), and artificial variable \( a_1 \):
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & x_1 + x_2 \\
+    \text{subject to } & 0.5x_1 + 0.3x_2 + s_1 & = & 11 \\
+    & 0.2x_1 + 0.3x_2 + s_2 & = & 8 \\
+    & 0.1x_1 + 0.15x_2 - e_1 + a_1 & = & 3 \\
+    & x_1, x_2, s_1, s_2, e_1, a_1 & \geq & 0
+\end{array}
+\]
+
+\par\hspace{5mm} Using Two-Phase Method, we first solve Phase 1 by minimizing the sum of artificial variables:
+\[ \text{min } w = a_1 \]
+
+Initial simplex tableau for Phase 1:
+\[
+\begin{array}{c|cccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & a_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.5 & 0.3 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 0 & 11 \\
+    s_2 & 0.2 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 8 \\
+    a_1 & 0.1 & 0.15 & 0 & 0 & -1 & \textcolor[HTML]{0000FF}{1} & 3 \\
+    \hline
+    w & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+\end{array}
+\]
+
+\newpage
+
+Becase we have to eliminate \( a_1 \) from the \( w \)-row, we perform the row operation:
+\[ \text{R}_w \leftarrow \text{R}_w - \text{R}_{a_1} \]
+
+The updated tableau:
+\[
+\begin{array}{c|cccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & a_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.5 & 0.3 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 0 & 11 \\
+    s_2 & 0.2 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 8 \\
+    a_1 & 0.1 & 0.15 & 0 & 0 & -1 & \textcolor[HTML]{0000FF}{1} & 3 \\
+    \hline
+    w & -0.1 & -0.15 & 0 & 0 & 1 & 0 & -3 \\
+\end{array}
+\]
+
+Starting at basic feasible solution \( (x_1, x_2, s_1, s_2, e_1, a_1) = (0, 0, 11, 8, 0, 3) \).
+\begin{enumerate}
+    \item Entering variable: \( x_2 \) (most negative in \( w \)-row).
+    \item Leaving variable: \( a_1 \) (minimum ratio test: \( 3/0.15 = 20 \)).
+    \item Pivot on \( (3,2) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|cccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & a_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 2 & -2 & 5 \\
+    s_2 & 0 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 2 & -2 & 2 \\
+    a_1 & \frac{2}{3} & \textcolor[HTML]{0000FF}{1} & 0 & 0 & -\frac{20}{3} & \textcolor[HTML]{0000FF}{1} & 20 \\
+    \hline
+    w & 0 & 0 & 0 & 0 & 0 & \frac{20}{3} & 0 \\
+\end{array}
+\]
+
+Since there are no negative coefficients in the \( w \)-row and \( w = 0 \), we proceed to Phase 2 by removing the artificial variable \( a_1 \) and solving the original objective function.
+
+\vspace{3mm}
+
+Initial simplex tableau for Phase 2:
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|ccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 2 & 5 \\
+    s_2 & 0 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 2 & 2 \\
+    x_2 & \frac{2}{3} & \textcolor[HTML]{0000FF}{1} & 0 & 0 & -\frac{20}{3} & 20 \\
+    \hline
+    z & -1 & -1 & 0 & 0 & 0 & 0 \\
+\end{array}
+\]
+
+Becase we have to adjust the \( z \)-row according to the current basis, we perform the row operation:
+\[ \text{R}_z \leftarrow \text{R}_z + \text{R}_{x_2} \]
+
+The updated tableau:
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|ccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 2 & 5 \\
+    s_2 & 0 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 2 & 2 \\
+    x_2 & \frac{2}{3} & \textcolor[HTML]{0000FF}{1} & 0 & 0 & -\frac{20}{3} & 20 \\
+    \hline
+    z & -\frac{1}{3} & 0 & 0 & 0 & -\frac{20}{3} & 20 \\
+\end{array}
+\]
+
+Starting at basic feasible solution \( (x_1, x_2, s_1, s_2, e_1) = (0, 20, 5, 2, 0) \).
+\begin{enumerate}
+    \item Entering variable: \( e_1 \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_2 \) (minimum ratio test: \( 2/2 = 1 \)).
+    \item Pivot on \( (2,5) \) to update tableau.
+\end{enumerate}
+
+\newpage
+
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|ccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & \text{RHS} \\
+    \hline
+    s_1 & 0.3 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 3 \\
+    s_2 & 0 & 0 & 0 & \frac{1}{2} & \textcolor[HTML]{0000FF}{1} & 1 \\
+    x_2 & \frac{2}{3} & \textcolor[HTML]{0000FF}{1} & 0 & \frac{10}{3} & 0 & \frac{80}{3} \\
+    \hline
+    z & -\frac{1}{3} & 0 & 0 & \frac{10}{3} & 0 & \frac{80}{3} \\
+\end{array}
+\]
+
+\newpage
+
+Then,
+\begin{enumerate}
+    \item Entering variable: \( x_1 \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_1 \) (minimum ratio test: \( 3/0.3 = 10 \)).
+    \item Pivot on \( (1,1) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|ccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & e_1 & \text{RHS} \\
+    \hline
+    s_1 & \textcolor[HTML]{0000FF}{1} & 0 & \frac{10}{3} & 0 & 0 & 10 \\
+    s_2 & 0 & 0 & 0 & \frac{1}{2} & \textcolor[HTML]{0000FF}{1} & 1 \\
+    x_2 & 0 & \textcolor[HTML]{0000FF}{1} & -\frac{20}{9} & \frac{10}{3} & 0 & 20 \\
+    \hline
+    z & 0 & 0 & \frac{10}{9} & \frac{10}{3} & 0 & 30 \\
+\end{array}
+\]
+
+Since there are no negative coefficients in the \( z \)-row, the optimal solution is reached:
+\[ \boxed{(x_1, x_2) = (10, 20) \text{ with } z = 30}. \]
+\end{tosubmit}
+% ================================================================================ %
+
+
+\end{document}
