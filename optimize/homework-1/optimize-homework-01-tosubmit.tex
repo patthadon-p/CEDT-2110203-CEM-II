@@ -1,0 +1,119 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Optimize 1}{}{Week 6}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{Linear Programming (LP)}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 04                                    %
+% ================================================================================ %
+\begin{tosubmit}
+\problem[4] Formulate the following problem into LP.
+Then, convert it to standard form and find all BFSs. Is the optimal BFS unique?
+
+\vspace{3mm}
+
+In the 2036 Summer Olympics, Thailand wins a total of 2 gold, 6 silver, and 8 bronze medals.
+Among these, 1 gold, 2 silver, and 3 bronze medals come from equestrian events.
+The government wants to award total money of exactly 60 million baht to the medalists such that people winning the same type of medal will receive the same amount of money.
+Also, a gold medalist should receive at least 2 million baht more than a silver medalist, and a silver medalist should receive at least 1 million baht more than a bronze medalist.
+Find the minimum possible amount of money that all equestrians will receive in total.
+
+\vspace{3mm}
+
+\textit{Remark:} It is possible that some people may receive no money.
+
+\vspace{3mm}
+
+\par\noindent\submitsolution
+Let \( x_1 \), \( x_2 \), and \( x_3 \) be the amount of money (in million baht) awarded to each gold, silver, and bronze medalist, respectively.
+Thus,
+\begin{itemize}
+    \item The total amount of money awarded to all medalists is given by:
+    \[ 2x_1 + 6x_2 + 8x_3 = 60 \]
+
+    \item The constraints for the amounts awarded to each type of medalist are:
+    \begin{align*}
+        x_1 &\geq x_2 + 2 \\
+        x_2 &\geq x_3 + 1
+    \end{align*}
+
+    \item The objective is to minimize the total amount awarded to equestrian medalists:
+    \[ \text{minimize } z = x_1 + 2x_2 + 3x_3 \]
+
+    \item The non-negativity constraints are:
+    \[ x_1, x_2, x_3 \geq 0 \]
+\end{itemize}
+
+\vspace{2mm}
+
+Therefore, the LP formulation is:
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{min } & z & = & x_1 + 2x_2 + 3x_3 \\
+    \text{subject to } & 2x_1 + 6x_2 + 8x_3 & = & 60 \\
+    & x_1 - x_2 & \geq & 2 \\
+    & x_2 - x_3 & \geq & 1 \\
+    & x_1, x_2, x_3 & \geq & 0
+\end{array}
+\]
+
+Re-write the LP in standard form by introducing excess variables \( e_1 \) and \( e_2 \):
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z' & = & -x_1 - 2x_2 - 3x_3 \\
+    \text{subject to } & 2x_1 + 6x_2 + 8x_3 & = & 60 \\
+    & x_1 - x_2 - e_1 & = & 2 \\
+    & x_2 - x_3 - e_2 & = & 1 \\
+    & x_1, x_2, x_3, e_1, e_2 & \geq & 0
+\end{array}
+\]
+
+\newpage
+
+Next, we find all basic feasible solutions (BFSs) by setting two variables to zero and solving for the others.
+\[
+\renewcommand{\arraystretch}{1.2}
+\begin{array}{ccccc|cc}
+    \hline
+    x_1 & x_2 & x_3 & e_1 & e_2 & \text{BFS}? & z \\
+    \hline
+    \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & \frac{15}{2} & \textcolor[HTML]{FF0000}{-2} & \textcolor[HTML]{FF0000}{-\frac{17}{2}} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    \textcolor[HTML]{0000FF}{0} & 10 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-12} & 9 & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-2} & 9 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-12} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    \textcolor[HTML]{0000FF}{0} & \frac{34}{7} & \frac{27}{7} & \textcolor[HTML]{FF0000}{-\frac{48}{7}} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    30 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & 28 & \textcolor[HTML]{FF0000}{-1} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    2 & \textcolor[HTML]{0000FF}{0} & 7 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-8} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    34 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-1} & 32 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
+    9 & 7 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & 6 & \text{Yes} & -23 \\
+    27 & 1 & \textcolor[HTML]{0000FF}{0} & 24 & \textcolor[HTML]{0000FF}{0} & \text{Yes} & -29 \\
+    6 & 4 & 3 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & \text{Yes} & -23 \\
+    \hline
+\end{array}
+\]
+
+From the above table, the BFSs are:
+\begin{itemize}
+    \item \( (x_1, x_2, x_3, e_1, e_2) = (9, 7, 0, 0, 6) \) with \( z = 23 \)
+    \item \( (x_1, x_2, x_3, e_1, e_2) = (27, 1, 0, 24, 0) \) with \( z = 29 \)
+    \item \( (x_1, x_2, x_3, e_1, e_2) = (6, 4, 3, 0, 0) \) with \( z = 23 \)
+\end{itemize}
+
+We want to minimize \( z \) (maximize \( -z \)), so the optimal value is \[ \boxed{z = 23} \] at two BFSs: \( (9, 7, 0) \) and \( (6, 4, 3) \) (the optimal BFS is not unique, there are \textbf{infinite solutions}).
+\end{tosubmit}
+% ================================================================================ %
+
+
+\end{document}
