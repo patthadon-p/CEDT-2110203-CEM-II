@@ -1,0 +1,515 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Optimize 3}{}{Week 8}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{IP: Integer Programming}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 01                                    %
+% ================================================================================ %
+\begin{problem}
+In class, you learned about the \textit{vertex cover problem}.
+Now we are considering a related problem called the \textit{edge cover problem}.
+You are given an undirected graph \( G = (V, E) \).
+(Note that each edge is in the form \( \set{ i, j } \) where \( i, j \in V \).)
+
+\vspace{3mm}
+
+\par\noindent Unlike the vertex cover problem, you instead want to color some edges. You want to color
+as few edges as possible such that every vertex has at least one colored edge connected to it.
+
+\vspace{3mm}
+
+\par\noindent Formulate this problem into IP. You do not have to solve it.
+\end{problem}
+
+\begin{solution}
+First, define binary variables \( x_{ij} \) for each edge \( \set{i, j} \in E \):
+\[
+x_{ij} =
+\begin{cases}
+1 & \text{if edge } \set{i, j} \text{ is included in the edge cover}, \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+
+The objective is to minimize the total number of edges in the edge cover:
+\[ \text{Minimize} \quad \sum_{\set{i, j} \in E} x_{ij}. \]
+
+Next, we need to ensure that every vertex in the graph is covered by at least one edge.
+This can be expressed with the following constraints:
+\[ \sum_{ \substack{\set{v, i} \in E \\ i \neq v} } x_{vi} \geq 1 \quad \forall v \in V \]
+
+Therefore, the complete integer programming formulation for the edge cover problem is:
+\[
+\begin{aligned}
+\text{Minimize} \quad & \sum_{\set{i, j} \in E} x_{ij} \\
+\text{subject to} \quad & \sum_{ \substack{\set{v, i} \in E \\ i \neq v} } x_{vi} \geq 1 \quad \forall v \in V, \\
+& x_{ij} \in \{0, 1\} \quad \forall \set{i, j} \in E.
+\end{aligned}
+\]
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+You open a bakery shop. Suppose you already baked 80 croissants, 30 cupcakes, and 70 jam rolls (but no salad at all).
+You plan to assort them into set boxes to sell.
+The content and sell price of each type of box is shown in the below table.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|}
+\hline
+Type & Content & Price (bath) \\
+\hline
+Set Box A & 2 croissants, 1 cupcake & 50 \\
+\hline
+Set Box B & 1 croissant, 1 cupcake, 1 jam roll & 60 \\
+\hline
+Set Box C & 1 croissant, 2 jam rolls & 70 \\
+\hline
+\end{tabular}
+\end{center}
+
+\par\noindent You have to buy paper boxes for 10 baht per box.
+You want to earn as much profit as possible.
+\end{problem}
+
+% === 2.1. === %
+\begin{subproblems_alpha}
+    \item Formulate this problem into IP.
+    Then, relax it into LP and solve the LP.
+    Does the LP's optimal solution also work for the original IP?
+\end{subproblems_alpha}
+
+\begin{solution}
+Define integer variables \( x_A, x_B, x_C \) representing the number of Set Box A, Set Box B, and Set Box C sold, respectively.
+The profit from each type of box can be calculated as follows:
+\begin{itemize}
+    \item Profit from Set Box A: \( 50 - 10 = 40 \) baht
+    \item Profit from Set Box B: \( 60 - 10 = 50 \) baht
+    \item Profit from Set Box C: \( 70 - 10 = 60 \) baht
+\end{itemize}
+
+The objective is to maximize the total profit, \( z \):
+\[ \text{Maximize} \quad z = 40x_A + 50x_B + 60x_C. \]
+
+Next, we need to consider the constraints based on the available ingredients:
+\[
+\begin{array}{r @{\hspace{1.5mm}} c @{\hspace{1.5mm}} c @{\hspace{4mm}} l}
+    2x_A + x_B + x_C & \leq & 80 & \text{(croissants)} \\
+    x_A + x_B & \leq & 30 & \text{(cupcakes)} \\
+    x_B + 2x_C & \leq & 70 & \text{(jam rolls)} \\
+    x_A, x_B, x_C & \geq & 0 & \text{(non-negativity constraints)} \\
+    x_A, x_B, x_C & \in & \mathbb{Z} & \text{(integer constraints)} \\
+\end{array}
+\]
+
+First, we relax the integer constraints to solve the LP:
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & 40x_A + 50x_B + 60x_C \\
+    \text{subject to } & 2x_A + x_B + x_C & \leq & 80 \\
+    & x_A + x_B & \leq & 30 \\
+    & x_B + 2x_C & \leq & 70 \\
+    & x_A, x_B, x_C & \geq & 0
+\end{array}
+\]
+
+Using the simplex method, re-write the constraints in standard form by introducing slack variables \( s_1, s_2, s_3 \):
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z & = & 40x_A + 50x_B + 60x_C \\
+    \text{subject to } & 2x_A + x_B + x_C + s_1 & = & 80 \\
+    & x_A + x_B + s_2 & = & 30 \\
+    & x_B + 2x_C + s_3 & = & 70 \\
+    & x_A, x_B, x_C, s_1, s_2, s_3 & \geq & 0
+\end{array}
+\]
+
+Initialize the simplex tableau:
+\[
+\begin{array}{c|cccccc|c}
+\text{Basis} & x_A & x_B & x_C & s_1 & s_2 & s_3 & \text{RHS} \\
+\hline
+s_1 & 2 & 1 & 1 & \textcolor[HTML]{0000FF}{1} & 0 & 0 & 80 \\
+s_2 & 1 & 1 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 30 \\
+s_3 & 0 & 1 & 2 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 70 \\
+\hline
+z & -40 & -50 & -60 & 0 & 0 & 0 & 0 \\
+\end{array}
+\]
+
+\newpage
+
+Starting at basic feasible solution \( (x_A, x_B, x_C, s_1, s_2, s_3) = (0, 0, 0, 80, 30, 70) \).
+\begin{enumerate}
+    \item Entering variable: \( x_C \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_3 \) (minimum ratio test: \( 70/2 = 35 \)).
+    \item Pivot on \( (3,3) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|cccccc|c}
+\text{Basis} & x_A & x_B & x_C & s_1 & s_2 & s_3 & \text{RHS} \\
+\hline
+s_1 & 2 & \frac{1}{2} & 0 & \textcolor[HTML]{0000FF}{1} & 0 & -\frac{1}{2} & 45 \\
+s_2 & 1 & 1 & 0 & 0 & \textcolor[HTML]{0000FF}{1} & 0 & 30 \\
+x_C & 0 & \frac{1}{2} & \textcolor[HTML]{0000FF}{1} & 0 & 0 & \frac{1}{2} & 35 \\
+\hline
+z & -40 & -20 & 0 & 0 & 0 & 30 & 2100 \\
+\end{array}
+\]
+
+Continuing the simplex method with basic feasible solution \( (x_A, x_B, x_C, s_1, s_2, s_3) = (0, 0, 35, 45, 30, 0) \).
+\begin{enumerate}
+    \item Entering variable: \( x_A \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_1 \) (minimum ratio test: \( 45/2 = 22.5 \)).
+    \item Pivot on \( (1,1) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|cccccc|c}
+\text{Basis} & x_A & x_B & x_C & s_1 & s_2 & s_3 & \text{RHS} \\
+\hline
+x_A & \textcolor[HTML]{0000FF}{1} & \frac{1}{4} & 0 & \frac{1}{2} & 0 & -\frac{1}{4} & \frac{45}{2} \\
+s_2 & 0 & \frac{3}{4} & 0 & -\frac{1}{2} & \textcolor[HTML]{0000FF}{1} & \frac{1}{4} & \frac{15}{2} \\
+x_C & 0 & \frac{1}{2} & \textcolor[HTML]{0000FF}{1} & 0 & 0 & \frac{1}{2} & 35 \\
+\hline
+z & 0 & -10 & 0 & 20 & 0 & 20 & 3000 \\
+\end{array}
+\]
+
+Continuing the simplex method with basic feasible solution \( (x_A, x_B, x_C, s_1, s_2, s_3) = \paren{ \frac{45}{2}, 0, 35, 0, \frac{15}{2}, 0 } \).
+\begin{enumerate}
+    \item Entering variable: \( x_B \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_2 \) (minimum ratio test: \( 15/ (3/4) = 20 \)).
+    \item Pivot on \( (2,2) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|cccccc|c}
+\text{Basis} & x_A & x_B & x_C & s_1 & s_2 & s_3 & \text{RHS} \\
+\hline
+x_A & \textcolor[HTML]{0000FF}{1} & 0 & 0 & \frac{2}{3} & -\frac{1}{4} & -\frac{1}{3} & 20 \\
+x_B & 0 & \textcolor[HTML]{0000FF}{1} & 0 & -\frac{2}{3} & 1 & \frac{1}{3} & 10 \\
+x_C & 0 & 0 & \textcolor[HTML]{0000FF}{1} & \frac{1}{3} & -\frac{1}{2} & \frac{1}{3} & 30 \\
+\hline
+z & 0 & 0 & 0 & \frac{40}{3} & 10 & \frac{70}{3} & 3100 \\
+\end{array}
+\]
+
+Since there are no negative coefficients in the \( z \)-row, we have reached the optimal solution for the LP relaxation:
+\[ (x_A, x_B, x_C) = (20, 10, 30) \text{ with maximum profit } z = 3100 \text{ baht}. \]
+
+Becase, the optimal solution \( (20, 10, 30) \) consists of integer values, it also works for the original IP formulation.
+Therefore, the optimal solution for the IP is:
+\[ \boxed{ (x_A, x_B, x_C) = (20, 10, 30) \text{ with maximum profit } z = 3100 \text{ baht}. } \]
+\end{solution}
+% ============ %
+
+\newpage
+
+% === 2.2. === %
+\begin{subproblems_alpha}[start=2]
+    \item It turns out that the leftover snacks do not go to waste.
+    You can sell snacks that are not in a set box for 10 baht per piece.
+    How is the objective function changed?
+    Is the optimal solution still the same?
+\end{subproblems_alpha}
+
+\begin{solution}
+The objective function needs to account for the revenue generated from selling leftover snacks.
+Let \( y_C, y_U, y_J \) represent the number of leftover croissants, cupcakes, and jam rolls sold, respectively.
+The revenue from selling leftover snacks is:
+\[ z_{\text{leftover}} = 10y_C + 10y_U + 10y_J. \]
+
+Consider the total number of each snack used in the set boxes:
+\begin{itemize}
+    \item Croissants used: \( 2x_A + x_B + x_C \)
+    \item Cupcakes used: \( x_A + x_B \)
+    \item Jam rolls used: \( x_B + 2x_C \)
+\end{itemize}
+
+The leftover snacks can be expressed as:
+\begin{align*}
+y_C & = 80 - (2x_A + x_B + x_C), \\
+y_U & = 30 - (x_A + x_B), \\
+y_J & = 70 - (x_B + 2x_C).
+\end{align*}
+
+Thus, the value of leftover snacks sold is:
+\[ z_{\text{leftover}} = 10(80 - (2x_A + x_B + x_C)) + 10(30 - (x_A + x_B)) + 10(70 - (x_B + 2x_C)). \]
+
+Simplifying this expression:
+\[ z_{\text{leftover}} = 1800 - 30x_A - 30x_B - 30x_C. \]
+
+The new objective function becomes:
+\begin{align*}
+    \text{Maximize} \quad z' &= (40x_A + 50x_B + 60x_C) + (1800 - 30x_A - 30x_B - 30x_C) \\
+    &= 1800 + (40 - 30)x_A + (50 - 30)x_B + (60 - 30)x_C \\
+    \text{Maximize} \quad z' &= 1800 + 10x_A + 20x_B + 30x_C
+\end{align*}
+
+To determine if the optimal solution remains the same, we can analyze the new objective function.
+The coefficients of \( x_A, x_B, x_C \) in the new objective function are all positive, indicating that increasing the number of set boxes sold will still increase the total profit.
+However, the relative profitability of each box type has changed.
+
+\vspace{2mm}
+
+To find the new optimal solution, we can re-evaluate the LP with the new objective function:
+\[ \text{Maximize} \quad z' = 10x_A + 20x_B + 30x_C \]
+subject to the same constraints as before.
+
+\vspace{2mm}
+
+Using the same constraints, we can solve the LP again using the simplex method.
+After performing the simplex method again, we find that the optimal solution remains:
+\[ (x_A, x_B, x_C) = (20, 10, 30) \text{ with maximum profit } z' = 3100 \text{ baht}. \]
+
+Thus, the optimal solution \textbf{remains unchanged} even after accounting for the sale of leftover snacks.
+\[ \boxed{ (x_A, x_B, x_C) = (20, 10, 30) \text{ with maximum profit } z' = 3100 \text{ baht}. } \]
+\end{solution}
+% ============ %
+
+\newpage
+
+% === 2.3. === %
+\begin{subproblems_alpha}[start=3]
+    \item Suppose you also have to pay the box design fee.
+    The fee is 100 baht per each type (A, B, or C) of box you use, no matter how many boxes of that type you use.
+    (You do not have to use all 3 types of box.)
+    What are the added variables and constraints?
+    How is the objective function changed?
+    You do not have to solve this IP.
+\end{subproblems_alpha}
+
+\begin{solution}
+To account for the box design fee, we need to introduce additional binary variables to indicate whether each type of box is used or not.
+Define binary variables \( y_A, y_B, y_C \) as follows:
+\[ y_A =
+\begin{cases}
+1 & \text{if Set Box A is used}, \\
+0 & \text{otherwise},
+\end{cases} \]
+
+\[ y_B =
+\begin{cases}
+1 & \text{if Set Box B is used}, \\
+0 & \text{otherwise},
+\end{cases} \]
+
+\[ y_C =
+\begin{cases}
+1 & \text{if Set Box C is used}, \\
+0 & \text{otherwise}.
+\end{cases} \]
+
+The objective function needs to be modified to account for the design fees:
+\[ \text{Maximize} \quad z'' = 1800 + 10x_A + 20x_B + 30x_C - 100y_A - 100y_B - 100y_C. \]
+
+Next, we need to add constraints to link the usage of boxes to the binary variables:
+\begin{align*}
+    x_A & \leq M y_A, \\
+    x_B & \leq M y_B, \\
+    x_C & \leq M y_C,
+\end{align*}
+where \( M \) is a sufficiently large constant (e.g., larger than the maximum possible number of boxes that can be sold).
+
+\vspace{4mm}
+
+Next, we would analyze the constant \( M \).
+In this case, the maximum number of boxes that can be sold is limited by the available ingredients.
+The maximum number of boxes of each type that can be sold is:
+\begin{itemize}
+    \item For Set Box A: \( \min\paren{\frac{80}{2}, 30} = 30 \) ; out of cupcakes
+    \item For Set Box B: \( \min(80, 30, 70) = 30 \) ; out of cupcakes
+    \item For Set Box C: \( \min(80, \frac{70}{2}) = 35 \) ; out of jam rolls
+\end{itemize}
+Thus, we can choose \( M \ge 35 \) as a sufficiently large constant.
+
+\vspace{4mm}
+
+Thus, the complete integer programming formulation with the box design fee is:
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z'' & = & 1800 + 10x_A + 20x_B + 30x_C \\
+    & & & \quad - 100y_A - 100y_B - 100y_C \\
+    \text{subject to } & 2x_A + x_B + x_C & \leq & 80 \\
+    & x_A + x_B & \leq & 30 \\
+    & x_B + 2x_C & \leq & 70 \\
+    & x_A & \leq & M y_A \\
+    & x_B & \leq & M y_B \\
+    & x_C & \leq & M y_C \\
+    & y_A, y_B, y_C & \in & \set{ 0, 1 } \\
+    & x_A, x_B, x_C & \geq & 0 \\
+    & M & \geq & 35 \\
+\end{array}
+\]
+\end{solution}
+% ============ %
+
+\newpage
+
+% === 2.4. === %
+\begin{subproblems_alpha}[start=4]
+    \item For logistic purpose, you decide that for each type of box, you must use at least 25 boxes, or none at all.
+    What are the added constraints?
+    You do not have to solve this IP.
+\end{subproblems_alpha}
+
+\begin{solution}
+Considering the logistic requirement that for each type of box, you must use at least 25 boxes or none at all, we can add the following constraints to the integer programming formulation:
+\begin{align*}
+    y_A &\implies x_A \ge 25, \\
+    y_B &\implies x_B \ge 25, \\
+    y_C &\implies x_C \ge 25,
+\end{align*}
+where \( y_A, y_B, y_C \) are the binary variables defined previously that indicate whether each type of box is used or not.
+
+\vspace{4mm}
+
+From the previous problem, we have the constraints:
+\begin{align*}
+    x_A &\leq My_A, \\
+    x_B &\leq My_B, \\
+    x_C &\leq My_C,
+\end{align*}
+
+while in integer programming, we can express these constraints furthermore as:
+\begin{align*}
+    25 - x_A &\leq M(1 - y_A), \\
+    25 - x_B &\leq M(1 - y_B), \\
+    25 - x_C &\leq M(1 - y_C).
+\end{align*}
+when \( M \) is a sufficiently large constant (e.g., \( M \geq 35 \)).
+
+\vspace{4mm}
+
+Explanation:
+\begin{itemize}
+    \item If \( y_A = 1 \), then the constraint \( 25 - x_A \leq 0 \) implies \( x_A \geq 25 \).
+    \item If \( y_A = 0 \), then the constraint \( 25 - x_A \leq M \leq 35 \) implies \( x_A \geq -10 \) is always satisfied, allowing \( x_A \) to be 0.
+\end{itemize}
+
+Thus, the final integer programming formulation with the logistic constraints is:
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
+    \text{max } & z'' & = & 1800 + 10x_A + 20x_B + 30x_C \\
+    & & & \quad - 100y_A - 100y_B - 100y_C \\
+    \text{subject to } & 2x_A + x_B + x_C & \leq & 80 \\
+    & x_A + x_B & \leq & 30 \\
+    & x_B + 2x_C & \leq & 70 \\
+    & x_A & \leq & M y_A \\
+    & x_B & \leq & M y_B \\
+    & x_C & \leq & M y_C \\
+    & 25 - x_A & \leq & M (1 - y_A) \\
+    & 25 - x_B & \leq & M (1 - y_B) \\
+    & 25 - x_C & \leq & M (1 - y_C) \\
+    & y_A, y_B, y_C & \in & \set{ 0, 1 } \\
+    & x_A, x_B, x_C & \geq & 0 \\
+    & M & \geq & 35 \\
+\end{array}
+\]
+\end{solution}
+% ============ %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 03                                    %
+% ================================================================================ %
+\begin{problem}
+The skytrain company wants to introduce an express train that stops only at some stations.
+They want the express train to serve as many passengers as possible.
+However, they need to construct new platforms for the express train at the stations it stops, and different stations have different construction costs.
+The total construction cost should not exceed 400 million baht.
+The number of passengers per day and the construction cost at each station is shown in the below table.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|}
+\hline
+\rule{0pt}{3em}
+\raisebox{1em}[0pt][0pt]{ \textbf{Station} } &
+\raisebox{1em}[0pt][0pt]{ \makecell{ \textbf{Passengers per day} \\ \textbf{(thousand people)} } } &
+\raisebox{1em}[0pt][0pt]{ \makecell{ \textbf{Construction cost} \\ \textbf{(million baht)} } } \\
+\hline
+Siam & 108 & 250 \\
+Chit Lom & 53 & 100 \\
+Phloen Chit & 45 & 80 \\
+Nana & 32 & 80 \\
+Asok & 92 & 200 \\
+Phrom Phong & 51 & 100 \\
+Thong Lo & 33 & 80 \\
+Ekkamai & 35 & 80 \\
+\hline
+\end{tabular}
+\end{center}
+
+\par\noindent The express train should \textbf{not} stop at two adjacent stations (otherwise, it will not look very ``express'').
+Moreover, at least one of Siam or Asok station should be served by the express train, to allow passengers to transfer to other lines.
+
+\vspace{3mm}
+
+\par\noindent Formulate this problem into IP. You do not have to solve it.
+\end{problem}
+
+\begin{solution}
+First, let's named the stations for clarity, starting from Siam to Ekkamai as stations 1 to 8, respectively.
+Define binary variables \( x_i \) for each station \( i \):
+\[ x_i =
+\begin{cases}
+1 & \text{if the express train stops at station } i, \\
+0 & \text{otherwise}.
+\end{cases} \]
+
+(e.g., \( x_1 \) for Siam, \( x_2 \) for Chit Lom, etc.)
+
+\vspace{3mm}
+
+The objective is to maximize the total number of passengers served by the express train:
+\[ \text{Maximize} \quad z = 108x_1 + 53x_2 + 45x_3 + 32x_4 + 92x_5 + 51x_6 + 33x_7 + 35x_8. \]
+
+Next, we need to consider the constraints:
+1. The total construction cost should not exceed 400 million baht:
+\[ 250x_1 + 100x_2 + 80x_3 + 80x_4 + 200x_5 + 100x_6 + 80x_7 + 80x_8 \leq 400. \]
+
+2. The express train should not stop at two adjacent stations:
+\[ x_i + x_{i+1} \leq 1, \quad (\forall i = 1, \ldots, 7). \]
+
+3. At least one of Siam or Asok station should be served by the express train:
+\[ x_1 + x_5 \geq 1. \]
+
+Therefore, the complete integer programming formulation for the express train problem is:
+\[ \text{max} \quad z = 108x_1 + 53x_2 + 45x_3 + 32x_4 + 92x_5 + 51x_6 + 33x_7 + 35x_8 \]
+\[
+\begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} l}
+    \text{subject to} & 250x_1 + 100x_2 + 80x_3 + 80x_4 + 200x_5 + 100x_6 + 80x_7 + 80x_8 \leq 400 \\
+    & x_i + x_{i+1} \leq 1 \quad (\forall i = 1, \ldots, 7) \\
+    & x_1 + x_5 \geq 1 \\
+\end{array}
+\]
+\end{solution}
+% ================================================================================ %
+
+
+\end{document}
