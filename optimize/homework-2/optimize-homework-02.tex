@@ -60,27 +60,46 @@ Initial simplex tableau:
 Starting at basic feasible solution \( (x_1, x_2, s_1, s_2, s_3) = (0, 0, 3, 5, 5) \).
 \begin{enumerate}
     \item Entering variable: \( x_1 \) (most negative in \( z \)-row).
-    \item Leaving variable: \( s_1 \) (minimum ratio test: \( 3/1 = 3 \)).
-    \item Pivot on \( (1,1) \) to update tableau.
+    \item Leaving variable: \( s_1 \) (minimum ratio test: \( 5/2 = 2.5 \)).
+    \item Pivot on \( (3,1) \) to update tableau.
 \end{enumerate}
 \[
+\renewcommand{\arraystretch}{1.3}
 \begin{array}{c|ccccc|c}
     \text{Basis} & x_1 & x_2 & s_1 & s_2 & s_3 & \text{RHS} \\
     \hline
-    x_1 & \textcolor[HTML]{0000FF}{1} & 1 & 1 & 0 & 0 & 3 \\
-    s_2 & 0 & 1 & -1 & \textcolor[HTML]{0000FF}{1} & 0 & 2 \\
-    s_3 & 0 & -1 & -2 & 0 & \textcolor[HTML]{0000FF}{1} & -1 \\
+    s_1 & 0 & \frac{1}{2} & \textcolor[HTML]{0000FF}{1} & 0 & -\frac{1}{2} & \frac{1}{2} \\
+    s_2 & 0 & \frac{3}{2} & 0 & \textcolor[HTML]{0000FF}{1} & -\frac{1}{2} & \frac{5}{2} \\
+    x_1 & \textcolor[HTML]{0000FF}{1} & \frac{1}{2} & 0 & 0 & \frac{1}{2} & \frac{5}{2} \\
     \hline
-    z & 0 & 1 & 3 & 0 & 0 & 9 \\
+    z & 0 & -\frac{1}{2} & 0 & 0 & \frac{1}{2} & \frac{5}{2} \\
+\end{array}
+\]
+
+Continuing from the previous tableau, \( (x_1, x_2, s_1, s_2, s_3) = (\frac{5}{2}, 0, \frac{1}{2}, \frac{5}{2}, 0) \).
+\begin{enumerate}
+    \item Entering variable: \( x_2 \) (most negative in \( z \)-row).
+    \item Leaving variable: \( s_1 \) (minimum ratio test: \( \frac{1}{2} / \frac{1}{2} = 1 \)).
+    \item Pivot on \( (1,2) \) to update tableau.
+\end{enumerate}
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{c|ccccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & s_3 & \text{RHS} \\
+    \hline
+    x_2 & 0 & \textcolor[HTML]{0000FF}{1} & 2 & 0 & -1 & 1 \\
+    s_2 & 0 & 0 & -3 & \textcolor[HTML]{0000FF}{1} & -2 & 1 \\
+    x_1 & \textcolor[HTML]{0000FF}{1} & 0 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & 0 & 1 & 0 & 0 & 3 \\
 \end{array}
 \]
 
 Since there are no negative coefficients in the \( z \)-row, the optimal solution is reached:
-\[ \boxed{(x_1, x_2) = (3, 0) \text{ with }z = 9}. \]
+\[ \boxed{(x_1, x_2) = (2, 1) \text{ with }z = 8}. \]
 \end{solution}
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 %                                    Problem 02                                    %
@@ -146,6 +165,7 @@ Since the RHS of \( s_2 \) is zero, the basic feasible solution is \( \boxed{\te
 \end{solution}
 % ==================== %
 
+\newpage
 
 % === Problem 2.2. === %
 \begin{subproblems_alpha}[start=2]
@@ -182,8 +202,6 @@ Initial simplex tableau:
     z & -2 & -1 & 0 & 0 & 0 \\
 \end{array}
 \]
-
-\newpage
 
 Starting at basic feasible solution \( (x_1, x_2, s_1, s_2) = (0, 0, 4, 6) \).
 \begin{enumerate}
@@ -243,6 +261,8 @@ Initial simplex tableau:
 \end{array}
 \]
 
+\newpage
+
 Starting at basic feasible solution \( (x_1, x_2, s_1, s_2) = (0, 0, 4, 8) \).
 \begin{enumerate}
     \item Entering variable: \( x_1 \) (most negative in \( z \)-row).
@@ -260,12 +280,34 @@ Starting at basic feasible solution \( (x_1, x_2, s_1, s_2) = (0, 0, 4, 8) \).
 \end{array}
 \]
 
-Since there is no zero in the RHS, the basic feasible solution is \( \boxed{\textbf{nondegenerate}} \).
+Since the value of pivot in this BFS is \( x_1 = s_2 = 4 \).
+This equality indicates that there are multiple optimal solutions along the line segment between the points \( (4, 0) \) and \( (0, 4) \).
+As a result, this LP can be considered degenerate.
+
+\vspace{2mm}
+
+We can check this by:
+\begin{enumerate}
+    \item Entering variable: \( x_2 \).
+    \item Leaving variable: \( s_2 \) (to make both \( x_1,  x_2 \) basic variables).
+    \item Pivot on \( (2,2) \) to update tableau.
+\end{enumerate}
+\[
+\begin{array}{c|cccc|c}
+    \text{Basis} & x_1 & x_2 & s_1 & s_2 & \text{RHS} \\
+    \hline
+    x_1 & \textcolor[HTML]{0000FF}{1} & 0 & 2 & -1 & 0 \\
+    x_2 & 0 & \textcolor[HTML]{0000FF}{1} & -1 & 1 & 4 \\
+    \hline
+    z & 0 & 0 & 3 & 0 & 4 \\
+\end{array}
+\]
+
+Since the RHS of \( s_2 \) is zero, the basic feasible solution is \( \boxed{\textbf{degenerate}} \).
 \end{solution}
 % ==================== %
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 %                                    Problem 03                                    %
@@ -348,8 +390,6 @@ Starting at basic feasible solution \( (x_1, x_2, s_1, e_1, s_2, a_1) = (0, 0, 1
 
 Since there are no negative coefficients in the \( w \)-row and \( w = 0 \), we proceed to Phase 2 by removing the artificial variable \( a_1 \) and solving the original objective function.
 
-\newpage
-
 Initial simplex tableau for Phase 2:
 \[
 \begin{array}{c|ccccc|c}
@@ -378,6 +418,8 @@ The updated tableau:
     z & 0 & -5 & 0 & -2 & 0 & 2 \\
 \end{array}
 \]
+
+\newpage
 
 Starting at basic feasible solution \( (x_1, x_2, s_1, e_1, s_2) = (1, 0, 11, 0, 3) \).
 \begin{enumerate}
@@ -422,7 +464,6 @@ Since there are no negative coefficients in the \( z \)-row, the optimal solutio
 \end{solution}
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 %                                    Problem 04                                    %
@@ -450,6 +491,8 @@ amount of sunflower seed he can eat in a day.
 Let \( x_1 \) be the grams of regular sunflower seed and \( x_2 \) be the grams of low-fat sunflower seed that Hamtaro eats in a day.
 The objective is to maximize the total amount of sunflower seed he can eat:
 \[ \text{max } z = x_1 + x_2 \]
+
+\newpage
 
 The constraints based on fat, protein, and fiber intake are as follows:
 \[
@@ -507,8 +550,6 @@ The updated tableau:
     w & -0.1 & -0.15 & 0 & 0 & 1 & 0 & -3 \\
 \end{array}
 \]
-
-\newpage
 
 Starting at basic feasible solution \( (x_1, x_2, s_1, s_2, e_1, a_1) = (0, 0, 11, 8, 0, 3) \).
 \begin{enumerate}
