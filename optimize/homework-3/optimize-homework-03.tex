@@ -506,6 +506,7 @@ Therefore, the complete integer programming formulation for the express train pr
     \text{subject to} & 250x_1 + 100x_2 + 80x_3 + 80x_4 + 200x_5 + 100x_6 + 80x_7 + 80x_8 \leq 400 \\
     & x_i + x_{i+1} \leq 1 \quad (\forall i = 1, \ldots, 7) \\
     & x_1 + x_5 \geq 1 \\
+    & x_i \in \set{ 0, 1 } \quad (\forall i = 1, \ldots, 8) \\
 \end{array}
 \]
 \end{solution}
