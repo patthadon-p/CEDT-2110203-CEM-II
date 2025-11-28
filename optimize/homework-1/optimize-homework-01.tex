@@ -52,6 +52,14 @@ As shown in the figure above, shape (2), (3), (5), (7), and (8) are \textbf{not 
     \item Shape (4): This shape is a intersection of a circle and a halfspace (the region that satisfies a linear inequality, region on one side of a line) which is convex. The intersection of two convex sets is also convex. Therefore, shape (4) is a \textbf{convex set}.
     \item Shape (6): This shape is a parallelogram, which is a polyhedron. Therefore, shape (6) is a \textbf{convex set}.
 \end{enumerate}
+
+\vspace{2mm}
+
+\par\hspace{5mm} In conclusion,
+\begin{itemize}
+    \item The convex sets among the given shapes are: \boxed{(1), (4), \text{ and } (6)}.
+    \item The non-convex sets among the given shapes are: \boxed{(2), (3), (5), (7), \text{ and } (8)}.
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
@@ -104,7 +112,7 @@ Next, we find all basic feasible solutions (BFSs) by setting two variables to ze
 \end{array}
 \]
 
-Since, there is only one BFS that gives the maximum value of \( z = \frac{5}{2} \) at \( (x_1, x_2) = \paren{ 1, \frac{3}{2} } \), the LP has a \textbf{unique solution}.
+Since, there is only one BFS that gives the maximum value of \( z = \frac{5}{2} \) at \( (x_1, x_2) = \paren{ 1, \frac{3}{2} } \), the LP has a \boxed{\textbf{unique solution}}.
 \end{solution}
 % ==================== %
 
@@ -151,7 +159,7 @@ Next, we find all basic feasible solutions (BFSs) by setting two variables to ze
 \end{array}
 \]
 
-Since, there are two BFSs that give the maximum value of \( z = 2 \) at \( (x_1, x_2) = \paren{ 0, 2 } \) and \( (x_1, x_2) = \paren{ 1, \frac{3}{2} } \), the LP has \textbf{infinite solutions}.
+Since, there are two BFSs that give the maximum value of \( z = 2 \) at \( (x_1, x_2) = \paren{ 0, 2 } \) and \( (x_1, x_2) = \paren{ 1, \frac{3}{2} } \), the LP has \boxed{\textbf{infinite solutions}}.
 \end{solution}
 % ==================== %
 
@@ -189,7 +197,7 @@ From the above substitution, we can see that both constraints are satisfied as \
 
 \vspace{2mm}
 
-\par\hspace{5mm} Therefore, the LP is \textbf{unbounded} because we can increase \( x_1 \) and \( x_2 \) indefinitely while still satisfying the constraints, leading to an infinitely large value of \( z \).
+\par\hspace{5mm} Therefore, the LP is \boxed{\textbf{unbounded}} because we can increase \( x_1 \) and \( x_2 \) indefinitely while still satisfying the constraints, leading to an infinitely large value of \( z \).
 \end{solution}
 % ==================== %
 % ================================================================================ %
@@ -203,7 +211,7 @@ From the above substitution, we can see that both constraints are satisfied as \
 Convert the following LP to standard form and find all BFSs.
 \[
 \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
-    \text{max } & z & = & x_1 - x_2 \\
+    \text{min } & z & = & x_1 - x_2 \\
     \text{subject to } & x_1 + x_2 & \leq & 3 \\
     & x_1 + 3x_2 & \leq & 4 \\
     & 2x_1 - x_2 & \geq & 1 \\
@@ -217,10 +225,10 @@ To convert the given LP to standard form, we need to express all constraints as 
 
 \vspace{2mm}
 
-\par\hspace{5mm} We introduce slack variables \( s_1 \) and \( s_2 \) for the first two inequalities and a excess variable \( e_1 \) for the third inequality. The standard form of the LP is:
+\par\hspace{5mm} We introduce new objective variable \( z' = -z = -x_1 + x_2 \), slack variables \( s_1 \) and \( s_2 \) for the first two inequalities and a excess variable \( e_1 \) for the third inequality. The standard form of the LP is:
 \[
 \begin{array}{@{\hspace{2mm}} r @{\hspace{2mm}} r @{\hspace{2mm}} c @{\hspace{2mm}} l}
-    \text{max } & z & = & x_1 - x_2 \\
+    \text{max } & z' & = & -x_1 + x_2 \\
     \text{subject to } & x_1 + x_2 + s_1 & = & 3 \\
     & x_1 + 3x_2 + s_2 & = & 4 \\
     & 2x_1 - x_2 - e_1 & = & 1 \\
@@ -233,16 +241,16 @@ To convert the given LP to standard form, we need to express all constraints as 
 \renewcommand{\arraystretch}{1.2}
 \begin{array}{ccccc|cc}
     \hline
-    x_1 & x_2 & s_1 & s_2 & e_1 & \text{BFS}? & z \\
+    x_1 & x_2 & s_1 & s_2 & e_1 & \text{BFS}? & z' \\
     \hline
     \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & 3 & 4 & \textcolor[HTML]{FF0000}{-1} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
     \textcolor[HTML]{0000FF}{0} & 3 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-5} & \textcolor[HTML]{FF0000}{-4} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
     \textcolor[HTML]{0000FF}{0} & \frac{4}{3} & \frac{5}{3} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-\frac{7}{3}} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
     \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-1} & 4 & 7 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
-    3 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & 1 & 5 & \text{Yes} & 3 \\
+    3 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & 1 & 5 & \text{Yes} & -3 \\
     4 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-1} & \textcolor[HTML]{0000FF}{0} & 7 & \textcolor[HTML]{FF0000}{\text{No}} & - \\
-    \frac{1}{2} & \textcolor[HTML]{0000FF}{0} & \frac{5}{2} & \frac{7}{2} & \textcolor[HTML]{0000FF}{0} & \text{Yes} & \frac{1}{2} \\
-    \frac{5}{2} & \frac{1}{2} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & \frac{7}{2} & \text{Yes} & 2 \\
+    \frac{1}{2} & \textcolor[HTML]{0000FF}{0} & \frac{5}{2} & \frac{7}{2} & \textcolor[HTML]{0000FF}{0} & \text{Yes} & -\frac{1}{2} \\
+    \frac{5}{2} & \frac{1}{2} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & \frac{7}{2} & \text{Yes} & -2 \\
     \frac{4}{3} & \frac{5}{3} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{-\frac{7}{3}} & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{FF0000}{\text{No}} & - \\
     1 & 1 & 1 & \textcolor[HTML]{0000FF}{0} & \textcolor[HTML]{0000FF}{0} & \text{Yes} & 0 \\
     \hline
@@ -251,10 +259,10 @@ To convert the given LP to standard form, we need to express all constraints as 
 
 From the above table, the BFSs are:
 \begin{itemize}
-    \item \( (x_1, x_2, s_1, s_2, e_1) = (3, 0, 0, 1, 5) \) with \( z = 3 \)
-    \item \( (x_1, x_2, s_1, s_2, e_1) = \paren{ \frac{1}{2}, 0, \frac{5}{2}, \frac{7}{2}, 0 } \) with \( z = \frac{1}{2} \)
-    \item \( (x_1, x_2, s_1, s_2, e_1) = \paren{ \frac{5}{2}, \frac{1}{2}, 0, 0, \frac{7}{2} } \) with \( z = 2 \)
-    \item \( (x_1, x_2, s_1, s_2, e_1) = (1, 1, 1, 0, 0) \) with \( z = 0 \)
+    \item \( (x_1, x_2, s_1, s_2, e_1) = (3, 0, 0, 1, 5) \) with \( z' = -3 \)
+    \item \( (x_1, x_2, s_1, s_2, e_1) = \paren{ \frac{1}{2}, 0, \frac{5}{2}, \frac{7}{2}, 0 } \) with \( z' = -\frac{1}{2} \)
+    \item \( (x_1, x_2, s_1, s_2, e_1) = \paren{ \frac{5}{2}, \frac{1}{2}, 0, 0, \frac{7}{2} } \) with \( z' = -2 \)
+    \item \( (x_1, x_2, s_1, s_2, e_1) = (1, 1, 1, 0, 0) \) with \( z' = 0 \)
 \end{itemize}
 
 In term of \( (x_1, x_2) \), the BFSs are:
