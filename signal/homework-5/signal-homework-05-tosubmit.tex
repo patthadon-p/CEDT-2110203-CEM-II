@@ -1,0 +1,301 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../../CEDT-Homework-style}
+
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110203 - Computer Engineering Mathematics II]
+\hwtitle{Signal 5}{}{Week 7}{6733172621 Patthadon Phengpinij}{ChatGPT (for\,\LaTeX\,styling and grammar checking)}
+
+
+% ================================================================================ %
+\section{DFT \& DTFT}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem 01                                    %
+% ================================================================================ %
+\begin{problem}
+    \textbf{Discrete Fourier Transform (DFT):}
+\end{problem}
+
+% === 1.1 === %
+\begin{subproblems}
+    \item Given the DFT spectrum \( X[k] \), express the corresponding time-domain signal \( x[n] \) in terms of its constituent real sinusoids.
+\end{subproblems}
+
+% --- 1.1.1 --- %
+\begin{tosubmit}
+\begin{subsubproblems}[start=1]
+    \item \( X[0]=3, X[1]= \frac{1}{\sqrt{2}}-j\frac{1}{\sqrt{2}}, X[2]=-2, X[3]= \frac{1}{\sqrt{2}}+j\frac{1}{\sqrt{2}} \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the inverse DFT formula:
+\[ x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \]
+where \( N = 4 \).
+
+\vspace{2mm}
+
+Substituting the given values:
+\begin{align*}
+    X[k] &= \set{ 3, \frac{1}{\sqrt{2}}-j\frac{1}{\sqrt{2}}, -2, \frac{1}{\sqrt{2}}+j\frac{1}{\sqrt{2}} } \\
+    &= \set{ 3, \cos{ \paren{ -\frac{\pi}{4} } } + j \sin{ \paren{ -\frac{\pi}{4} } }, -2, \cos{ \paren{ \frac{\pi}{4} } } + j \sin{ \paren{ \frac{\pi}{4} } } } \\
+    X[k] &= \set{ 3, e^{-j\frac{\pi}{4}}, -2, e^{j\frac{\pi}{4}} }
+\end{align*}
+
+Calculating \( x[n] \):
+\begin{align*}
+    x[n] &= \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \\
+    &= \frac{1}{N} \paren{ X[0] e^{j \paren{ \frac{2\pi}{N} } k(0)} + X[1] e^{j \paren{ \frac{2\pi}{N} } k(1)} + X[2] e^{j \paren{ \frac{2\pi}{N} } k(2)} + X[3] e^{j \paren{ \frac{2\pi}{N} } k(3)} } \\
+    &= \frac{1}{4} \paren{ 3 e^{j \paren{ \frac{2\pi}{4} } ( 0 ) n} + e^{-j\frac{\pi}{4}} e^{j \paren{ \frac{2\pi}{4} } ( 1 ) n} - 2 e^{j \paren{ \frac{2\pi}{4} } ( 2 ) n} + e^{j\frac{\pi}{4}} e^{j \paren{ \frac{2\pi}{4} } ( 3 ) n} } \\
+    &= \frac{1}{4} \paren{ 3 e^{ 0 } + e^{j \paren{ \frac{\pi}{4} } (2n - 1)} - 2 e^{j \pi n} + e^{j \paren{ \frac{\pi}{4} } (6n + 1) - j ( 2 \pi )} } \\
+    &= \frac{1}{4} \paren{ 3 - 2(-1)^n } + \frac{1}{4} \paren{ e^{j \paren{ \frac{\pi}{4} } (2n - 1)} + e^{j \paren{ \frac{\pi}{4} } (6n + 1 - 8n)} } \\
+    &= \frac{1}{4} \paren{ 3 - 2(-1)^n } + \frac{1}{4} \paren{ e^{j \paren{ \frac{\pi}{4} } (2n - 1)} + e^{-j \paren{ \frac{\pi}{4} } (2n - 1)} } \\
+    &= \frac{1}{4} \paren{ 3 - 2(-1)^n } + \frac{1}{2} \cos{\paren{ \frac{\pi}{4} (2n - 1)} } \\
+    x[n] &= \frac{1}{4} \paren{ 3 - 2(-1)^n } + \frac{1}{2} \cos{\paren{ \frac{\pi}{2} n - \frac{\pi}{4}} }
+\end{align*}
+
+Thus, the time-domain signal \( x[n] \) is expressed as:
+\[ \boxed{ x[n] = \frac{1}{4} \paren{ 3 - 2(-1)^n } + \frac{1}{2} \cos{\paren{ \frac{\pi}{2} n - \frac{\pi}{4}} } } \]
+\end{tosubmit}
+% ------------- %
+
+\newpage
+
+% --- 1.1.2 --- %
+\begin{tosubmit}
+\begin{subsubproblems}[start=2]
+    \item \( X[0] = -2, X[1] = \sqrt{3} + j, X[2] = 3, X[3] = \sqrt{3} - j \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the inverse DFT formula:
+\[ x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \]
+where \( N = 4 \).
+
+\vspace{2mm}
+
+Substituting the given values:
+\begin{align*}
+    X[k] &= \set{ -2, \sqrt{3} + j, 3, \sqrt{3} - j } \\
+    &= \set{ -2, 2 \paren{ \frac{\sqrt{3}}{2} + j \frac{1}{2} }, 3, 2 \paren{ \frac{\sqrt{3}}{2} - j \frac{1}{2} } } \\
+    &= \set{ -2, 2 \paren{ \cos{ \paren{ \frac{\pi}{6} } } + j \sin{ \paren{ \frac{\pi}{6} } } }, 3, 2 \paren{ \cos{ \paren{ -\frac{\pi}{6} } } + j \sin{ \paren{ -\frac{\pi}{6} } } } } \\
+    X[k] &= \set{ -2, 2 e^{j\frac{\pi}{6}}, 3, 2 e^{-j\frac{\pi}{6}} }
+\end{align*}
+
+Calculating \( x[n] \):
+\begin{align*}
+    x[n] &= \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \\
+    &= \frac{1}{N} \paren{ X[0] e^{j \paren{ \frac{2\pi}{N} } k(0)} + X[1] e^{j \paren{ \frac{2\pi}{N} } k(1)} + X[2] e^{j \paren{ \frac{2\pi}{N} } k(2)} + X[3] e^{j \paren{ \frac{2\pi}{N} } k(3)} } \\
+    &= \frac{1}{4} \paren{ -2 e^{j \paren{ \frac{2\pi}{4} } ( 0 ) n} + 2 e^{j\frac{\pi}{6}} e^{j \paren{ \frac{2\pi}{4} } ( 1 ) n} + 3 e^{j \paren{ \frac{2\pi}{4} } ( 2 ) n} + 2 e^{-j\frac{\pi}{6}} e^{j \paren{ \frac{2\pi}{4} } ( 3 ) n} } \\
+    &= \frac{1}{4} \paren{ -2 e^{ 0 } + 2 e^{j \paren{ \frac{\pi}{6} } (3n + 1)} + 3 e^{j \pi n} + 2 e^{j \paren{ \frac{\pi}{6} } (9n - 1) - j ( 2 \pi )} } \\
+    &= \frac{1}{4} \paren{ -2 + 3(-1)^n } + \frac{1}{4} \paren{ 2 e^{j \paren{ \frac{\pi}{6} } (3n + 1)} + 2 e^{j \paren{ \frac{\pi}{6} } (9n - 1 - 12n)} } \\
+    &= \frac{1}{4} \paren{ -2 + 3(-1)^n } + \frac{1}{2} \paren{ e^{j \paren{ \frac{\pi}{6} } (3n + 1)} + e^{-j \paren{ \frac{\pi}{6} } (3n + 1)} } \\
+    &= \frac{1}{4} \paren{ -2 + 3(-1)^n } + \cos{\paren{ \frac{\pi}{6} (3n + 1)} } \\
+    x[n] &= \frac{1}{4} \paren{ -2 + 3(-1)^n } + \cos{\paren{ \frac{\pi}{2} n + \frac{\pi}{6}} }
+\end{align*}
+
+Thus, the time-domain signal \( x[n] \) is expressed as:
+\[ \boxed{ x[n] = \frac{1}{4} \paren{ -2 + 3(-1)^n } + \cos{\paren{ \frac{\pi}{2} n + \frac{\pi}{6}} } } \]
+\end{tosubmit}
+% ------------- %
+
+\newpage
+
+% --- 1.1.3 --- %
+\begin{tosubmit}
+\begin{subsubproblems}[start=3]
+    \item \( X[0] = 1, X[1] = 2 - j 2\sqrt{3}, X[2] = -3, X[3] = 2 + j 2\sqrt{3} \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the inverse DFT formula:
+\[ x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \]
+where \( N = 4 \).
+
+\vspace{2mm}
+
+Substituting the given values:
+\begin{align*}
+    X[k] &= \set{ 1, 2 - j 2\sqrt{3}, -3, 2 + j 2\sqrt{3} } \\
+    &= \set{ 1, 4 \paren{ \frac{1}{2} - j \frac{\sqrt{3}}{2} }, -3, 4 \paren{ \frac{1}{2} + j \frac{\sqrt{3}}{2} } } \\
+    &= \set{ 1, 4 \paren{ \cos{ \paren{ -\frac{\pi}{3} } } + j \sin{ \paren{ -\frac{\pi}{3} } } }, -3, 4 \paren{ \cos{ \paren{ \frac{\pi}{3} } } + j \sin{ \paren{ \frac{\pi}{3} } } } } \\
+    X[k] &= \set{ 1, 4 e^{-j\frac{\pi}{3}}, -3, 4 e^{j\frac{\pi}{3}} }
+\end{align*}
+
+Calculating \( x[n] \):
+\begin{align*}
+    x[n] &= \frac{1}{N} \sum_{k=0}^{N-1} X[k] e^{j \paren{ \frac{2\pi}{N} } kn} \\
+    &= \frac{1}{N} \paren{ X[0] e^{j \paren{ \frac{2\pi}{N} } k(0)} + X[1] e^{j \paren{ \frac{2\pi}{N} } k(1)} + X[2] e^{j \paren{ \frac{2\pi}{N} } k(2)} + X[3] e^{j \paren{ \frac{2\pi}{N} } k(3)} } \\
+    &= \frac{1}{4} \paren{ (1) e^{j \paren{ \frac{2\pi}{4} } ( 0 ) n} + 4 e^{-j\frac{\pi}{3}} e^{j \paren{ \frac{2\pi}{4} } ( 1 ) n} + (-3) e^{j \paren{ \frac{2\pi}{4} } ( 2 ) n} + 4 e^{j\frac{\pi}{3}} e^{j \paren{ \frac{2\pi}{4} } ( 3 ) n} } \\
+    &= \frac{1}{4} \paren{ e^{ 0 } + 4 e^{j \paren{ \frac{\pi}{6} } (3n + 2)} - 3 e^{j \pi n} + 4 e^{j \paren{ \frac{\pi}{6} } (9n - 2) - j ( 2 \pi )} } \\
+    &= \frac{1}{4} \paren{ 1 - 3(-1)^n } + \frac{1}{4} \paren{ 4 e^{j \paren{ \frac{\pi}{6} } (3n + 2)} + 4 e^{j \paren{ \frac{\pi}{6} } (9n - 2 - 12n)} } \\
+    &= \frac{1}{4} \paren{ 1 - 3(-1)^n } + \paren{ e^{j \paren{ \frac{\pi}{6} } (3n + 2)} + e^{-j \paren{ \frac{\pi}{6} } (3n + 2)} } \\
+    &= \frac{1}{4} \paren{ 1 - 3(-1)^n } + 2 \cos{\paren{ \frac{\pi}{6} (3n + 2)} } \\
+    x[n] &= \frac{1}{4} \paren{ 1 - 3(-1)^n } + 2 \cos{\paren{ \frac{\pi}{2} n + \frac{\pi}{3}} }
+\end{align*}
+
+Thus, the time-domain signal \( x[n] \) is expressed as:
+\[ \boxed{ x[n] = \frac{1}{4} \paren{ 1 - 3(-1)^n } + 2 \cos{\paren{ \frac{\pi}{2} n + \frac{\pi}{3}} } } \]
+\end{tosubmit}
+% ------------- %
+% =========== %
+% ================================================================================ %
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem 02                                    %
+% ================================================================================ %
+\begin{problem}
+    \textbf{Discrete-Time Fourier Transform (DTFT):}
+\end{problem}
+
+% === 2.1 === %
+\begin{subproblems}
+    \item Use the properties of the discrete-time transform to determine \( X(e^{j\omega}) \) for the following sequences
+\end{subproblems}
+
+% --- 2.1.1 --- %
+\begin{tosubmit}
+\begin{subsubproblems}
+    \item \( x[n] = \paren{ \frac{1}{3} }^{\abs{n}} \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the DTFT definition:
+\[ X(e^{j\omega}) = \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n} \]
+
+Substituting the given sequence:
+\begin{align*}
+    X(e^{j\omega}) &= \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n} \\
+    &= \sum_{n=-\infty}^{\infty} \paren{ \frac{1}{3} }^{\abs{n}} e^{-j\omega n} \\
+    X(e^{j\omega}) &= \sum_{n=0}^{\infty} \paren{ \frac{1}{3} }^{n} e^{-j\omega n} + \sum_{n=-\infty}^{-1} \paren{ \frac{1}{3} }^{\abs{n}} e^{-j\omega n}
+\end{align*}
+
+By substituting \( m = -n \) in the second sum, we got:
+\begin{align*}
+    X(e^{j\omega}) &= \sum_{n=0}^{\infty} \paren{ \frac{1}{3} e^{-j\omega} }^{n} + \sum_{m=1}^{\infty} \paren{ \frac{1}{3} }^{m} e^{j\omega m} \\
+    &= \sum_{n=0}^{\infty} \paren{ \frac{1}{3} e^{-j\omega} }^{n} + \sum_{m=0}^{\infty} \paren{ \frac{1}{3} }^{m} e^{j\omega m} - \paren{ \frac{1}{3} }^{0} e^{j\omega (0)} \\
+    X(e^{j\omega}) &= \sum_{n=0}^{\infty} \paren{ \frac{1}{3} e^{-j\omega} }^{n} + \sum_{m=0}^{\infty} \paren{ \frac{1}{3} }^{m} e^{j\omega m} - 1
+\end{align*}
+
+Then, using the geometric series formula \( \sum_{n=0}^{\infty} ar^n = \frac{a}{1 - r} \) for \( \abs{r} < 1 \):
+\begin{align*}
+    X(e^{j\omega}) &= \frac{1}{1 - \frac{1}{3} e^{-j\omega}} + \frac{1}{1 - \frac{1}{3} e^{j\omega}} - 1 \\
+    &= \frac{1 - \frac{1}{3} e^{j\omega} + 1 - \frac{1}{3} e^{-j\omega}}{\paren{ 1 - \frac{1}{3} e^{-j\omega} } \paren{ 1 - \frac{1}{3} e^{j\omega} }} - 1 \\
+    &= \frac{ \sqbracket{ 2 - \cancel{\frac{1}{3} \paren{ e^{j\omega} + e^{-j\omega} }} } - \sqbracket{ 1 - \cancel{\frac{1}{3} \paren{ e^{j\omega} + e^{-j\omega} }} + \frac{1}{9} } }{1 - \frac{1}{3} \paren{ e^{j\omega} + e^{-j\omega} } + \frac{1}{9}} \\
+    &= \frac{ 2 - \frac{10}{9} }{1 - \frac{2}{3} \cos{\omega} + \frac{1}{9}} \\
+    &= \frac{ \frac{8}{9} }{ \frac{10}{9} - \frac{2}{3} \cos{\omega} } \\
+    X(e^{j\omega}) &= \frac{4}{5 - 3 \cos{\omega}}
+\end{align*}
+
+Thus, the DTFT of the sequence \( x[n] = \paren{ \frac{1}{3} }^{\abs{n}} \) is:
+\[ \boxed{ X(e^{j\omega}) = \frac{4}{5 - 3 \cos{\omega}} } \]
+\end{tosubmit}
+% ------------- %
+
+\newpage
+
+% --- 2.1.2 --- %
+\begin{tosubmit}
+\begin{subsubproblems}[start=2]
+    \item \( x[n] = a^{n} \cos (\Omega_0 n) \cdot  u[n] , \, \abs{a} < 1 \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the DTFT definition:
+\[ X(e^{j\omega}) = \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n} \]
+
+Substituting the given sequence:
+\begin{align*}
+    X(e^{j\omega}) &= \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n} \\
+    &= \sum_{n=-\infty}^{\infty} a^{n} \cos (\Omega_0 n) \cdot  u[n] e^{-j\omega n} \\
+    X(e^{j\omega}) &= \sum_{n=0}^{\infty} a^{n} \cos (\Omega_0 n) e^{-j\omega n}
+\end{align*}
+
+Using the Euler's formula \( \cos{\theta} = \frac{e^{j\theta} + e^{-j\theta}}{2} \), we got:
+\begin{align*}
+    X(e^{j\omega}) &= \sum_{n=0}^{\infty} a^{n} \paren{ \frac{e^{j \Omega_0 n} + e^{-j \Omega_0 n}}{2} } e^{-j\omega n} \\
+    &= \frac{1}{2} \sum_{n=0}^{\infty} a^{n} e^{j \Omega_0 n} e^{-j\omega n} + \frac{1}{2} \sum_{n=0}^{\infty} a^{n} e^{-j \Omega_0 n} e^{-j\omega n} \\
+    X(e^{j\omega}) &= \frac{1}{2} \sum_{n=0}^{\infty} \paren{ a e^{j (\Omega_0 - \omega)} }^{n} + \frac{1}{2} \sum_{n=0}^{\infty} \paren{ a e^{-j (\Omega_0 + \omega)} }^{n}
+\end{align*}
+
+Then, using the geometric series formula \( \sum_{n=0}^{\infty} ar^n = \frac{a}{1 - r} \) for \( \abs{r} < 1 \):
+\begin{align*}
+    X(e^{j\omega}) &= \frac{1}{2} \cdot \frac{1}{1 - a e^{j (\Omega_0 - \omega)}} + \frac{1}{2} \cdot \frac{1}{1 - a e^{-j (\Omega_0 + \omega)}} \\
+    &= \frac{1}{2} \cdot \frac{1 - a e^{-j (\Omega_0 + \omega)} + 1 - a e^{j (\Omega_0 - \omega)}}{\paren{ 1 - a e^{j (\Omega_0 - \omega)} } \paren{ 1 - a e^{-j (\Omega_0 + \omega)} }} \\
+    X(e^{j\omega}) &= \frac{1}{2} \cdot \frac{ 2 - a \paren{ e^{j (\Omega_0 - \omega)} + e^{-j (\Omega_0 + \omega)} } }{1 - a \paren{ e^{j (\Omega_0 - \omega)} + e^{-j (\Omega_0 + \omega)} } + a^2 e^{-2j\omega}}
+\end{align*}
+
+Consider the value of \( e^{j (\Omega_0 - \omega)} + e^{-j (\Omega_0 + \omega)} \):
+\begin{align*}
+    e^{j (\Omega_0 - \omega)} + e^{-j (\Omega_0 + \omega)} &= e^{j \Omega_0} e^{-j \omega} + e^{-j \Omega_0} e^{-j \omega} \\
+    &= e^{-j \omega} \paren{ e^{j \Omega_0} + e^{-j \Omega_0} } \\
+    e^{j (\Omega_0 - \omega)} + e^{-j (\Omega_0 + \omega)} &= 2 e^{-j \omega} \cos{\Omega_0}
+\end{align*}
+
+Substituting back:
+\begin{align*}
+    X(e^{j\omega}) &= \frac{1}{2} \cdot \frac{ 2 - 2 a e^{-j \omega} \cos{\Omega_0} }{1 - 2 a e^{-j \omega} \cos{\Omega_0} + a^2 e^{-2j\omega}} \\
+    X(e^{j\omega}) &= \frac{ 1 - a e^{-j \omega} \cos{\Omega_0} }{1 - 2 a e^{-j \omega} \cos{\Omega_0} + a^2 e^{-2j\omega}}
+\end{align*}
+
+Thus, the DTFT of the sequence \( x[n] = a^{n} \cos (\Omega_0 n) \cdot  u[n] \) is:
+\[ \boxed{ X(e^{j\omega}) = \frac{1}{2} \paren{ \frac{1}{1 - a e^{j (\Omega_0 - \omega)}} + \frac{1}{1 - a e^{-j (\Omega_0 + \omega)}} } = \frac{ 1 - a e^{-j \omega} \cos{\Omega_0} }{1 - 2 a e^{-j \omega} \cos{\Omega_0} + a^2 e^{-2j\omega}} } \]
+\end{tosubmit}
+% ------------- %
+
+\newpage
+
+% --- 2.1.3 --- %
+\begin{tosubmit}
+\begin{subsubproblems}[start=3]
+    \item \( x[n] =  (n+1)a^n \cdot u[n], \, \abs{a} < 1 \)
+\end{subsubproblems}
+
+\par\noindent\submitsolution
+Using the Linearity property of DTFT:
+\[ X(e^{j\omega}) = \text{DTFT}\set{ (n+1)a^n \cdot u[n] } = \text{DTFT}\set{ na^n \cdot u[n] } + \text{DTFT}\set{ a^n \cdot u[n] } \]
+
+Define \( y[n] = a^n \cdot u[n] \), and \( z[n] = n y[n] \), we get:
+\[ X(e^{j\omega}) = \text{DTFT}\set{ z[n] } + \text{DTFT}\set{ y[n] } \]
+
+From the property of DTFT for \( y[n] = a^n \cdot u[n] \, \abs{a} < 1 \):
+\[ Y(e^{j\omega}) = \text{DTFT}\set{ y[n] } = \sum_{n=0}^{\infty} a^n e^{-j\omega n} = \frac{1}{1 - a e^{-j\omega}} \]
+
+Using the Differentiation property of DTFT:
+\[ \text{DTFT}\set{ n x[n] } = j \frac{dX(e^{j\omega})}{d\omega} \]
+where \( X(e^{j\omega}) = \text{DTFT}\set{ x[n] } \).
+
+Thus, we have:
+\begin{align*}
+    Z(e^{j\omega}) &= j \frac{dY(e^{j\omega})}{d\omega} \\
+    &= j \frac{d}{d\omega} \paren{ \frac{1}{1 - a e^{-j\omega}} } \\
+    &= j \cdot \paren{ \frac{0 \cdot (1 - a e^{-j\omega}) - 1 \cdot \paren{ -a (-j) e^{-j\omega} } }{(1 - a e^{-j\omega})^2} } \\
+    &= j \cdot \paren{ \frac{ -j a e^{-j\omega} }{(1 - a e^{-j\omega})^2} } \\
+    Z(e^{j\omega}) &= \frac{ a e^{-j\omega} }{(1 - a e^{-j\omega})^2}
+\end{align*}
+
+Combining both results:
+\begin{align*}
+    X(e^{j\omega}) &= Z(e^{j\omega}) + Y(e^{j\omega}) \\
+    &= \frac{ a e^{-j\omega} }{(1 - a e^{-j\omega})^2} + \frac{1}{1 - a e^{-j\omega}} \\
+    &= \frac{ a e^{-j\omega} + (1 - a e^{-j\omega}) }{(1 - a e^{-j\omega})^2} \\
+    X(e^{j\omega}) &= \frac{ 1 }{(1 - a e^{-j\omega})^2}
+\end{align*}
+
+Thus, the DTFT of the sequence \( x[n] = (n+1)a^n \cdot u[n] \) is:
+\[ \boxed{ X(e^{j\omega}) = \frac{ 1 }{(1 - a e^{-j\omega})^2} } \]
+\end{tosubmit}
+% ------------- %
+% =========== %
+% ================================================================================ %
+
+
+\end{document}
